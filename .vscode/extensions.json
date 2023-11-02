@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+      "eamodio.gitlens",
+      "dbaeumer.vscode-eslint",
+      "vscode-icons-team.vscode-icons",
+      "chakrounanas.turbo-console-log",
+      "christian-kohler.path-intellisense",
+      "dsznajder.es7-react-js-snippets",
+      "clinyong.vscode-css-modules",
+      "steoates.autoimport",
+      "gottfired.css2react",
+  ]
+}
