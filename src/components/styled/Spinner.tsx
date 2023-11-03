@@ -41,8 +41,8 @@ const Spinner = styled.span<{ size: number, strokeWidth: number }>`
     margin: auto;
     border: ${props => props.strokeWidth}px solid;
     border-color: transparent transparent ${baseTheme.colors.mix} ${baseTheme.colors.mix};
-    width: ${props => props.size - props.strokeWidth - 10}px;
-    height: ${props => props.size - props.strokeWidth - 10}px;
+    width: ${props => props.size - props.strokeWidth * 4}px;
+    height: ${props => props.size - props.strokeWidth * 4}px;
     border-radius: 50%;
     box-sizing: border-box;
     animation: ${spinBack} 1s linear infinite;
@@ -50,8 +50,8 @@ const Spinner = styled.span<{ size: number, strokeWidth: number }>`
   }
 
   &:before {
-    width: ${props => props.size - props.strokeWidth * 2 - 20}px;
-    height: ${props => props.size - props.strokeWidth * 2 - 20}px;
+    width: ${props => props.size - props.strokeWidth * 8}px;
+    height: ${props => props.size - props.strokeWidth * 8}px;
     border-color: ${baseTheme.colors.pink} ${baseTheme.colors.pink} transparent transparent;
     animation: ${spin} 1.5s linear infinite;
   }

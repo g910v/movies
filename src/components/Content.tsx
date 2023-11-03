@@ -14,7 +14,7 @@ const SpinContainer = styled.div`
 const Content: React.FC = () => (
   <Suspense fallback={(
     <SpinContainer>
-      <Spinner size={120} strokeWidth={4} />
+      <Spinner size={130} strokeWidth={5} />
     </SpinContainer>
     )}
   >
