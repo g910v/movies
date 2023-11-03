@@ -61,6 +61,11 @@ const SearchInput = styled.div`
 const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) => {
   const [searchVisible, setSearchVisible] = useState(false);
 
+  const closeSearch = () => {
+    setSearchVisible(false);
+    onChangeInputValue('');
+  };
+
   return (
     <Container>
       <Title>MOVIES</Title>
@@ -69,7 +74,7 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
           ? (
             <SearchInput>
               <Input placeholder="Поиск" value={inputValue} onChange={e => onChangeInputValue(e.target.value)} />
-              <SearchIcon onClick={() => setSearchVisible(false)}>
+              <SearchIcon onClick={closeSearch}>
                 <FaTimes />
               </SearchIcon>
             </SearchInput>

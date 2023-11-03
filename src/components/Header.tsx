@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderMenu from './styled/HeaderMenu';
+import routes from '../shared/routes';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -8,20 +9,20 @@ const Header: React.FC = () => {
 
   const menuItems = useRef([
     {
-      label: 'Фильмы',
-      onclick: () => navigate('/films', { replace: false }),
+      label: routes.FILMS.name,
+      onclick: () => navigate(routes.FILMS.path, { replace: false }),
     },
     {
-      label: 'Сериалы',
-      onclick: () => navigate('/series', { replace: false }),
+      label: routes.SERIES.name,
+      onclick: () => navigate(routes.SERIES.path, { replace: false }),
     },
     {
-      label: 'Актеры',
-      onclick: () => navigate('/actors', { replace: false }),
+      label: routes.ACTORS.name,
+      onclick: () => navigate(routes.ACTORS.path, { replace: false }),
     },
     {
-      label: 'Сохраненное',
-      onclick: () => navigate('/saved', { replace: false }),
+      label: routes.SAVED.name,
+      onclick: () => navigate(routes.SAVED.path, { replace: false }),
     },
   ]);
 
