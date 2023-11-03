@@ -1,10 +1,15 @@
 import React from 'react';
-import './App.css';
+import GlobalStyles from './styles/globalStyles';
+import Header from './components/Header';
 
 const App: React.FC = () => (
-  <div>
-    base app
-  </div>
+  <>
+    <GlobalStyles />
+    <Header />
+    <div>
+      {/* <Button label="label" /> */}
+    </div>
+  </>
 );
 
 export default App;
