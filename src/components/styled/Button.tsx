@@ -3,18 +3,22 @@ import styled from 'styled-components';
 import baseTheme from '../../styles/theme';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string,
+  label?: string,
+  icon?: React.ReactElement,
 }
 
 const StyledButton = styled.button`
   padding: 1rem 1.5rem;
-  background: ${baseTheme.colors.buttonGradient};
+  background: ${baseTheme.colors.bgSecondary};
   color: ${baseTheme.colors.text};
   position: relative;
   border-radius: 50px;
   border: 0px;
   cursor: pointer;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
 
   &:before {
     content: "";
@@ -24,7 +28,7 @@ const StyledButton = styled.button`
     right: 0;
     bottom: 0;
     border-radius: 50px; 
-    padding: 0.25rem; 
+    padding: 0.15rem; 
     background: ${baseTheme.colors.gradient}; 
     -webkit-mask: 
        linear-gradient(#fff 0 0) content-box, 
@@ -66,8 +70,11 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button: React.FC<Props> = ({ label, ...props }) => (
-  <StyledButton {...props}>{label}</StyledButton>
+const Button: React.FC<Props> = ({ label, icon, ...props }) => (
+  <StyledButton {...props}>
+    {icon}
+    {label}
+  </StyledButton>
 );
 
 export default Button;

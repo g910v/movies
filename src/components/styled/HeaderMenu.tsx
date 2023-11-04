@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { FaSearch, FaTimes } from 'react-icons/fa';
+import { BiSearchAlt, BiX } from 'react-icons/bi';
 import baseTheme from '../../styles/theme';
 import Input from './Input';
 
@@ -48,6 +48,7 @@ const SearchIcon = styled(Item)`
   display: flex;
   place-items: center;
   padding: 0.6rem 1rem;
+  font-size: 1.5rem;
   &:hover {
     color: ${baseTheme.colors.mix};
   }
@@ -75,7 +76,7 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
             <SearchInput>
               <Input placeholder="Поиск" value={inputValue} onChange={e => onChangeInputValue(e.target.value)} />
               <SearchIcon onClick={closeSearch}>
-                <FaTimes />
+                <BiX />
               </SearchIcon>
             </SearchInput>
           ) : (
@@ -88,7 +89,7 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
                 ))
               }
               <SearchIcon onClick={() => setSearchVisible(true)}>
-                <FaSearch />
+                <BiSearchAlt />
               </SearchIcon>
             </>
           )

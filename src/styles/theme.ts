@@ -13,9 +13,9 @@ const baseTheme = {
     gradientDisabled: 'linear-gradient(to right, #a89b67, #692c59)',
 
     bg: '#050511',
-    bgSecondary: '#0b0b1c',
+    bgSecondary: '#0e0e16',
     buttonGradient: 'linear-gradient(#151639, #070815)',
-    hoverButtonGradient: 'linear-gradient(#1c1d47, #070815)',
+    hoverButtonGradient: 'linear-gradient(#141431, #070815)',
   },
 
   media: {
