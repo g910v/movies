@@ -1,5 +1,7 @@
 import React, { Suspense, lazy } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import {
+  Navigate, Route, Routes,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import routes from '../shared/routes';
 import Spinner from './styled/Spinner';
