@@ -10,7 +10,12 @@ module.exports = {
     "plugin:react/jsx-runtime",
     "airbnb"
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    'src/shared/api/kinopoiskDev/api-scheme.ts',
+    'src/shared/api/kinopoiskUnofficial/api-scheme.ts'
+  ],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {

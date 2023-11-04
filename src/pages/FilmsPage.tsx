@@ -21,6 +21,7 @@ const FilmsPage: React.FC = () => {
     },
   ]);
   const [selectedItem, setSelectedItem] = useState(items.current[0]);
+
   return (
     <SelectButton
       items={items.current}
