@@ -9,6 +9,10 @@ const Header: React.FC = () => {
 
   const menuItems = useRef([
     {
+      label: routes.PREMIERES.name,
+      onclick: () => navigate(routes.PREMIERES.path, { replace: false }),
+    },
+    {
       label: routes.FILMS.name,
       onclick: () => navigate(routes.FILMS.path, { replace: false }),
     },

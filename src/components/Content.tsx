@@ -19,7 +19,7 @@ const Content: React.FC = () => (
     )}
   >
     <Routes>
-      <Route path="/" element={<Navigate to={routes.FILMS.path} />} />
+      <Route path="/" element={<Navigate to={routes.PREMIERES.path} />} />
       <Route path={routes.FILMS.path} element={<FilmsPage />} />
       <Route path={routes.SERIES.path} element={<SeriesPage />} />
     </Routes>

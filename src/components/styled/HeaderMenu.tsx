@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { BiSearchAlt, BiX } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 import baseTheme from '../../styles/theme';
 import Input from './Input';
+import routes from '../../shared/routes';
 
 interface Props {
   items: {
@@ -69,7 +71,9 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
 
   return (
     <Container>
-      <Title>MOVIES</Title>
+      <Title>
+        <Link to={routes.PREMIERES.path}>MOVIES</Link>
+      </Title>
       {
         searchVisible
           ? (

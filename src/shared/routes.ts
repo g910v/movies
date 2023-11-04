@@ -1,7 +1,7 @@
 export default Object.freeze({
   FILMS: {
     name: 'Фильмы',
-    path: '/movies',
+    path: '/films',
   },
   SERIES: {
     name: 'Сериалы',
@@ -14,5 +14,9 @@ export default Object.freeze({
   SAVED: {
     name: 'Сохраненное',
     path: '/saved',
+  },
+  PREMIERES: {
+    name: 'Премьеры',
+    path: '/movies',
   },
 });
