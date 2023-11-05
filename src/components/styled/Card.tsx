@@ -12,6 +12,9 @@ const Card = styled.div`
   -moz-box-shadow: 0px 0px 10px 10px rgba(225, 225, 225, 0.1);
   box-shadow: 0px 0px 10px 10px rgba(225, 225, 225, 0.1);
   cursor: pointer;
+  margin: 2rem 0rem 1rem;
+  display: flex;
+  align-items: center;
 
   &:hover {
     -webkit-box-shadow: 0px 0px 10px 10px rgba(225, 225, 225, 0.15);
