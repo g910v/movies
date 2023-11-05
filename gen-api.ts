@@ -5,7 +5,7 @@ import openapiTS from 'openapi-typescript';
 dotenv.config();
 
 async function generate() {
-  const output = await openapiTS('openapi/api.json');
+  const output = await openapiTS('openapi/documentation-json.json');
   fs.writeFileSync('src/shared/api/kinopoiskDev/api-scheme.ts', output);
 }
 

@@ -13,7 +13,7 @@ const baseTheme = {
     gradientDisabled: 'linear-gradient(to right, #a89b67, #692c59)',
 
     bg: '#050511',
-    bgSecondary: '#0e0e16',
+    bgSecondary: '#16161d',
     buttonGradient: 'linear-gradient(#151639, #070815)',
     hoverButtonGradient: 'linear-gradient(#141431, #070815)',
   },

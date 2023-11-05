@@ -5,128 +5,115 @@
 
 
 export interface paths {
-  "/v1": {
-    get: operations["AppController_getHello"];
-  };
-  "/v1/health": {
-    get: operations["AppController_check"];
-  };
-  "/v1.3/movie": {
-    /**
-     * Универсальный поиск с фильтрами
-     * @description В этом методе вы можете составить запрос на получение фильма любой сложности.
-     *
-     * Для этого используете значения представленные ниже. Вы можете комбинировать поля, так же указывать множественные и специальные значения полей!
-     *
-     * Обратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
-     *
-     * Чтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр `selectFields`
-     */
-    get: operations["MovieController_findManyByQueryV1_3"];
-  };
-  "/v1.3/movie/{id}": {
+  "/v1.4/movie/{id}": {
     /**
      * Поиск по id
      * @description Возвращает всю доступную информацию о сущности.
      */
-    get: operations["MovieController_findOneV1_3"];
+    get: operations["MovieController_findOneV1_4"];
   };
-  "/v1.3/movie/random": {
-    /**
-     * Получить рандомный тайтл из базы
-     * @description Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.
-     */
-    get: operations["MovieController_getRandomMovieV1_3"];
-  };
-  "/v1.2/movie/search": {
-    /**
-     * Полнотекстовый поиск
-     * @description Этот метод предназначен для полнотекстового поиска тайтлов по текстовому запросу. Он принимает только один параметр `query`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод `Универсальный поиск с фильтрами` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.
-     */
-    get: operations["MovieController_searchMovie"];
-  };
-  "/v1.1/movie/awards": {
-    /** Награды тайтлов */
-    get: operations["MovieController_findManyAwardsByQuery"];
-  };
-  "/v1/movie": {
+  "/v1.4/movie": {
     /**
      * Универсальный поиск с фильтрами
-     * @deprecated
-     * @description Эта версия эндпоинта устарела. Новый в 1.3 версии.
+     * @description Этот метод вернет список фильмов удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре `selectFields`. Если его не указать, то вернутся только дефолтные поля.
      */
-    get: operations["MovieController_findManyByQuery"];
+    get: operations["MovieController_findManyByQueryV1_4"];
   };
-  "/v1/movie/{id}": {
+  "/v1.4/movie/search": {
     /**
-     * Поиск по id
-     * @deprecated
-     * @description Эта версия эндпоинта устарела. Новый в 1.3 версии.
+     * Поиск фильмов по названию
+     * @description Этот метод вернет список фильмов которые подходят под ваш запрос.
      */
-    get: operations["MovieController_findOne"];
+    get: operations["MovieController_searchMovieV1_4"];
   };
-  "/v1/movie/random": {
+  "/v1.4/movie/random": {
     /**
      * Получить рандомный тайтл из базы
-     * @description Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.
+     * @description Этот метод вернет рандомный тайтл из базы. Вы можете составить фильтр, чтобы получить рандомный тайтл по вашим критериям.
      */
-    get: operations["MovieController_getRandomMovie"];
+    get: operations["MovieController_getRandomMovieV1_4"];
+  };
+  "/v1.4/movie/awards": {
+    /** Награды тайтлов */
+    get: operations["MovieController_findManyAwardsV1_4"];
   };
   "/v1/movie/possible-values-by-field": {
     /**
-     * Получить все возможные значения полей
+     * Получить список стран, жанров, и т.д.
      * @description Этот метод принимает только определенные поля, и возвращает по ним все доступные значения.
      */
     get: operations["MovieController_getPossibleValuesByFieldName"];
   };
-  "/v1/season": {
+  "/v1.4/season": {
     /** Поиск сезонов */
-    get: operations["SeasonController_findManyByQuery"];
+    get: operations["SeasonController_findManyV1_4"];
   };
-  "/v1/review": {
-    /** Поиск отзывов */
-    get: operations["ReviewController_findManyByQuery"];
-  };
-  "/v1.2/person/search": {
+  "/v1.4/review": {
     /**
-     * Полнотекстовый поиск
-     * @description Этот метод предназначен для полнотекстового поиска персон по текстовому запросу. Он принимает только один параметр `query`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод `Универсальный поиск с фильтрами` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.
+     * Универсальный поиск с фильтрами
+     * @description Этот метод предназначен для поиска персон по фильтрам. Он принимает множество параметров, которые можно комбинировать между собой. Если вам нужен только поиск по имени, используйте метод `Полнотекстовый поиск` (search). В этом методе также доступен выбор полей. А в ответ приходит полная модель персоны.
      */
-    get: operations["PersonController_searchPerson"];
+    get: operations["ReviewController_findManyV1_4"];
   };
-  "/v1.1/person/awards": {
+  "/v1.4/person/{id}": {
+    /**
+     * Поиск по id
+     * @description Возвращает всю доступную информацию о сущности.
+     */
+    get: operations["PersonController_findOneV1_4"];
+  };
+  "/v1.4/person": {
+    /**
+     * Универсальный поиск с фильтрами
+     * @description Этот метод вернет список персон удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре `selectFields`. Если его не указать, то вернутся только дефолтные поля.
+     */
+    get: operations["PersonController_findManyV1_4"];
+  };
+  "/v1.4/person/search": {
+    /**
+     * Поиск актеров, режиссеров, и т.д по имени
+     * @description Этот метод вернет список персон которые подходят под ваш запрос.
+     */
+    get: operations["PersonController_searchPersonV1_4"];
+  };
+  "/v1.4/person/awards": {
     /** Награды актеров */
-    get: operations["PersonController_findManyAwardsByQuery"];
+    get: operations["PersonController_findManyAwardsV1_4"];
   };
-  "/v1/person": {
-    /** Универсальный поиск персон с фильтрами */
-    get: operations["PersonController_findManyByQuery"];
-  };
-  "/v1/person/{id}": {
+  "/v1.4/studio": {
     /**
-     * Поиск по id
-     * @description Возвращает всю доступную информацию о сущности.
+     * Поиск студий
+     * @description Этот метод предназначен для поиска студий
      */
-    get: operations["PersonController_findOne"];
+    get: operations["StudioController_findManyV1_4"];
   };
-  "/v1/studio": {
-    /** Поиск студий */
-    get: operations["StudioController_findManyByQuery"];
-  };
-  "/v1/studio/{id}": {
+  "/v1.4/keyword": {
     /**
-     * Поиск по id
-     * @description Возвращает всю доступную информацию о сущности.
+     * Поиск ключевых слов
+     * @description Этот метод предназначен для поиска ключевых слов
      */
-    get: operations["StudioController_findOne"];
+    get: operations["KeywordController_findManyV1_4"];
   };
-  "/v1/keyword": {
-    /** Поиск по ключевым словам */
-    get: operations["KeywordController_findManyByQuery"];
+  "/v1.4/image": {
+    /**
+     * Поиск картинок
+     * @description Этот метод предназначен для поиска картинок которые привязаны к фильмам и сериалам
+     */
+    get: operations["ImageController_findManyV1_4"];
   };
-  "/v1/image": {
-    /** Поиск изображений */
-    get: operations["ImageController_findManyByQuery"];
+  "/v1.4/list": {
+    /**
+     * Поиск коллекций
+     * @description Этот метод предназначен для поиска коллекций кино
+     */
+    get: operations["ListController_findManyV1_4"];
+  };
+  "/v1.4/list/{slug}": {
+    /**
+     * Поиск коллекции по slug
+     * @description Этот метод предназначен для поиска коллекции кино по slug
+     */
+    get: operations["ListController_findOneV1_4"];
   };
 }
 
@@ -186,7 +173,7 @@ export interface components {
       /** @example 60000 */
       kp?: string | null;
       /** @example 50000 */
-      imdb?: string | null;
+      imdb?: number | null;
       /** @example 10000 */
       tmdb?: number | null;
       /**
@@ -303,8 +290,11 @@ export interface components {
       bluray: string;
       dvd: string;
     };
-    LinkedMovie: {
+    LinkedMovieV1_4: {
       id?: number | null;
+      rating: components["schemas"]["Rating"];
+      /** @example 2021 */
+      year: number;
       name: string;
       enName: string;
       alternativeName: string;
@@ -343,6 +333,14 @@ export interface components {
        */
       country: string;
     };
+    NetworkItemV1_4: {
+      /** @example Netflix */
+      name: string;
+      logo: components["schemas"]["Logo"];
+    };
+    NetworksV1_4: {
+      items: components["schemas"]["NetworkItemV1_4"][];
+    };
     FactInMovie: {
       value: string;
       type: string;
@@ -353,12 +351,7 @@ export interface components {
       backdropsCount: number;
       framesCount: number;
     };
-    VendorImage: {
-      name?: string | null;
-      url?: string | null;
-      previewUrl?: string | null;
-    };
-    MovieDtoV1_3: {
+    MovieDtoV1_4: {
       /**
        * @description Id фильма с кинопоиска
        * @example 666
@@ -427,8 +420,8 @@ export interface components {
       budget?: components["schemas"]["CurrencyValue"];
       fees?: components["schemas"]["Fees"];
       premiere?: components["schemas"]["Premiere"];
-      similarMovies?: components["schemas"]["LinkedMovie"][];
-      sequelsAndPrequels?: components["schemas"]["LinkedMovie"][];
+      similarMovies?: components["schemas"]["LinkedMovieV1_4"][];
+      sequelsAndPrequels?: components["schemas"]["LinkedMovieV1_4"][];
       watchability?: components["schemas"]["Watchability"];
       releaseYears?: components["schemas"]["YearRange"][];
       /**
@@ -462,20 +455,16 @@ export interface components {
        */
       isSeries: boolean;
       audience?: components["schemas"]["Audience"][] | null;
+      /**
+       * @description Список коллекций, в которых находится тайтл.
+       * @example [
+       *   "250 лучших сериалов"
+       * ]
+       */
+      lists?: string[] | null;
+      networks: components["schemas"]["NetworksV1_4"][];
       facts: components["schemas"]["FactInMovie"][];
       imagesInfo: components["schemas"]["Images"];
-      productionCompanies: components["schemas"]["VendorImage"][];
-    };
-    MovieDocsResponseDtoV1_3: {
-      docs: components["schemas"]["MovieDtoV1_3"][];
-      /** @description Общее количество результатов */
-      total: number;
-      /** @description Количество результатов на странице */
-      limit: number;
-      /** @description Текущая страница */
-      page: number;
-      /** @description Сколько страниц всего */
-      pages: number;
     };
     UnauthorizedErrorResponseDto: {
       /** @example 401 */
@@ -498,28 +487,52 @@ export interface components {
       message: string;
       error: string;
     };
-    MeiliMovieEntity: {
+    MovieDocsResponseDtoV1_4: {
+      docs: components["schemas"]["MovieDtoV1_4"][];
+      /** @description Общее количество результатов */
+      total: number;
+      /** @description Количество результатов на странице */
+      limit: number;
+      /** @description Текущая страница */
+      page: number;
+      /** @description Сколько страниц всего */
+      pages: number;
+    };
+    SearchMovieDtoV1_4: {
       id: number;
       name: string;
       alternativeName: string;
       enName: string;
-      names: string[];
       type: string;
       year: number;
       description: string;
       shortDescription: string;
-      logo: string;
-      poster: string;
-      backdrop: string;
-      rating: number;
-      votes: number;
       movieLength: number;
-      genres: string[];
-      countries: string[];
-      releaseYears: number[];
+      names: components["schemas"]["Name"][];
+      logo?: components["schemas"]["Logo"];
+      poster?: components["schemas"]["ShortImage"];
+      backdrop?: components["schemas"]["ShortImage"];
+      rating?: components["schemas"]["Rating"];
+      votes?: components["schemas"]["Votes"];
+      genres?: components["schemas"]["ItemName"][];
+      countries?: components["schemas"]["ItemName"][];
+      releaseYears?: components["schemas"]["YearRange"][];
+      isSeries: boolean;
+      ticketsOnSale: boolean;
+      totalSeriesLength: number;
+      seriesLength: number;
+      ratingMpaa: string;
+      ageRating: number;
+      top10?: number | null;
+      top250?: number | null;
+      typeNumber: number;
+      status: string;
+      internalNames: string[];
+      internalRating: number;
+      internalVotes: number;
     };
-    SearchMovieResponseDto: {
-      docs: components["schemas"]["MeiliMovieEntity"][];
+    SearchMovieResponseDtoV1_4: {
+      docs: components["schemas"]["SearchMovieDtoV1_4"][];
       /** @description Общее количество результатов */
       total: number;
       /** @description Количество результатов на странице */
@@ -553,125 +566,38 @@ export interface components {
       /** @description Сколько страниц всего */
       pages: number;
     };
-    MovieDtoV1: {
-      /**
-       * @description Id фильма с кинопоиска
-       * @example 666
-       */
-      id: number;
-      externalId: components["schemas"]["ExternalId"];
-      /** @example Человек паук */
-      name?: string | null;
-      /** @example Spider man */
-      alternativeName?: string | null;
-      /** @example Spider man */
-      enName?: string | null;
-      names: components["schemas"]["Name"][];
-      /**
-       * @description Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show
-       * @example movie
-       */
-      type: string;
-      /**
-       * @description Тип тайтла в числовом обозначении. Доступны: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)
-       * @example 1
-       */
-      typeNumber: number;
-      /**
-       * @description Год премьеры. При поиске по этому полю, можно использовать интервалы 1860-2030
-       * @example 2023
-       */
-      year?: number | null;
-      /** @description Описание тайтла */
-      description?: string | null;
-      /** @description Сокращенное описание */
-      shortDescription?: string | null;
-      /** @description Слоган */
-      slogan?: string | null;
-      /**
-       * @description Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production
-       * @example completed
-       */
-      status?: string | null;
-      rating?: components["schemas"]["Rating"];
-      votes?: components["schemas"]["Votes"];
-      /**
-       * @description Продолжительность фильма
-       * @example 120
-       */
-      movieLength?: number | null;
-      /**
-       * @description Возрастной рейтинг по MPAA
-       * @example pg13
-       */
-      ratingMpaa?: string | null;
-      /**
-       * @description Возрастной рейтинг
-       * @example 16
-       */
-      ageRating?: number | null;
-      logo?: components["schemas"]["Logo"];
-      poster?: components["schemas"]["ShortImage"];
-      backdrop?: components["schemas"]["ShortImage"];
-      videos?: components["schemas"]["VideoTypes"];
-      genres?: components["schemas"]["ItemName"][];
-      countries?: components["schemas"]["ItemName"][];
-      persons?: components["schemas"]["PersonInMovie"][];
-      reviewInfo?: components["schemas"]["ReviewInfo"];
-      seasonsInfo?: components["schemas"]["SeasonInfo"][];
-      budget?: components["schemas"]["CurrencyValue"];
-      fees?: components["schemas"]["Fees"];
-      premiere?: components["schemas"]["Premiere"];
-      similarMovies?: components["schemas"]["LinkedMovie"][];
-      sequelsAndPrequels?: components["schemas"]["LinkedMovie"][];
-      watchability?: components["schemas"]["Watchability"];
-      releaseYears?: components["schemas"]["YearRange"][];
-      /**
-       * @description Позиция тайтла в топ 10. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`
-       * @example 1
-       */
-      top10?: number | null;
-      /**
-       * @description Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`
-       * @example 200
-       */
-      top250?: number | null;
-      facts: components["schemas"]["FactInMovie"][];
-      imagesInfo: components["schemas"]["Images"];
-      productionCompanies: components["schemas"]["VendorImage"][];
-    };
-    MovieDocsResponseDtoV1: {
-      docs: components["schemas"]["MovieDtoV1"][];
-      /** @description Общее количество результатов */
-      total: number;
-      /** @description Количество результатов на странице */
-      limit: number;
-      /** @description Текущая страница */
-      page: number;
-      /** @description Сколько страниц всего */
-      pages: number;
-    };
     PossibleValueDto: {
       /** @description Значение по которому нужно делать запрос в базу данных */
       name: string;
       /** @description Вспомогательное значение */
       slug: string;
     };
-    Episode: {
+    EpisodeV1_4: {
       number?: number;
       name?: string;
       enName?: string;
-      description?: string;
+      /** @deprecated */
       date?: string;
+      description?: string;
+      still?: components["schemas"]["ShortImage"];
+      airDate?: string;
+      enDescription?: string;
     };
-    Season: {
+    SeasonV1_4: {
       movieId?: number;
       number?: number;
       episodesCount?: number;
-      episodes?: components["schemas"]["Episode"][];
+      episodes?: components["schemas"]["EpisodeV1_4"][];
+      poster?: components["schemas"]["ShortImage"];
+      name?: string;
+      enName?: string;
+      duration?: number;
+      description?: string;
+      enDescription?: string;
+      airDate?: string;
     };
-    SeasonDocsResponseDto: {
-      docs: components["schemas"]["Season"][];
+    SeasonDocsResponseDtoV1_4: {
+      docs: components["schemas"]["SeasonV1_4"][];
       /** @description Общее количество результатов */
       total: number;
       /** @description Количество результатов на странице */
@@ -692,55 +618,8 @@ export interface components {
       authorId?: number;
       userRating: number;
     };
-    ReviewDocsResponseDto: {
+    ReviewDocsResponseDtoV1_4: {
       docs: components["schemas"]["Review"][];
-      /** @description Общее количество результатов */
-      total: number;
-      /** @description Количество результатов на странице */
-      limit: number;
-      /** @description Текущая страница */
-      page: number;
-      /** @description Сколько страниц всего */
-      pages: number;
-    };
-    MeiliPersonEntity: {
-      id: number;
-      name: string;
-      enName: string;
-      photo: string;
-      sex: string;
-      growth: number;
-      birthday: string;
-      death: string;
-      age: number;
-      birthPlace: string[];
-      deathPlace: string[];
-      profession: string[];
-    };
-    SearchPersonResponseDto: {
-      docs: components["schemas"]["MeiliPersonEntity"][];
-      /** @description Общее количество результатов */
-      total: number;
-      /** @description Количество результатов на странице */
-      limit: number;
-      /** @description Текущая страница */
-      page: number;
-      /** @description Сколько страниц всего */
-      pages: number;
-    };
-    Movie: {
-      id: number;
-      name: string;
-      rating: number;
-    };
-    PersonAward: {
-      nomination: components["schemas"]["Nomination"];
-      winning: boolean;
-      personId: number;
-      movie: components["schemas"]["Movie"];
-    };
-    PersonAwardDocsResponseDto: {
-      docs: components["schemas"]["PersonAward"][];
       /** @description Общее количество результатов */
       total: number;
       /** @description Количество результатов на странице */
@@ -798,8 +677,56 @@ export interface components {
       facts?: components["schemas"]["FactInPerson"][];
       movies?: components["schemas"]["MovieInPerson"][];
     };
-    PersonDocsResponseDto: {
+    PersonDocsResponseDtoV1_4: {
       docs: components["schemas"]["Person"][];
+      /** @description Общее количество результатов */
+      total: number;
+      /** @description Количество результатов на странице */
+      limit: number;
+      /** @description Текущая страница */
+      page: number;
+      /** @description Сколько страниц всего */
+      pages: number;
+    };
+    MeiliPersonEntityV1_4: {
+      1: Record<string, never>;
+      id: number;
+      name: string;
+      enName: string;
+      photo: string;
+      sex: string;
+      birthday: string;
+      death: string;
+      age: number;
+      birthPlace?: components["schemas"]["BirthPlace"][];
+      deathPlace?: components["schemas"]["DeathPlace"][];
+      profession?: components["schemas"]["Profession"][];
+      growth: number;
+    };
+    SearchPersonResponseDtoV1_4: {
+      docs: components["schemas"]["MeiliPersonEntityV1_4"][];
+      /** @description Общее количество результатов */
+      total: number;
+      /** @description Количество результатов на странице */
+      limit: number;
+      /** @description Текущая страница */
+      page: number;
+      /** @description Сколько страниц всего */
+      pages: number;
+    };
+    Movie: {
+      id: number;
+      name: string;
+      rating: number;
+    };
+    PersonAward: {
+      nomination: components["schemas"]["Nomination"];
+      winning: boolean;
+      personId: number;
+      movie: components["schemas"]["Movie"];
+    };
+    PersonAwardDocsResponseDto: {
+      docs: components["schemas"]["PersonAward"][];
       /** @description Общее количество результатов */
       total: number;
       /** @description Количество результатов на странице */
@@ -820,7 +747,7 @@ export interface components {
       type?: "Производство" | "Спецэффекты" | "Прокат" | "Студия дубляжа";
       movies?: components["schemas"]["MovieFromStudio"];
     };
-    StudioDocsResponseDto: {
+    StudioDocsResponseDtoV1_4: {
       docs: components["schemas"]["Studio"][];
       /** @description Общее количество результатов */
       total: number;
@@ -839,7 +766,7 @@ export interface components {
       title: string;
       movies?: components["schemas"]["MovieFromKeyword"];
     };
-    KeywordDocsResponseDto: {
+    KeywordDocsResponseDtoV1_4: {
       docs: components["schemas"]["Keyword"][];
       /** @description Общее количество результатов */
       total: number;
@@ -859,8 +786,26 @@ export interface components {
       height?: number;
       width?: number;
     };
-    ImageDocsResponseDto: {
+    ImageDocsResponseDtoV1_4: {
       docs: components["schemas"]["Image"][];
+      /** @description Общее количество результатов */
+      total: number;
+      /** @description Количество результатов на странице */
+      limit: number;
+      /** @description Текущая страница */
+      page: number;
+      /** @description Сколько страниц всего */
+      pages: number;
+    };
+    List: {
+      category: string;
+      slug: string;
+      moviesCount: number;
+      cover: components["schemas"]["ShortImage"];
+      name: string;
+    };
+    ListDocsResponseDtoV1_4: {
+      docs: components["schemas"]["List"][];
       /** @description Общее количество результатов */
       total: number;
       /** @description Количество результатов на странице */
@@ -884,329 +829,21 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  AppController_getHello: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AppController_check: {
-    responses: {
-      /** @description The Health Check is successful */
-      200: {
-        content: {
-          "application/json": {
-            /** @example ok */
-            status?: string;
-            /**
-             * @example {
-             *   "database": {
-             *     "status": "up"
-             *   }
-             * }
-             */
-            info?: ({
-              [key: string]: {
-                status?: string;
-                [key: string]: string | undefined;
-              };
-            }) | null;
-            /** @example {} */
-            error?: ({
-              [key: string]: {
-                status?: string;
-                [key: string]: string | undefined;
-              };
-            }) | null;
-            /**
-             * @example {
-             *   "database": {
-             *     "status": "up"
-             *   }
-             * }
-             */
-            details?: {
-              [key: string]: {
-                status?: string;
-                [key: string]: string | undefined;
-              };
-            };
-          };
-        };
-      };
-      /** @description The Health Check is not successful */
-      503: {
-        content: {
-          "application/json": {
-            /** @example error */
-            status?: string;
-            /**
-             * @example {
-             *   "database": {
-             *     "status": "up"
-             *   }
-             * }
-             */
-            info?: ({
-              [key: string]: {
-                status?: string;
-                [key: string]: string | undefined;
-              };
-            }) | null;
-            /**
-             * @example {
-             *   "redis": {
-             *     "status": "down",
-             *     "message": "Could not connect"
-             *   }
-             * }
-             */
-            error?: ({
-              [key: string]: {
-                status?: string;
-                [key: string]: string | undefined;
-              };
-            }) | null;
-            /**
-             * @example {
-             *   "database": {
-             *     "status": "up"
-             *   },
-             *   "redis": {
-             *     "status": "down",
-             *     "message": "Could not connect"
-             *   }
-             * }
-             */
-            details?: {
-              [key: string]: {
-                status?: string;
-                [key: string]: string | undefined;
-              };
-            };
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Универсальный поиск с фильтрами
-   * @description В этом методе вы можете составить запрос на получение фильма любой сложности.
-   *
-   * Для этого используете значения представленные ниже. Вы можете комбинировать поля, так же указывать множественные и специальные значения полей!
-   *
-   * Обратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
-   *
-   * Чтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр `selectFields`
-   */
-  MovieController_findManyByQueryV1_3: {
-    parameters: {
-      query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
-        sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Id фильма с кинопоиска. <br/>Тип в базе: `() => Number`<br/>Пример: `666` */
-        id?: string[];
-        /** @description ID из kinopoisk HD. <br/>Тип в базе: `() => String`<br/>Пример: `48e8d0acb0f62d8585101798eaeceec5` */
-        "externalId.kpHD"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `tt0232500` */
-        "externalId.imdb"?: string[] | null;
-        /** @description Тип в базе: `() => Number`<br/>Пример: `9799` */
-        "externalId.tmdb"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Человек паук` */
-        name?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Spider man` */
-        alternativeName?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Spider man` */
-        enName?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "names.name"?: string[];
-        /** @description Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show. <br/>Тип в базе: `() => String`<br/>Пример: `movie` */
-        type?: string[];
-        /** @description Тип тайтла в числовом обозначении. Доступны: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show). <br/>Тип в базе: `() => Number`<br/>Пример: `1` */
-        typeNumber?: string[];
-        /** @description Год премьеры. При поиске по этому полю, можно использовать интервалы 1860-2030. <br/>Тип в базе: `() => Number`<br/>Пример: `2023` */
-        year?: string[] | null;
-        /** @description Описание тайтла. <br/>Тип в базе: `() => String` */
-        description?: string[] | null;
-        /** @description Сокращенное описание. <br/>Тип в базе: `() => String` */
-        shortDescription?: string[] | null;
-        /** @description Слоган. <br/>Тип в базе: `() => String` */
-        slogan?: string[] | null;
-        /** @description Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production. <br/>Тип в базе: `() => String`<br/>Пример: `completed` */
-        status?: string[] | null;
-        /** @description Рейтинг кинопоиска. <br/>Тип в базе: `() => Number`<br/>Пример: `6.2` */
-        "rating.kp"?: string[] | null;
-        /** @description Рейтинг IMDB. <br/>Тип в базе: `() => Number`<br/>Пример: `8.4` */
-        "rating.imdb"?: string[] | null;
-        /** @description Рейтинг TMDB. <br/>Тип в базе: `() => Number`<br/>Пример: `3.2` */
-        "rating.tmdb"?: string[] | null;
-        /** @description Рейтинг кинокритиков. <br/>Тип в базе: `() => Number`<br/>Пример: `10` */
-        "rating.filmCritics"?: string[] | null;
-        /** @description Рейтинг кинокритиков из РФ. <br/>Тип в базе: `() => Number`<br/>Пример: `5.1` */
-        "rating.russianFilmCritics"?: string[] | null;
-        /** @description Рейтинг основанный на ожиданиях пользователей. <br/>Тип в базе: `() => Number`<br/>Пример: `6.1` */
-        "rating.await"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `60000` */
-        "votes.kp"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `50000` */
-        "votes.imdb"?: string[] | null;
-        /** @description Тип в базе: `() => Number`<br/>Пример: `10000` */
-        "votes.tmdb"?: string[] | null;
-        /** @description Количество голосов кинокритиков. <br/>Тип в базе: `() => Number`<br/>Пример: `10000` */
-        "votes.filmCritics"?: string[] | null;
-        /** @description Количество голосов кинокритиков из РФ. <br/>Тип в базе: `() => Number`<br/>Пример: `4000` */
-        "votes.russianFilmCritics"?: string[] | null;
-        /** @description Количество ожидающих выхода. <br/>Тип в базе: `() => Number`<br/>Пример: `34000` */
-        "votes.await"?: string[] | null;
-        /** @description Продолжительность фильма. <br/>Тип в базе: `() => Number`<br/>Пример: `120` */
-        movieLength?: string[] | null;
-        /** @description Возрастной рейтинг по MPAA. <br/>Тип в базе: `() => String`<br/>Пример: `pg13` */
-        ratingMpaa?: string[] | null;
-        /** @description Возрастной рейтинг. <br/>Тип в базе: `() => Number`<br/>Пример: `16` */
-        ageRating?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "logo.url"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "poster.url"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "poster.previewUrl"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "backdrop.url"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "backdrop.previewUrl"?: string[] | null;
-        /** @description Url трейлера. <br/>Тип в базе: `() => String`<br/>Пример: `https://www.youtube.com/embed/ZsJz2TJAPjw` */
-        "videos.trailers.url"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Official Trailer` */
-        "videos.trailers.name"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `youtube` */
-        "videos.trailers.site"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `TRAILER` */
-        "videos.trailers.type"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "genres.name"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "countries.name"?: string[];
-        /** @description Id персоны с кинопоиска. <br/>Тип в базе: `() => Number`<br/>Пример: `6317` */
-        "persons.id"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `https://st.kp.yandex.net/images/actor_iphone/iphone360_6317.jpg` */
-        "persons.photo"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Пол Уокер` */
-        "persons.name"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Paul Walker` */
-        "persons.enName"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "reviewInfo.count"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "reviewInfo.positiveCount"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "reviewInfo.percentage"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "seasonsInfo.number"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "seasonsInfo.episodesCount"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "budget.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "budget.currency"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "fees.world.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "fees.world.currency"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "fees.russia.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "fees.russia.currency"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "fees.usa.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "fees.usa.currency"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `США` */
-        "premiere.country"?: string[] | null;
-        /** @description Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023. <br/>Тип в базе: `function Date() { [native code] }`<br/>Пример: `2023-02-25T02:44:39.359Z` */
-        "premiere.world"?: string[] | null;
-        /** @description Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023. <br/>Тип в базе: `function Date() { [native code] }`<br/>Пример: `2023-02-25T02:44:39.359Z` */
-        "premiere.russia"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "premiere.digital"?: string[] | null;
-        /** @description Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023. <br/>Тип в базе: `function Date() { [native code] }`<br/>Пример: `2023-02-25T02:44:39.359Z` */
-        "premiere.cinema"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "similarMovies.id"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "sequelsAndPrequels.id"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "watchability.items.name"?: string[] | null;
-        /** @description Год начала. <br/>Тип в базе: `() => Number`<br/>Пример: `2022` */
-        "releaseYears.start"?: string[] | null;
-        /** @description Год окончания. <br/>Тип в базе: `() => Number`<br/>Пример: `2023` */
-        "releaseYears.end"?: string[] | null;
-        /** @description Позиция тайтла в топ 10. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`. <br/>Тип в базе: `() => Number`<br/>Пример: `1` */
-        top10?: string[] | null;
-        /** @description Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`. <br/>Тип в базе: `() => Number`<br/>Пример: `200` */
-        top250?: string[] | null;
-        /** @description Признак того, что тайтл находится в прокате. <br/>Тип в базе: `() => Boolean`<br/>Пример: `true` */
-        ticketsOnSale?: string[] | null;
-        /** @description Продолжительность всех серий. <br/>Тип в базе: `() => Number`<br/>Пример: `155` */
-        totalSeriesLength?: string[] | null;
-        /** @description Средняя продолжительность серии. <br/>Тип в базе: `() => Number`<br/>Пример: `20` */
-        seriesLength?: string[] | null;
-        /** @description Признак сериала. <br/>Тип в базе: `() => Boolean`<br/>Пример: `true` */
-        isSeries?: string[];
-        /** @description Количество просмотров в кино. <br/>Тип в базе: `() => Number`<br/>Пример: `1000` */
-        "audience.count"?: string[];
-        /** @description Страна в которой проходил показ. <br/>Тип в базе: `() => String`<br/>Пример: `Россия` */
-        "audience.country"?: string[];
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["MovieDocsResponseDtoV1_3"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
-        };
-      };
-    };
-  };
   /**
    * Поиск по id
    * @description Возвращает всю доступную информацию о сущности.
    */
-  MovieController_findOneV1_3: {
+  MovieController_findOneV1_4: {
     parameters: {
       path: {
-        id: string;
+        /** @description ID из кинопоиска */
+        id: number | null;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["MovieDtoV1_3"];
+          "application/json": components["schemas"]["MovieDtoV1_4"];
         };
       };
       /** @description Unauthorized */
@@ -1236,28 +873,133 @@ export interface operations {
     };
   };
   /**
-   * Получить рандомный тайтл из базы
-   * @description Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.
+   * Универсальный поиск с фильтрами
+   * @description Этот метод вернет список фильмов удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре `selectFields`. Если его не указать, то вернутся только дефолтные поля.
    */
-  MovieController_getRandomMovieV1_3: {
+  MovieController_findManyByQueryV1_4: {
+    parameters: {
+      query?: {
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("id" | "externalId" | "name" | "enName" | "alternativeName" | "names" | "description" | "shortDescription" | "slogan" | "type" | "typeNumber" | "isSeries" | "status" | "year" | "releaseYears" | "rating" | "ratingMpaa" | "ageRating" | "votes" | "budget" | "audience" | "movieLength" | "seriesLength" | "totalSeriesLength" | "genres" | "countries" | "poster" | "backdrop" | "logo" | "ticketsOnSale" | "videos" | "networks" | "persons" | "facts" | "fees" | "premiere" | "similarMovies" | "sequelsAndPrequels" | "watchability" | "lists" | "top10" | "top250")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("id" | "externalId.imdb" | "externalId.tmdb" | "externalId.kpHD" | "name" | "enName" | "alternativeName" | "names.name" | "description" | "shortDescription" | "slogan" | "type" | "typeNumber" | "isSeries" | "status" | "year" | "releaseYears.start" | "releaseYears.end" | "rating.kp" | "rating.imdb" | "rating.tmdb" | "rating.filmCritics" | "rating.russianFilmCritics" | "rating.await" | "ratingMpaa" | "ageRating" | "votes.kp" | "votes.imdb" | "votes.tmdb" | "votes.filmCritics" | "votes.russianFilmCritics" | "votes.await" | "budget.value" | "budget.currency" | "audience.count" | "audience.country" | "movieLength" | "seriesLength" | "totalSeriesLength" | "genres.name" | "countries.name" | "poster.url" | "backdrop.url" | "logo.url" | "ticketsOnSale" | "videos.trailers.url" | "videos.trailers.site" | "videos.trailers.name" | "networks.items.name" | "networks.items.logo.url" | "persons.id" | "persons.name" | "persons.enName" | "persons.photo" | "persons.description" | "persons.profession" | "persons.enProfession" | "facts.type" | "facts.value" | "facts.spoiler" | "fees.world" | "fees.usa" | "fees.russia" | "premiere.world" | "premiere.usa" | "premiere.russia" | "premiere.digital" | "premiere.dvd" | "premiere.bluRay" | "premiere.cinema" | "premiere.country" | "similarMovies.id" | "similarMovies.name" | "similarMovies.enName" | "similarMovies.alternativeName" | "similarMovies.poster.url" | "sequelsAndPrequels.id" | "sequelsAndPrequels.name" | "sequelsAndPrequels.enName" | "sequelsAndPrequels.alternativeName" | "sequelsAndPrequels.poster.url" | "watchability.items.name" | "watchability.items.url" | "watchability.items.logo.url" | "lists" | "top10" | "top250")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("id" | "externalId.imdb" | "externalId.tmdb" | "externalId.kpHD" | "name" | "enName" | "alternativeName" | "names.name" | "description" | "shortDescription" | "slogan" | "type" | "typeNumber" | "isSeries" | "status" | "year" | "releaseYears.start" | "releaseYears.end" | "rating.kp" | "rating.imdb" | "rating.tmdb" | "rating.filmCritics" | "rating.russianFilmCritics" | "rating.await" | "ratingMpaa" | "ageRating" | "votes.kp" | "votes.imdb" | "votes.tmdb" | "votes.filmCritics" | "votes.russianFilmCritics" | "votes.await" | "budget.value" | "budget.currency" | "audience.count" | "audience.country" | "movieLength" | "seriesLength" | "totalSeriesLength" | "genres.name" | "countries.name" | "poster.url" | "backdrop.url" | "logo.url" | "ticketsOnSale" | "videos.trailers.url" | "videos.trailers.site" | "videos.trailers.name" | "networks.items.name" | "networks.items.logo.url" | "persons.id" | "persons.name" | "persons.enName" | "persons.photo" | "persons.description" | "persons.profession" | "persons.enProfession" | "facts.type" | "facts.value" | "facts.spoiler" | "fees.world" | "fees.usa" | "fees.russia" | "premiere.world" | "premiere.usa" | "premiere.russia" | "premiere.digital" | "premiere.dvd" | "premiere.bluRay" | "premiere.cinema" | "premiere.country" | "similarMovies.id" | "similarMovies.name" | "similarMovies.enName" | "similarMovies.alternativeName" | "similarMovies.poster.url" | "sequelsAndPrequels.id" | "sequelsAndPrequels.name" | "sequelsAndPrequels.enName" | "sequelsAndPrequels.alternativeName" | "sequelsAndPrequels.poster.url" | "watchability.items.name" | "watchability.items.url" | "watchability.items.logo.url" | "lists" | "top10" | "top250")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
+        sortType?: string[];
+        /** @description Поиск по ID KinoPoisk (пример: `"666", "555", "!666"`) */
+        id?: string[] | null;
+        /** @description Поиск по IMDB ID (пример: `"tt666", "tt555", "!tt666"`) */
+        "externalId.imdb"?: string[] | null;
+        /** @description Поиск по TMDB ID (пример: `666, 555, !666`) */
+        "externalId.tmdb"?: number[] | null;
+        /** @description Поиск по id KinoPoisk HD (пример: `"48e8d0acb0f62d8585101798eaeceec5", "!48e8d0acb0f62d8585101798eaeceec5"`) */
+        "externalId.kpHD"?: string[] | null;
+        /** @description Поиск по типу фильма (пример: `"movie", "tv-series", "!anime"`) */
+        type?: (("movie" | "tv-series" | "cartoon" | "animated-series" | "anime")[]) | null;
+        /** @description Поиск по номеру типа фильма (пример: `1, 2, !3`). Список типов: 1 (movie), 2 (tv-series), 3 (cartoon), 4 (anime), 5 (animated-series). */
+        typeNumber?: string[] | null;
+        /** @description Поиск по индикатору сериала (пример: `true, false`) */
+        isSeries?: string[] | null;
+        /** @description Поиск по статусу фильма (пример: `"announced", "completed", "!filming"`) */
+        status?: (("announced" | "completed" | "filming" | "post-production" | "pre-production")[]) | null;
+        /** @description Поиск по году (пример: `1874, 2050, !2020, 2020-2024`) */
+        year?: string[] | null;
+        /** @description Поиск по года начала релиза (пример: `1874, 2050, !2020, 2020-2024`) */
+        "releaseYears.start"?: string[] | null;
+        /** @description Поиск по года окончания релиза (пример: `1874, 2050, !2020, 2020-2024`) */
+        "releaseYears.end"?: string[] | null;
+        /** @description Поиск по рейтингу Кинопоиск (пример: `7, 10, 7.2-10`) */
+        "rating.kp"?: string[] | null;
+        /** @description Поиск по рейтингу IMDB (пример: `7, 10, 7.2-10`) */
+        "rating.imdb"?: string[] | null;
+        /** @description Поиск по рейтингу TMDB (пример: `7, 10, 7.2-10`) */
+        "rating.tmdb"?: string[] | null;
+        /** @description Поиск по рейтингу MPAA (пример: `"G", "NC-17", "!R"`) */
+        ratingMpaa?: string[] | null;
+        /** @description Поиск по возрастному рейтингу (пример: `12, !18, 12-18`) */
+        ageRating?: string[] | null;
+        /** @description Поиск по количеству голосов на KP (пример: `1000-6666666`) */
+        "votes.kp"?: string[] | null;
+        /** @description Поиск по количеству голосов на IMDB (пример: `1000-6666666`) */
+        "votes.imdb"?: string[] | null;
+        /** @description Поиск по количеству голосов на TMDB (пример: `1000-6666666`) */
+        "votes.tmdb"?: string[] | null;
+        /** @description Поиск по количеству голосов кинокритиков (пример: `1000-6666666`) */
+        "votes.filmCritics"?: string[] | null;
+        /** @description Поиск по количеству голосов кинокритиков из России (пример: `1000-6666666`) */
+        "votes.russianFilmCritics"?: string[] | null;
+        /** @description Поиск по количеству голосов ожидания на Кинопоиске (пример: `1000-6666666`) */
+        "votes.await"?: string[] | null;
+        /** @description Поиск по бюджету фильма (пример: `1000-6666666`) */
+        "budget.value"?: string[] | null;
+        /** @description Поиск по количеству аудитории (пример: `1000-6666666`) */
+        "audience.count"?: string[] | null;
+        /** @description Поиск по продолжительности фильма (пример: `100-120`) */
+        movieLength?: string[] | null;
+        /** @description Поиск по всей продолжительности одной серии (пример: `20-60`) */
+        seriesLength?: string[] | null;
+        /** @description Поиск по всей продолжительности сериала (пример: `100-120`) */
+        totalSeriesLength?: string[] | null;
+        /** @description Поиск по жанрам.<br> Если вам нужно найти фильмы содержащие любой из жанров указывайте так: `"драма", "комедия"`. <br> Если вам нужно найти фильмы в жанре комедия и мелодрама но не короткометражка то указывайте так: `"+комедия", "+мелодрама", "!короткометражка"`. <br> Если вы укажите `"комедия", "+мелодрама", "!короткометражка"`, то в выдачу попадут фильмы которые относятся к жанру комедия даже если они не мелодрама и короткометражка! */
+        "genres.name"?: string[] | null;
+        /** @description Поиск по странам (пример: `"США", "Россия", "!Франция" , "+Великобритания"`) */
+        "countries.name"?: string[] | null;
+        /** @description Поиск по наличию билетов в продаже (пример: `true, false`) */
+        ticketsOnSale?: string[] | null;
+        /** @description Поиск по сетям производства фильма (пример: `"HBO", "Netflix", "!Amazon"`) */
+        "networks.items.name"?: string[] | null;
+        /** @description Поиск по ID персон (пример: `666, 555, !666`) */
+        "persons.id"?: string[] | null;
+        /** @description Поиск по профессиям персон (пример: `"актер", "режиссер", "!сценарист"`) */
+        "persons.profession"?: string[] | null;
+        /** @description Поиск по английским профессиям персон (пример: `"actor", "director", "!writer"`) */
+        "persons.enProfession"?: string[] | null;
+        /** @description Поиск по сборам в мире (пример: `1000-6666666`) */
+        "fees.world"?: string[] | null;
+        /** @description Поиск по сборам в США (пример: `1000-6666666`) */
+        "fees.usa"?: string[] | null;
+        /** @description Поиск по сборам в России (пример: `1000-6666666`) */
+        "fees.russia"?: string[] | null;
+        /** @description Поиск по дате премьеры в мире (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.world"?: string[] | null;
+        /** @description Поиск по дате премьеры в США (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.usa"?: string[] | null;
+        /** @description Поиск по дате премьеры в России (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.russia"?: string[] | null;
+        /** @description Поиск по дате премьеры в стриминговых сервисах (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.digital"?: string[] | null;
+        /** @description Поиск по дате премьеры в кинотеатрах (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.cinema"?: string[] | null;
+        /** @description Поиск по стране премьеры (пример: `"США", "Россия", "!Франция" , "+Великобритания"`) */
+        "premiere.country"?: string[] | null;
+        /** @description Поиск по ID KinoPoisk из списка похожих фильмов (пример: `666, 555, !666`) */
+        "similarMovies.id"?: string[] | null;
+        /** @description Поиск по ID KinoPoisk из списка сиквелов и преквелов (пример: `666, 555, !666`) */
+        "sequelsAndPrequels.id"?: string[] | null;
+        /** @description Поиск по доуступным платформам для просмотра (пример: `"ivi", "okko", "!megogo"`) */
+        "watchability.items.name"?: string[] | null;
+        /** @description Поиск по коллекциям из KinoPoisk (пример: `"top-250", "top-100-indian-movies", "!top-100-movies"`) */
+        lists?: string[] | null;
+      };
+    };
     responses: {
       200: {
         content: {
-          "application/json": Record<string, never>;
-        };
-      };
-      default: {
-        content: {
-          "application/json": components["schemas"]["MovieDtoV1_3"];
+          "application/json": components["schemas"]["MovieDocsResponseDtoV1_4"];
         };
       };
     };
   };
   /**
-   * Полнотекстовый поиск
-   * @description Этот метод предназначен для полнотекстового поиска тайтлов по текстовому запросу. Он принимает только один параметр `query`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод `Универсальный поиск с фильтрами` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.
+   * Поиск фильмов по названию
+   * @description Этот метод вернет список фильмов которые подходят под ваш запрос.
    */
-  MovieController_searchMovie: {
+  MovieController_searchMovieV1_4: {
     parameters: {
       query: {
         /** @description Страница выборки */
@@ -1271,35 +1013,150 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["SearchMovieResponseDto"];
+          "application/json": components["schemas"]["SearchMovieResponseDtoV1_4"];
+        };
+      };
+    };
+  };
+  /**
+   * Получить рандомный тайтл из базы
+   * @description Этот метод вернет рандомный тайтл из базы. Вы можете составить фильтр, чтобы получить рандомный тайтл по вашим критериям.
+   */
+  MovieController_getRandomMovieV1_4: {
+    parameters: {
+      query?: {
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("id" | "externalId.imdb" | "externalId.tmdb" | "externalId.kpHD" | "name" | "enName" | "alternativeName" | "names.name" | "description" | "shortDescription" | "slogan" | "type" | "typeNumber" | "isSeries" | "status" | "year" | "releaseYears.start" | "releaseYears.end" | "rating.kp" | "rating.imdb" | "rating.tmdb" | "rating.filmCritics" | "rating.russianFilmCritics" | "rating.await" | "ratingMpaa" | "ageRating" | "votes.kp" | "votes.imdb" | "votes.tmdb" | "votes.filmCritics" | "votes.russianFilmCritics" | "votes.await" | "budget.value" | "budget.currency" | "audience.count" | "audience.country" | "movieLength" | "seriesLength" | "totalSeriesLength" | "genres.name" | "countries.name" | "poster.url" | "backdrop.url" | "logo.url" | "ticketsOnSale" | "videos.trailers.url" | "videos.trailers.site" | "videos.trailers.name" | "networks.items.name" | "networks.items.logo.url" | "persons.id" | "persons.name" | "persons.enName" | "persons.photo" | "persons.description" | "persons.profession" | "persons.enProfession" | "facts.type" | "facts.value" | "facts.spoiler" | "fees.world" | "fees.usa" | "fees.russia" | "premiere.world" | "premiere.usa" | "premiere.russia" | "premiere.digital" | "premiere.dvd" | "premiere.bluRay" | "premiere.cinema" | "premiere.country" | "similarMovies.id" | "similarMovies.name" | "similarMovies.enName" | "similarMovies.alternativeName" | "similarMovies.poster.url" | "sequelsAndPrequels.id" | "sequelsAndPrequels.name" | "sequelsAndPrequels.enName" | "sequelsAndPrequels.alternativeName" | "sequelsAndPrequels.poster.url" | "watchability.items.name" | "watchability.items.url" | "watchability.items.logo.url" | "lists" | "top10" | "top250")[];
+        /** @description Поиск по ID KinoPoisk (пример: `"666", "555", "!666"`) */
+        id?: string[] | null;
+        /** @description Поиск по IMDB ID (пример: `"tt666", "tt555", "!tt666"`) */
+        "externalId.imdb"?: string[] | null;
+        /** @description Поиск по TMDB ID (пример: `666, 555, !666`) */
+        "externalId.tmdb"?: number[] | null;
+        /** @description Поиск по id KinoPoisk HD (пример: `"48e8d0acb0f62d8585101798eaeceec5", "!48e8d0acb0f62d8585101798eaeceec5"`) */
+        "externalId.kpHD"?: string[] | null;
+        /** @description Поиск по типу фильма (пример: `"movie", "tv-series", "!anime"`) */
+        type?: (("movie" | "tv-series" | "cartoon" | "animated-series" | "anime")[]) | null;
+        /** @description Поиск по номеру типа фильма (пример: `1, 2, !3`). Список типов: 1 (movie), 2 (tv-series), 3 (cartoon), 4 (anime), 5 (animated-series). */
+        typeNumber?: string[] | null;
+        /** @description Поиск по индикатору сериала (пример: `true, false`) */
+        isSeries?: string[] | null;
+        /** @description Поиск по статусу фильма (пример: `"announced", "completed", "!filming"`) */
+        status?: (("announced" | "completed" | "filming" | "post-production" | "pre-production")[]) | null;
+        /** @description Поиск по году (пример: `1874, 2050, !2020, 2020-2024`) */
+        year?: string[] | null;
+        /** @description Поиск по года начала релиза (пример: `1874, 2050, !2020, 2020-2024`) */
+        "releaseYears.start"?: string[] | null;
+        /** @description Поиск по года окончания релиза (пример: `1874, 2050, !2020, 2020-2024`) */
+        "releaseYears.end"?: string[] | null;
+        /** @description Поиск по рейтингу Кинопоиск (пример: `7, 10, 7.2-10`) */
+        "rating.kp"?: string[] | null;
+        /** @description Поиск по рейтингу IMDB (пример: `7, 10, 7.2-10`) */
+        "rating.imdb"?: string[] | null;
+        /** @description Поиск по рейтингу TMDB (пример: `7, 10, 7.2-10`) */
+        "rating.tmdb"?: string[] | null;
+        /** @description Поиск по рейтингу MPAA (пример: `"G", "NC-17", "!R"`) */
+        ratingMpaa?: string[] | null;
+        /** @description Поиск по возрастному рейтингу (пример: `12, !18, 12-18`) */
+        ageRating?: string[] | null;
+        /** @description Поиск по количеству голосов на KP (пример: `1000-6666666`) */
+        "votes.kp"?: string[] | null;
+        /** @description Поиск по количеству голосов на IMDB (пример: `1000-6666666`) */
+        "votes.imdb"?: string[] | null;
+        /** @description Поиск по количеству голосов на TMDB (пример: `1000-6666666`) */
+        "votes.tmdb"?: string[] | null;
+        /** @description Поиск по количеству голосов кинокритиков (пример: `1000-6666666`) */
+        "votes.filmCritics"?: string[] | null;
+        /** @description Поиск по количеству голосов кинокритиков из России (пример: `1000-6666666`) */
+        "votes.russianFilmCritics"?: string[] | null;
+        /** @description Поиск по количеству голосов ожидания на Кинопоиске (пример: `1000-6666666`) */
+        "votes.await"?: string[] | null;
+        /** @description Поиск по бюджету фильма (пример: `1000-6666666`) */
+        "budget.value"?: string[] | null;
+        /** @description Поиск по количеству аудитории (пример: `1000-6666666`) */
+        "audience.count"?: string[] | null;
+        /** @description Поиск по продолжительности фильма (пример: `100-120`) */
+        movieLength?: string[] | null;
+        /** @description Поиск по всей продолжительности одной серии (пример: `20-60`) */
+        seriesLength?: string[] | null;
+        /** @description Поиск по всей продолжительности сериала (пример: `100-120`) */
+        totalSeriesLength?: string[] | null;
+        /** @description Поиск по жанрам (пример: `"драма", "комедия", "!мелодрама", "+ужасы"`) */
+        "genres.name"?: string[] | null;
+        /** @description Поиск по странам (пример: `"США", "Россия", "!Франция" , "+Великобритания"`) */
+        "countries.name"?: string[] | null;
+        /** @description Поиск по наличию билетов в продаже (пример: `true, false`) */
+        ticketsOnSale?: string[] | null;
+        /** @description Поиск по сетям производства фильма (пример: `"HBO", "Netflix", "!Amazon"`) */
+        "networks.items.name"?: string[] | null;
+        /** @description Поиск по ID персон (пример: `666, 555, !666`) */
+        "persons.id"?: string[] | null;
+        /** @description Поиск по профессиям персон (пример: `"актер", "режиссер", "!сценарист"`) */
+        "persons.profession"?: string[] | null;
+        /** @description Поиск по английским профессиям персон (пример: `"actor", "director", "!writer"`) */
+        "persons.enProfession"?: string[] | null;
+        /** @description Поиск по сборам в мире (пример: `1000-6666666`) */
+        "fees.world"?: string[] | null;
+        /** @description Поиск по сборам в США (пример: `1000-6666666`) */
+        "fees.usa"?: string[] | null;
+        /** @description Поиск по сборам в России (пример: `1000-6666666`) */
+        "fees.russia"?: string[] | null;
+        /** @description Поиск по дате премьеры в мире (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.world"?: string[] | null;
+        /** @description Поиск по дате премьеры в США (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.usa"?: string[] | null;
+        /** @description Поиск по дате премьеры в России (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.russia"?: string[] | null;
+        /** @description Поиск по дате премьеры в стриминговых сервисах (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.digital"?: string[] | null;
+        /** @description Поиск по дате премьеры в кинотеатрах (пример: `01.01.2020, 01.01.2020-31.12.2020`) */
+        "premiere.cinema"?: string[] | null;
+        /** @description Поиск по стране премьеры (пример: `"США", "Россия", "!Франция" , "+Великобритания"`) */
+        "premiere.country"?: string[] | null;
+        /** @description Поиск по ID KinoPoisk из списка похожих фильмов (пример: `666, 555, !666`) */
+        "similarMovies.id"?: string[] | null;
+        /** @description Поиск по ID KinoPoisk из списка сиквелов и преквелов (пример: `666, 555, !666`) */
+        "sequelsAndPrequels.id"?: string[] | null;
+        /** @description Поиск по доуступным платформам для просмотра (пример: `"ivi", "okko", "!megogo"`) */
+        "watchability.items.name"?: string[] | null;
+        /** @description Поиск по коллекциям из KinoPoisk (пример: `"top-250", "top-100-indian-movies", "!top-100-movies"`) */
+        lists?: string[] | null;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["MovieDtoV1_4"];
         };
       };
     };
   };
   /** Награды тайтлов */
-  MovieController_findManyAwardsByQuery: {
+  MovieController_findManyAwardsV1_4: {
     parameters: {
       query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("movieId" | "winning" | "nomination")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("movieId" | "winning" | "nomination.award.title" | "nomination.award.year" | "nomination.title")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("movieId" | "winning" | "nomination.award.title" | "nomination.award.year" | "nomination.title")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
         sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `function String() { [native code] }` */
-        "nomination.award.title"?: string[];
-        /** @description Тип в базе: `function Number() { [native code] }` */
-        "nomination.award.year"?: string[];
-        /** @description Тип в базе: `function String() { [native code] }` */
-        "nomination.title"?: string[];
-        /** @description Тип в базе: `() => Boolean` */
-        winning?: string[];
-        /** @description Тип в базе: `() => Number` */
-        movieId?: string[];
+        /** @description Поиск по ID фильма (пример: `"666", "555", "!666"`) */
+        movieId?: string[] | null;
+        /** @description Поиск по номинациям (пример: `"Оскар", "Золотой глобус"`) */
+        "nomination.title"?: string[] | null;
+        /** @description Поиск по наградам (пример: `"Лучший фильм", "Лучший актер"`) */
+        "nomination.award.title"?: string[] | null;
+        /** @description Поиск по году награды (пример: `"2019", "2020"`) */
+        "nomination.award.year"?: string[] | null;
+        /** @description Поиск по победам (пример: `"true", "false"`) */
+        winning?: string[] | null;
       };
     };
     responses: {
@@ -1308,275 +1165,10 @@ export interface operations {
           "application/json": components["schemas"]["MovieAwardDocsResponseDto"];
         };
       };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
-        };
-      };
     };
   };
   /**
-   * Универсальный поиск с фильтрами
-   * @deprecated
-   * @description Эта версия эндпоинта устарела. Новый в 1.3 версии.
-   */
-  MovieController_findManyByQuery: {
-    parameters: {
-      query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
-        sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Id фильма с кинопоиска. <br/>Тип в базе: `() => Number`<br/>Пример: `666` */
-        id?: string[];
-        /** @description ID из kinopoisk HD. <br/>Тип в базе: `() => String`<br/>Пример: `48e8d0acb0f62d8585101798eaeceec5` */
-        "externalId.kpHD"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `tt0232500` */
-        "externalId.imdb"?: string[] | null;
-        /** @description Тип в базе: `() => Number`<br/>Пример: `9799` */
-        "externalId.tmdb"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Человек паук` */
-        name?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Spider man` */
-        alternativeName?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Spider man` */
-        enName?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "names.name"?: string[];
-        /** @description Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show. <br/>Тип в базе: `() => String`<br/>Пример: `movie` */
-        type?: string[];
-        /** @description Тип тайтла в числовом обозначении. Доступны: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show). <br/>Тип в базе: `() => Number`<br/>Пример: `1` */
-        typeNumber?: string[];
-        /** @description Год премьеры. При поиске по этому полю, можно использовать интервалы 1860-2030. <br/>Тип в базе: `() => Number`<br/>Пример: `2023` */
-        year?: string[] | null;
-        /** @description Описание тайтла. <br/>Тип в базе: `() => String` */
-        description?: string[] | null;
-        /** @description Сокращенное описание. <br/>Тип в базе: `() => String` */
-        shortDescription?: string[] | null;
-        /** @description Слоган. <br/>Тип в базе: `() => String` */
-        slogan?: string[] | null;
-        /** @description Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production. <br/>Тип в базе: `() => String`<br/>Пример: `completed` */
-        status?: string[] | null;
-        /** @description Рейтинг кинопоиска. <br/>Тип в базе: `() => Number`<br/>Пример: `6.2` */
-        "rating.kp"?: string[] | null;
-        /** @description Рейтинг IMDB. <br/>Тип в базе: `() => Number`<br/>Пример: `8.4` */
-        "rating.imdb"?: string[] | null;
-        /** @description Рейтинг TMDB. <br/>Тип в базе: `() => Number`<br/>Пример: `3.2` */
-        "rating.tmdb"?: string[] | null;
-        /** @description Рейтинг кинокритиков. <br/>Тип в базе: `() => Number`<br/>Пример: `10` */
-        "rating.filmCritics"?: string[] | null;
-        /** @description Рейтинг кинокритиков из РФ. <br/>Тип в базе: `() => Number`<br/>Пример: `5.1` */
-        "rating.russianFilmCritics"?: string[] | null;
-        /** @description Рейтинг основанный на ожиданиях пользователей. <br/>Тип в базе: `() => Number`<br/>Пример: `6.1` */
-        "rating.await"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `60000` */
-        "votes.kp"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `50000` */
-        "votes.imdb"?: string[] | null;
-        /** @description Тип в базе: `() => Number`<br/>Пример: `10000` */
-        "votes.tmdb"?: string[] | null;
-        /** @description Количество голосов кинокритиков. <br/>Тип в базе: `() => Number`<br/>Пример: `10000` */
-        "votes.filmCritics"?: string[] | null;
-        /** @description Количество голосов кинокритиков из РФ. <br/>Тип в базе: `() => Number`<br/>Пример: `4000` */
-        "votes.russianFilmCritics"?: string[] | null;
-        /** @description Количество ожидающих выхода. <br/>Тип в базе: `() => Number`<br/>Пример: `34000` */
-        "votes.await"?: string[] | null;
-        /** @description Продолжительность фильма. <br/>Тип в базе: `() => Number`<br/>Пример: `120` */
-        movieLength?: string[] | null;
-        /** @description Возрастной рейтинг по MPAA. <br/>Тип в базе: `() => String`<br/>Пример: `pg13` */
-        ratingMpaa?: string[] | null;
-        /** @description Возрастной рейтинг. <br/>Тип в базе: `() => Number`<br/>Пример: `16` */
-        ageRating?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "logo.url"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "poster.url"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "poster.previewUrl"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "backdrop.url"?: string[] | null;
-        /** @description Чтобы найти фильмы с этим полем, используйте: `!null`. <br/>Тип в базе: `() => String` */
-        "backdrop.previewUrl"?: string[] | null;
-        /** @description Url трейлера. <br/>Тип в базе: `() => String`<br/>Пример: `https://www.youtube.com/embed/ZsJz2TJAPjw` */
-        "videos.trailers.url"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Official Trailer` */
-        "videos.trailers.name"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `youtube` */
-        "videos.trailers.site"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `TRAILER` */
-        "videos.trailers.type"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "genres.name"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "countries.name"?: string[];
-        /** @description Id персоны с кинопоиска. <br/>Тип в базе: `() => Number`<br/>Пример: `6317` */
-        "persons.id"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `https://st.kp.yandex.net/images/actor_iphone/iphone360_6317.jpg` */
-        "persons.photo"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Пол Уокер` */
-        "persons.name"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `Paul Walker` */
-        "persons.enName"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "reviewInfo.count"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "reviewInfo.positiveCount"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "reviewInfo.percentage"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "seasonsInfo.number"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "seasonsInfo.episodesCount"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "budget.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "budget.currency"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "fees.world.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "fees.world.currency"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "fees.russia.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "fees.russia.currency"?: string[] | null;
-        /** @description Сумма. <br/>Тип в базе: `() => Number`<br/>Пример: `207283` */
-        "fees.usa.value"?: string[] | null;
-        /** @description Валюта. <br/>Тип в базе: `() => String`<br/>Пример: `€` */
-        "fees.usa.currency"?: string[] | null;
-        /** @description Тип в базе: `() => String`<br/>Пример: `США` */
-        "premiere.country"?: string[] | null;
-        /** @description Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023. <br/>Тип в базе: `function Date() { [native code] }`<br/>Пример: `2023-02-25T02:44:39.359Z` */
-        "premiere.world"?: string[] | null;
-        /** @description Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023. <br/>Тип в базе: `function Date() { [native code] }`<br/>Пример: `2023-02-25T02:44:39.359Z` */
-        "premiere.russia"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "premiere.digital"?: string[] | null;
-        /** @description Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023. <br/>Тип в базе: `function Date() { [native code] }`<br/>Пример: `2023-02-25T02:44:39.359Z` */
-        "premiere.cinema"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "similarMovies.id"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "sequelsAndPrequels.id"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "watchability.items.name"?: string[] | null;
-        /** @description Год начала. <br/>Тип в базе: `() => Number`<br/>Пример: `2022` */
-        "releaseYears.start"?: string[] | null;
-        /** @description Год окончания. <br/>Тип в базе: `() => Number`<br/>Пример: `2023` */
-        "releaseYears.end"?: string[] | null;
-        /** @description Позиция тайтла в топ 10. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`. <br/>Тип в базе: `() => Number`<br/>Пример: `1` */
-        top10?: string[] | null;
-        /** @description Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`. <br/>Тип в базе: `() => Number`<br/>Пример: `200` */
-        top250?: string[] | null;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["MovieDocsResponseDtoV1"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
-        };
-      };
-    };
-  };
-  /**
-   * Поиск по id
-   * @deprecated
-   * @description Эта версия эндпоинта устарела. Новый в 1.3 версии.
-   */
-  MovieController_findOne: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["MovieDtoV1"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description NotFound */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
-        };
-      };
-    };
-  };
-  /**
-   * Получить рандомный тайтл из базы
-   * @description Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.
-   */
-  MovieController_getRandomMovie: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["MovieDtoV1"];
-        };
-      };
-      default: {
-        content: {
-          "application/json": components["schemas"]["MovieDtoV1"];
-        };
-      };
-    };
-  };
-  /**
-   * Получить все возможные значения полей
+   * Получить список стран, жанров, и т.д.
    * @description Этот метод принимает только определенные поля, и возвращает по ним все доступные значения.
    */
   MovieController_getPossibleValuesByFieldName: {
@@ -1599,296 +1191,78 @@ export interface operations {
     };
   };
   /** Поиск сезонов */
-  SeasonController_findManyByQuery: {
+  SeasonController_findManyV1_4: {
     parameters: {
       query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("movieId" | "poster" | "number" | "name" | "enName" | "episodesCount" | "airDate" | "episodes")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("movieId" | "poster.url" | "poster.previewUrl" | "number" | "name" | "enName" | "episodesCount" | "airDate" | "episodes.number" | "episodes.name" | "episodes.enName" | "episodes.airDate" | "episodes.date" | "episodes.description" | "episodes.enDescription")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("movieId" | "poster.url" | "poster.previewUrl" | "number" | "name" | "enName" | "episodesCount" | "airDate" | "episodes.number" | "episodes.name" | "episodes.enName" | "episodes.airDate" | "episodes.date" | "episodes.description" | "episodes.enDescription")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
         sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `() => Number` */
-        movieId?: string[];
-        /** @description Тип в базе: `() => Number` */
-        number?: string[];
-        /** @description Тип в базе: `() => Number` */
-        episodesCount?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "episodes.number"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "episodes.name"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "episodes.enName"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "episodes.description"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "episodes.date"?: string[];
+        /** @description Поиск по ID фильма (пример: `"666", "555", "!666"`) */
+        moviesId?: string[] | null;
+        /** @description Поиск по номеру сезона (пример: `"1", "1-19", "!3"`) */
+        number?: string[] | null;
+        /** @description Поиск по нормеру эпизода (пример: `"1", "1-19", "!3"`) */
+        "episodes.number"?: string[] | null;
+        /** @description Поиск по дате выхода сезона (пример: `"2020-01-01-2020-12-31", "2020-01-01"`) */
+        airDate?: string[] | null;
+        /** @description Поиск по дате выхода эпизода (пример: `"2020-01-01-2020-12-31", "2020-01-01"`) */
+        "episodes.airDate"?: string[] | null;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["SeasonDocsResponseDto"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
-        };
-      };
-    };
-  };
-  /** Поиск отзывов */
-  ReviewController_findManyByQuery: {
-    parameters: {
-      query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
-        sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `() => Number` */
-        id?: string[];
-        /** @description Тип в базе: `() => Number` */
-        movieId?: string[];
-        /** @description Тип в базе: `() => String` */
-        title?: string[];
-        /** @description Тип в базе: `() => String` */
-        type?: string[];
-        /** @description Тип в базе: `() => String` */
-        review?: string[];
-        /** @description Тип в базе: `() => String` */
-        date?: string[];
-        /** @description Тип в базе: `() => String` */
-        author?: string[];
-        /** @description Тип в базе: `() => Number` */
-        authorId?: string[];
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ReviewDocsResponseDto"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
+          "application/json": components["schemas"]["SeasonDocsResponseDtoV1_4"];
         };
       };
     };
   };
   /**
-   * Полнотекстовый поиск
-   * @description Этот метод предназначен для полнотекстового поиска персон по текстовому запросу. Он принимает только один параметр `query`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод `Универсальный поиск с фильтрами` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.
+   * Универсальный поиск с фильтрами
+   * @description Этот метод предназначен для поиска персон по фильтрам. Он принимает множество параметров, которые можно комбинировать между собой. Если вам нужен только поиск по имени, используйте метод `Полнотекстовый поиск` (search). В этом методе также доступен выбор полей. А в ответ приходит полная модель персоны.
    */
-  PersonController_searchPerson: {
+  ReviewController_findManyV1_4: {
     parameters: {
-      query: {
-        /** @description Страница выборки */
+      query?: {
+        /** @description Номер страницы */
         page?: number;
         /** @description Количество элементов на странице */
         limit?: number;
-        /** @description Поисковый запрос */
-        query: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SearchPersonResponseDto"];
-        };
-      };
-    };
-  };
-  /** Награды актеров */
-  PersonController_findManyAwardsByQuery: {
-    parameters: {
-      query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("id" | "movieId" | "title" | "type" | "review" | "date" | "author" | "authorId")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("id" | "movieId" | "title" | "type" | "review" | "date" | "author" | "authorId")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("id" | "movieId" | "title" | "type" | "review" | "date" | "author" | "authorId")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
         sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `function String() { [native code] }` */
-        "nomination.award.title"?: string[];
-        /** @description Тип в базе: `function Number() { [native code] }` */
-        "nomination.award.year"?: string[];
-        /** @description Тип в базе: `function String() { [native code] }` */
-        "nomination.title"?: string[];
-        /** @description Тип в базе: `() => Boolean` */
-        winning?: string[];
-        /** @description Тип в базе: `() => Number` */
-        personId?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "movie.id"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "movie.name"?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "movie.rating"?: string[];
+        /** @description Поиск по ID отзыва (пример: `"111", "222", "!666"`) */
+        id?: string[] | null;
+        /** @description Поиск по ID фильма (пример: `"666", "555", "!666"`) */
+        "movies.id"?: string[] | null;
+        /** @description Поиск отзывов по ID автора (пример: `"666", "555", "!666"`) */
+        authorId?: string[] | null;
+        /** @description Поиск по имени автора отзыва (пример: `"КиноПоиск", "!КиноПоиск"`) */
+        author?: string[] | null;
+        /** @description Поиск по типу отзыва (пример: `"!Негативный", "Нейтральный", "Позитивный"`) */
+        type?: (("Негативный" | "Нейтральный" | "Позитивный")[]) | null;
+        /** @description Поиск по дате создания отзыва (пример: `"01.01.2021-01.01.2022", "01.01.2021"`) */
+        date?: string[] | null;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["PersonAwardDocsResponseDto"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
-        };
-      };
-    };
-  };
-  /** Универсальный поиск персон с фильтрами */
-  PersonController_findManyByQuery: {
-    parameters: {
-      query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
-        sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `() => Number` */
-        id?: string[];
-        /** @description Тип в базе: `() => String` */
-        name?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        enName?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        photo?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        sex?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        growth?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        birthday?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        death?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        age?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "birthPlace.value"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "deathPlace.value"?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "spouses.id"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "spouses.name"?: string[];
-        /** @description Тип в базе: `() => Boolean` */
-        "spouses.divorced"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "spouses.divorcedReason"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "spouses.sex"?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "spouses.children"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "spouses.relation"?: string[];
-        /** @description Тип в базе: `() => Number` */
-        countAwards?: string[];
-        /** @description Тип в базе: `() => String` */
-        "profession.value"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "facts.value"?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "movies.id"?: string[];
-        /** @description Тип в базе: `() => String` */
-        "movies.name"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "movies.alternativeName"?: string[] | null;
-        /** @description Тип в базе: `() => Number` */
-        "movies.rating"?: string[] | null;
-        /** @description Тип в базе: `() => Boolean` */
-        "movies.general"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "movies.description"?: string[] | null;
-        /** @description Тип в базе: `() => String` */
-        "movies.enProfession"?: string[] | null;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PersonDocsResponseDto"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
+          "application/json": components["schemas"]["ReviewDocsResponseDtoV1_4"];
         };
       };
     };
@@ -1897,10 +1271,11 @@ export interface operations {
    * Поиск по id
    * @description Возвращает всю доступную информацию о сущности.
    */
-  PersonController_findOne: {
+  PersonController_findOneV1_4: {
     parameters: {
       path: {
-        id: string;
+        /** @description ID из кинопоиска */
+        id: number | null;
       };
     };
     responses: {
@@ -1935,200 +1310,288 @@ export interface operations {
       };
     };
   };
-  /** Поиск студий */
-  StudioController_findManyByQuery: {
+  /**
+   * Универсальный поиск с фильтрами
+   * @description Этот метод вернет список персон удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре `selectFields`. Если его не указать, то вернутся только дефолтные поля.
+   */
+  PersonController_findManyV1_4: {
     parameters: {
       query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("id" | "name" | "enName" | "photo" | "sex" | "growth" | "birthday" | "death" | "age" | "birthPlace" | "deathPlace" | "spouses" | "countAwards" | "profession" | "facts" | "movies")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("id" | "name" | "enName" | "photo" | "sex" | "growth" | "birthday" | "death" | "age" | "birthPlace.value" | "deathPlace.value" | "spouses.id" | "spouses.name" | "spouses.divorced" | "spouses.divorcedReason" | "spouses.sex" | "spouses.children" | "spouses.relation" | "countAwards" | "profession.value" | "facts.value" | "movies.id" | "movies.name" | "movies.alternativeName" | "movies.rating" | "movies.general" | "movies.description" | "movies.enProfession")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("id" | "name" | "enName" | "photo" | "sex" | "growth" | "birthday" | "death" | "age" | "birthPlace.value" | "deathPlace.value" | "spouses.id" | "spouses.name" | "spouses.divorced" | "spouses.divorcedReason" | "spouses.sex" | "spouses.children" | "spouses.relation" | "countAwards" | "profession.value" | "facts.value" | "movies.id" | "movies.name" | "movies.alternativeName" | "movies.rating" | "movies.general" | "movies.description" | "movies.enProfession")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
         sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `() => String` */
-        id?: string[];
-        /** @description Тип в базе: `() => String` */
-        subType?: string[];
-        /** @description Тип в базе: `() => String` */
-        title?: string[];
-        /** @description Тип в базе: `function String() { [native code] }` */
-        type?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "movies.id"?: string[];
+        /** @description Поиск по ID KinoPoisk (пример: `"111", "222", "!666"`) */
+        id?: string[] | null;
+        /** @description Поиск по ID фильма (пример: `"666", "555", "!666"`) */
+        "movies.id"?: string[] | null;
+        /** @description Поиск по гендеру (пример: `Женский, Мужской`) */
+        sex?: (("Женский" | "Мужской")[]) | null;
+        /** @description Поиск по росту (пример: `170-180, 180`) */
+        growth?: string[] | null;
+        /** @description Поиск по дате рождения (пример: `01.01.2000-01.01.2001, 01.01.2000`) */
+        birthday?: string[] | null;
+        /** @description Поиск по дате смерти (пример: `01.01.2000-01.01.2001, 01.01.2000`) */
+        death?: string[] | null;
+        /** @description Поиск по возрасту (пример: `18-25, 25`) */
+        age?: string[] | null;
+        /** @description Поиск по месту рождения (пример: `Москва, Санкт-Петербург`) */
+        "birthPlace.value"?: string[] | null;
+        /** @description Поиск по месту смерти (пример: `Москва, Санкт-Петербург`) */
+        "deathPlace.value"?: string[] | null;
+        /** @description Поиск по ID супруги(супруга) (пример: `111, 222`) */
+        "spouses.id"?: string[] | null;
+        /** @description Поиск по статусу развода (пример: `true, false`) */
+        "spouses.divorced"?: boolean | null;
+        /** @description Поиск по гендеру супруги(супруга) (пример: `Женский, Мужской`) */
+        "spouses.sex"?: (("Женский" | "Мужской")[]) | null;
+        /** @description Поиск по количеству наград (пример: `1-10, 10`) */
+        countAwards?: string[] | null;
+        /** @description Поиск по профессии (пример: `Актер, Режиссер`) */
+        "profession.value"?: (("Актер" | "Актер дубляжа" | "Актриса" | "Актриса дубляжа" | "В титрах не указаны" | "Группа: Хроника" | "Группа: играют самих себя" | "Директор фильма" | "Звукорежиссер" | "Композитор" | "Монтажер" | "Озвучка" | "Оператор" | "Переводчик" | "Продюсер" | "Режиссер" | "Режиссер дубляжа" | "Сценарист" | "Художник")[]) | null;
+        /** @description Поиск по рейтингу фильма (пример: `1-10, 10`) */
+        "movies.rating"?: string[] | null;
+        /** @description Поиск по профессии в фильмах на английском (пример: `actor, director`) */
+        "movies.enProfession"?: (("actor" | "cameo" | "composer" | "design" | "director" | "director_ussr" | "editor" | "group_cameo" | "group_uncredited" | "operator" | "producer" | "sound_designer" | "translator" | "uncredited" | "voice_director" | "voiceover" | "writer")[]) | null;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["StudioDocsResponseDto"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
+          "application/json": components["schemas"]["PersonDocsResponseDtoV1_4"];
         };
       };
     };
   };
   /**
-   * Поиск по id
-   * @description Возвращает всю доступную информацию о сущности.
+   * Поиск актеров, режиссеров, и т.д по имени
+   * @description Этот метод вернет список персон которые подходят под ваш запрос.
    */
-  StudioController_findOne: {
+  PersonController_searchPersonV1_4: {
     parameters: {
-      path: {
-        id: string;
+      query: {
+        /** @description Страница выборки */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Поисковый запрос */
+        query: string;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["Studio"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description NotFound */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
+          "application/json": components["schemas"]["SearchPersonResponseDtoV1_4"];
         };
       };
     };
   };
-  /** Поиск по ключевым словам */
-  KeywordController_findManyByQuery: {
+  /** Награды актеров */
+  PersonController_findManyAwardsV1_4: {
     parameters: {
       query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("personId" | "winning" | "nomination")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("personId" | "winning" | "nomination.award.title" | "nomination.award.year" | "nomination.title")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("personId" | "winning" | "nomination.award.title" | "nomination.award.year" | "nomination.title")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
         sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `() => String` */
+        /** @description Поиск по ID персоны (пример: `"666", "555", "!666"`) */
+        personId?: string[] | null;
+        /** @description Поиск по номинациям (пример: `"Оскар", "Золотой глобус"`) */
+        "nomination.title"?: string[] | null;
+        /** @description Поиск по наградам (пример: `"Лучший фильм", "Лучший актер"`) */
+        "nomination.award.title"?: string[] | null;
+        /** @description Поиск по году награды (пример: `"2019", "2020"`) */
+        "nomination.award.year"?: string[] | null;
+        /** @description Поиск по победам (пример: `"true", "false"`) */
+        winning?: string[] | null;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PersonAwardDocsResponseDto"];
+        };
+      };
+    };
+  };
+  /**
+   * Поиск студий
+   * @description Этот метод предназначен для поиска студий
+   */
+  StudioController_findManyV1_4: {
+    parameters: {
+      query?: {
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("id" | "subType" | "title" | "type" | "movies")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("id" | "subType" | "title" | "type" | "movies.id")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("id" | "subType" | "title" | "type" | "movies.id")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
+        sortType?: string[];
+        /** @description Поиск по ID KinoPoisk (пример: `"warnerbros", "222", "!666"`) */
+        id?: string[] | null;
+        /** @description Поиск по ID фильма (пример: `"666", "555", "!666"`) */
+        "movies.id"?: string[] | null;
+        /** @description Поиск по типу студии (пример: `"Производство", "Студия дубляжа"`) */
+        type?: string[] | null;
+        /** @description Поиск по типу студии (пример: `"company", "studio"`) */
+        subType?: string[] | null;
+        /** @description Поиск по названию студии (пример: `"Warner Bros.", "!Warner Bros."`) */
+        title?: string[] | null;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["StudioDocsResponseDtoV1_4"];
+        };
+      };
+    };
+  };
+  /**
+   * Поиск ключевых слов
+   * @description Этот метод предназначен для поиска ключевых слов
+   */
+  KeywordController_findManyV1_4: {
+    parameters: {
+      query?: {
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("id" | "movie" | "title")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("id" | "movie.id" | "title")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("id" | "movie.id" | "title")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
+        sortType?: string[];
+        /** @description Поиск ключевого слова по id (пример: `"666", "!666"`) */
         id?: string[];
-        /** @description Тип в базе: `() => String` */
+        /** @description Поиск ключевых слов по id фильма (пример: `"666", "!666"`) */
+        "movie.id"?: string[];
+        /** @description Поиск ключевых слов по наименованию (пример: `"1980-е", "!1980-е"`) */
         title?: string[];
-        /** @description Тип в базе: `() => Number` */
-        "movies.id"?: string[];
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["KeywordDocsResponseDto"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
-      };
-      /** @description Other */
-      default: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
+          "application/json": components["schemas"]["KeywordDocsResponseDtoV1_4"];
         };
       };
     };
   };
-  /** Поиск изображений */
-  ImageController_findManyByQuery: {
+  /**
+   * Поиск картинок
+   * @description Этот метод предназначен для поиска картинок которые привязаны к фильмам и сериалам
+   */
+  ImageController_findManyV1_4: {
     parameters: {
       query?: {
-        /** @description Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию. <br/>Тип в базе: `() => [String]`<br/>Пример: `id name` */
-        selectFields?: string[];
-        /** @description Поля по которым нужно отсортировать. Доступны все любые поля из модели. <br/>Тип в базе: `() => String`<br/>Пример: `year | rating.kp | votes.kp` */
-        sortField?: string[];
-        /** @description Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию. <br/>Тип в базе: `() => [String]`<br/>Пример: `1 | -1` */
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("movieId" | "type" | "language" | "url" | "previewUrl" | "height" | "width")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("movieId" | "type" | "language" | "url" | "previewUrl" | "height" | "width")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("movieId" | "type" | "language" | "url" | "previewUrl" | "height" | "width")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
         sortType?: string[];
-        /** @description Страница выборки. <br/>Тип в базе: `() => Number` */
-        page?: string[];
-        /** @description Количество элементов на странице. <br/>Тип в базе: `() => Number` */
-        limit?: string[];
-        /** @description Тип в базе: `() => Number` */
+        /** @description Поиск картинок по id фильма (пример: `"666", "!666"`) */
         movieId?: string[];
-        /** @description Тип в базе: `() => String` */
-        type?: string[];
-        /** @description Тип в базе: `() => String` */
-        language?: string[];
-        /** @description Тип в базе: `() => String` */
-        url?: string[];
-        /** @description Тип в базе: `() => String` */
-        previewUrl?: string[];
-        /** @description Тип в базе: `() => Number` */
+        /** @description Поиск картинок по типу (пример: `"cover", "!cover"`) */
+        type?: ("backdrops" | "cover" | "frame" | "promo" | "screenshot" | "shooting" | "still" | "wallpaper")[];
+        /** @description Поиск картинок по языку (пример: `"en", "!de"`) */
+        language?: ("ab" | "af" | "am" | "ar" | "as" | "av" | "ba" | "be" | "bg" | "bn" | "ca" | "ce" | "cn" | "cs" | "cu" | "cv" | "da" | "de")[];
+        /** @description Поиск картинок по высоте (пример: `"1920", "360-1920"`) */
         height?: string[];
-        /** @description Тип в базе: `() => Number` */
+        /** @description Поиск картинок по ширине (пример: `"1080", "320-1080"`) */
         width?: string[];
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["ImageDocsResponseDto"];
+          "application/json": components["schemas"]["ImageDocsResponseDtoV1_4"];
         };
       };
-      /** @description Unauthorized */
-      401: {
+    };
+  };
+  /**
+   * Поиск коллекций
+   * @description Этот метод предназначен для поиска коллекций кино
+   */
+  ListController_findManyV1_4: {
+    parameters: {
+      query?: {
+        /** @description Номер страницы */
+        page?: number;
+        /** @description Количество элементов на странице */
+        limit?: number;
+        /** @description Список полей требуемых в ответе из модели */
+        selectFields?: ("category" | "slug" | "moviesCount" | "cover")[];
+        /** @description Список полей которые не должны быть null или пусты */
+        notNullFields?: ("category" | "slug" | "moviesCount" | "cover.url" | "cover.previewUrl")[];
+        /** @description Сортировка по полям из модели */
+        sortField?: ("category" | "slug" | "moviesCount" | "cover.url" | "cover.previewUrl")[];
+        /** @description Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`) */
+        sortType?: string[];
+        /** @description Поиск slug (пример: `"!top-250", "top-250"`) */
+        slug?: string[] | null;
+        /** @description Поиск по категории (пример: `"Фильмы", "!Фильмы"`) */
+        category?: (("Онлайн-кинотеатр" | "Премии" | "Сборы" | "Сериалы" | "Фильмы")[]) | null;
+        /** @description Поиск по количеству фильмов (пример: `"1-200", "10"`) */
+        moviesCount?: string[] | null;
+      };
+    };
+    responses: {
+      200: {
         content: {
-          "application/json": components["schemas"]["UnauthorizedErrorResponseDto"];
+          "application/json": components["schemas"]["ListDocsResponseDtoV1_4"];
         };
       };
-      /** @description Forbidden */
-      403: {
-        content: {
-          "application/json": components["schemas"]["ForbiddenErrorResponseDto"];
-        };
+    };
+  };
+  /**
+   * Поиск коллекции по slug
+   * @description Этот метод предназначен для поиска коллекции кино по slug
+   */
+  ListController_findOneV1_4: {
+    parameters: {
+      path: {
+        slug: string;
       };
-      /** @description Other */
-      default: {
+    };
+    responses: {
+      200: {
         content: {
-          "application/json": components["schemas"]["ErrorResponseDto"];
+          "application/json": components["schemas"]["List"];
         };
       };
     };

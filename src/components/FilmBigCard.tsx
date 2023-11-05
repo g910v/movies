@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
+import { BiBookmark } from 'react-icons/bi'; // BiSolidBookmark
 import Card from './styled/Card';
 import baseTheme from '../styles/theme';
 
