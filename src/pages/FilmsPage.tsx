@@ -7,6 +7,7 @@ import routes from '../shared/routes';
 import TypeFilmCard from '../components/TypeFilmCard';
 import genres from '../shared/genres';
 import countries from '../shared/countries';
+import FilmBigCard from '../components/FilmBigCard';
 
 const Title = styled.div`
   font-size: 3.5rem;
@@ -54,6 +55,9 @@ const FilmsPage: React.FC = () => {
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
       />
+      {
+        selectedItem.key === 1 && (<FilmBigCard />)
+      }
       {
         selectedItem.key === 2 && (<TypeFilmCard types={genres} />)
       }
