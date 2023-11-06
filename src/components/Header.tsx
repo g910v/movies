@@ -1,32 +1,30 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import HeaderMenu from './styled/HeaderMenu';
 import routes from '../shared/routes';
 
 const Header: React.FC = () => {
-  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
 
   const menuItems = useRef([
     {
       label: routes.PREMIERES.name,
-      onclick: () => navigate(routes.PREMIERES.path, { replace: false }),
+      path: routes.PREMIERES.path,
     },
     {
       label: routes.FILMS.name,
-      onclick: () => navigate(routes.FILMS.path, { replace: false }),
+      path: routes.FILMS.path,
     },
     {
       label: routes.SERIES.name,
-      onclick: () => navigate(routes.SERIES.path, { replace: false }),
+      path: routes.SERIES.path,
     },
     {
       label: routes.ACTORS.name,
-      onclick: () => navigate(routes.ACTORS.path, { replace: false }),
+      path: routes.ACTORS.path,
     },
     {
       label: routes.SAVED.name,
-      onclick: () => navigate(routes.SAVED.path, { replace: false }),
+      path: routes.SAVED.path,
     },
   ]);
 

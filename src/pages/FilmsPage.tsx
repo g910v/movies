@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
+import {
+  Outlet,
+} from 'react-router-dom';
 import SelectButton from '../components/styled/SelectButtons';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
-import TypeFilmCard from '../components/TypeFilmCard';
-import genres from '../shared/genres';
-import countries from '../shared/countries';
-import FilmBigCard from '../components/FilmBigCard';
 
 const Title = styled.div`
   font-size: 3.5rem;
@@ -22,22 +21,26 @@ const PageContainer = styled.div`
 `;
 
 const FilmsPage: React.FC = () => {
-  const { uiStore } = useRootStore();
+  const { uiStore, filmsStore } = useRootStore();
   const items = useRef([
     {
       label: 'Топ',
+      short: 'top',
       key: 1,
     },
     {
       label: 'Жанры',
+      short: 'genres',
       key: 2,
     },
     {
       label: 'Годы',
+      short: 'years',
       key: 3,
     },
     {
       label: 'Страны',
+      short: 'countries',
       key: 4,
     },
   ]);
@@ -45,7 +48,8 @@ const FilmsPage: React.FC = () => {
 
   useEffect(() => {
     uiStore.updateDocumentTitle(routes.FILMS.name);
-  }, [uiStore]);
+    filmsStore.fetchFilms();
+  }, [uiStore, filmsStore]);
 
   return (
     <PageContainer>
@@ -55,15 +59,7 @@ const FilmsPage: React.FC = () => {
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
       />
-      {
-        selectedItem.key === 1 && (<FilmBigCard />)
-      }
-      {
-        selectedItem.key === 2 && (<TypeFilmCard types={genres} />)
-      }
-      {
-        selectedItem.key === 4 && (<TypeFilmCard types={countries} />)
-      }
+      <Outlet />
     </PageContainer>
   );
 };

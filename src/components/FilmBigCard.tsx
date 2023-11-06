@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { BiBookmark } from 'react-icons/bi'; // BiSolidBookmark
+import { useLocation } from 'react-router-dom';
 import Card from './styled/Card';
 import baseTheme from '../styles/theme';
 
@@ -40,25 +41,33 @@ const Description = styled.div`
   color: ${baseTheme.colors.textSecondary}
 `;
 
-const FilmBigCard: React.FC = () => (
-  <Card>
-    <Image src="https://thumbs.dfs.ivi.ru/storage31/contents/0/1/d883454fc21f531dd791cf5e84803a.jpg" alt="l" />
-    <TextContainer>
-      <FilmName>Пираты карибского моря</FilmName>
-      <div>
-        <div>Pirates of the Caribbean, 2005, 128 мин.</div>
-        <div>Рейтинг: 9.5</div>
-      </div>
-      <div>
-        <Description>США • приключения, боевик, фэнтези</Description>
-        <Description>Режиссер: Гор Вербински</Description>
-        <Description>В ролях: Джонни Депп, Орландо Блум</Description>
-      </div>
-    </TextContainer>
-    <ActiveContainer>
-      <IconHeart><BiBookmark /></IconHeart>
-    </ActiveContainer>
-  </Card>
-);
+const FilmBigCard: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location);
+  });
+
+  return (
+    <Card>
+      <Image src="https://thumbs.dfs.ivi.ru/storage31/contents/0/1/d883454fc21f531dd791cf5e84803a.jpg" alt="l" />
+      <TextContainer>
+        <FilmName>Пираты карибского моря</FilmName>
+        <div>
+          <div>Pirates of the Caribbean, 2005, 128 мин.</div>
+          <div>Рейтинг: 9.5</div>
+        </div>
+        <div>
+          <Description>США • приключения, боевик, фэнтези</Description>
+          <Description>Режиссер: Гор Вербински</Description>
+          <Description>В ролях: Джонни Депп, Орландо Блум</Description>
+        </div>
+      </TextContainer>
+      <ActiveContainer>
+        <IconHeart><BiBookmark /></IconHeart>
+      </ActiveContainer>
+    </Card>
+  );
+};
 
 export default FilmBigCard;

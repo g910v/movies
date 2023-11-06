@@ -9,7 +9,7 @@ import routes from '../../shared/routes';
 interface Props {
   items: {
     label: string,
-    onclick: () => void,
+    path: string,
   }[],
   inputValue: string,
   onChangeInputValue: React.Dispatch<React.SetStateAction<string>>,
@@ -38,19 +38,21 @@ const Title = styled.div`
   ${textGradient}
 `;
 
-const Item = styled.div`
+const Item = styled(Link)`
   padding: 0.6rem 2%;
   cursor: pointer;
+  color: ${baseTheme.colors.text} !important;
   &:hover {
     ${textGradient}
   }
 `;
 
-const SearchIcon = styled(Item)`
+const SearchIcon = styled.div`
   display: flex;
   place-items: center;
   padding: 0.6rem 1rem;
   font-size: 1.5rem;
+  cursor: pointer;
   &:hover {
     color: ${baseTheme.colors.mix};
   }
@@ -87,7 +89,7 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
             <>
               {
                 items.map(i => (
-                  <Item key={i.label} onClick={i.onclick}>
+                  <Item to={i.path} key={i.label}>
                     {i.label}
                   </Item>
                 ))

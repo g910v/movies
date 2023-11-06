@@ -26,7 +26,7 @@ const TypeFilmCard: React.FC<Props> = ({ types }) => (
   <>
     {
         types.map(t => (
-          <Card>
+          <Card key={t.short}>
             <Image src={t.img} alt="l" />
             <TypeName>{t.name}</TypeName>
           </Card>

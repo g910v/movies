@@ -1,10 +1,12 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
+import { Link } from 'react-router-dom';
 import baseTheme from '../../styles/theme';
 
 interface IItem {
   key: number,
   label: string,
+  short: string,
 }
 interface Props {
   items: IItem[],
@@ -27,7 +29,7 @@ const showSelect = keyframes`
   }
 `;
 
-const StyledButton = styled.div<{ selected: boolean }>`
+const StyledButton = styled(Link)<{ selected: boolean }>`
   position: relative;
   padding: 0.2rem;
   cursor: pointer;
@@ -62,6 +64,7 @@ const SelectButton: React.FC<Props> = ({ items, selectedItem, setSelectedItem })
           onClick={() => setSelectedItem(i)}
           key={i.key}
           selected={i.key === selectedItem.key}
+          to={i.short}
         >
           {i.label}
         </StyledButton>

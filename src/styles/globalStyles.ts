@@ -22,4 +22,9 @@ export default createGlobalStyle`
     width: 100%;
     max-width: 1700px;
   }
+
+  a {
+    color: ${baseTheme.colors.textSecondary};
+    text-decoration: none;
+  }
 `;
