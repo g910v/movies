@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { BiBookmark } from 'react-icons/bi'; // BiSolidBookmark
-import { useLocation } from 'react-router-dom';
 import Card from './styled/Card';
 import baseTheme from '../styles/theme';
+import { IFilm } from '../stores/FilmsStore';
 
 const Image = styled.img`
   width: 7rem;
@@ -14,7 +14,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 11rem;
+  height: 10rem;
 `;
 
 const TextContainer = styled(Container)`
@@ -26,7 +26,7 @@ const ActiveContainer = styled(Container)`
   align-items: end;
 `;
 
-const IconHeart = styled.span`
+const IconSelect = styled.span`
   font-size: 1.8rem;
   padding: 0.3rem 0.3rem 0 0;
   color: ${baseTheme.colors.yellow}
@@ -41,33 +41,39 @@ const Description = styled.div`
   color: ${baseTheme.colors.textSecondary}
 `;
 
-const FilmBigCard: React.FC = () => {
-  const location = useLocation();
+interface Props {
+  film: IFilm,
+}
 
-  useEffect(() => {
-    console.log(location);
-  });
-
-  return (
-    <Card>
-      <Image src="https://thumbs.dfs.ivi.ru/storage31/contents/0/1/d883454fc21f531dd791cf5e84803a.jpg" alt="l" />
-      <TextContainer>
-        <FilmName>Пираты карибского моря</FilmName>
-        <div>
-          <div>Pirates of the Caribbean, 2005, 128 мин.</div>
-          <div>Рейтинг: 9.5</div>
-        </div>
-        <div>
-          <Description>США • приключения, боевик, фэнтези</Description>
-          <Description>Режиссер: Гор Вербински</Description>
-          <Description>В ролях: Джонни Депп, Орландо Блум</Description>
-        </div>
-      </TextContainer>
-      <ActiveContainer>
-        <IconHeart><BiBookmark /></IconHeart>
-      </ActiveContainer>
-    </Card>
-  );
-};
+const FilmBigCard: React.FC<Props> = ({ film }) => (
+  <Card>
+    <Image src={film.poster} alt={film.name} />
+    <TextContainer>
+      <FilmName>{film.name}</FilmName>
+      <div>
+        <div>{film.enName}, {film.year}</div>
+        <div>Рейтинг: {film.rating}</div>
+      </div>
+      <div>
+        <Description>
+          {
+            film.countries.map((f, index, arr) => {
+              const comma = index === arr.length - 1 ? '' : ', ';
+              return f + comma;
+            })
+          } • {
+            film.genres.map((f, index, arr) => {
+              const comma = index === arr.length - 1 ? '' : ', ';
+              return f + comma;
+            })
+          }
+        </Description>
+      </div>
+    </TextContainer>
+    <ActiveContainer>
+      <IconSelect><BiBookmark /></IconSelect>
+    </ActiveContainer>
+  </Card>
+);
 
 export default FilmBigCard;

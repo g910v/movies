@@ -1,21 +1,33 @@
+/* eslint @typescript-eslint/naming-convention: 0 */
+
 import { makeAutoObservable } from 'mobx';
 import type RootStore from './RootStore';
 import api from '../shared/api';
+import { UnoffFilmsQueryParams, UnoffPremiersQueryParams } from '../shared/api/kinopoiskUnofficial/api-methods';
 
-interface IInfo {
-  name?: string,
-}
-interface IFilm {
+export interface IFilm {
   name: string,
   enName: string,
-  rating: number,
-  countries: IInfo[],
-  genres: IInfo[],
+  rating?: number,
+  duration?: number,
+  premiereRu?: string,
+  countries: string[],
+  genres: string[],
   poster: string,
-  actors: string[],
-  director: string[],
   year: number,
-  movieLength: number,
+  kId: number,
+}
+
+export interface IFilters {
+  type: 'FILM' | 'TV_SERIES',
+  genre?: number,
+  country?: number,
+  // year?: string,
+}
+
+export interface IPremiereFiltesr {
+  year: number,
+  month: 'JANUARY' | 'FEBRUARY' | 'MARCH' | 'APRIL' | 'MAY' | 'JUNE' | 'JULY' | 'AUGUST' | 'SEPTEMBER' | 'OCTOBER' | 'NOVEMBER' | 'DECEMBER',
 }
 
 class FilmsStore {
@@ -27,31 +39,69 @@ class FilmsStore {
     makeAutoObservable(this, { rootStore: false });
   }
 
-  public async fetchFilms() {
-    this.filmsLoading = true;
+  public getPremiereFilms(premiereFilters: IPremiereFiltesr) {
+    this.fetchPremieres(premiereFilters);
+  }
+
+  public getFilms(filters: IFilters) {
+    const formattedFilters: UnoffFilmsQueryParams = {
+      order: 'RATING',
+      type: filters.type,
+      genres: filters.genre ? [filters.genre] : undefined,
+      countries: filters.country ? [filters.country] : undefined,
+    };
+    this.fetchFilms(formattedFilters);
+  }
+
+  private async fetchPremieres(filters: UnoffPremiersQueryParams) {
+    this.setFilmLoading(true);
     try {
-      const { data: { docs } } = await api.kinoDev.films.get();
-      this.filmList = docs.map(f => {
-        const actors = f.persons?.filter(p => p.enProfession === 'actor').map(p => p.name).slice(0, 3);
-        const directors = f.persons?.filter(p => p.enProfession === 'director').map(p => p.name).slice(0, 3);
-        return {
-          name: f.name ?? '',
-          enName: f.alternativeName ?? '',
-          rating: f.rating?.imdb ?? 0,
-          countries: f.countries ?? [],
-          genres: f.genres ?? [],
-          poster: f.poster?.url ?? '',
-          actors: actors as string[],
-          director: directors as string[],
-          year: f.year ?? 0,
-          movieLength: f.movieLength ?? 0,
-        };
-      });
-      console.log(this.filmList);
+      const { data: { items } } = await api.kinoUnoff.premiers.get(filters);
+      const newData = items.map(f => ({
+        name: f.nameRu ?? '',
+        enName: f.nameEn ?? '',
+        premiereRu: f.premiereRu ?? '',
+        duration: f.duration ?? undefined,
+        countries: f.countries?.slice(0, 3).map(i => i.country) ?? [],
+        genres: f.genres?.slice(0, 3).map(i => i.genre) ?? [],
+        poster: f.posterUrl ?? '',
+        year: f.year ?? 0,
+        kId: f.kinopoiskId ?? 0,
+      }));
+      this.setFilmList(newData);
     } catch (error) {
       console.log(error);
     }
-    this.filmsLoading = false;
+    this.setFilmLoading(false);
+  }
+
+  private async fetchFilms(filters: UnoffFilmsQueryParams) {
+    this.setFilmLoading(true);
+    try {
+      const { data: { items } } = await api.kinoUnoff.films.get(filters);
+      const newData = items.map(f => ({
+        name: f.nameRu ?? '',
+        enName: f.nameOriginal ?? f.nameEn ?? '',
+        rating: f.ratingKinopoisk ?? f.ratingImdb ?? 0,
+        countries: f.countries?.slice(0, 3).map(i => i.country) ?? [],
+        genres: f.genres?.slice(0, 3).map(i => i.genre) ?? [],
+        poster: f.posterUrl ?? '',
+        year: f.year ?? 0,
+        kId: f.kinopoiskId ?? 0,
+      }));
+      this.setFilmList(newData);
+    } catch (error) {
+      console.log(error);
+    }
+    this.setFilmLoading(false);
+  }
+
+  private setFilmList(newData: IFilm[]): void {
+    this.filmList = newData;
+  }
+
+  private setFilmLoading(loading: boolean): void {
+    this.filmsLoading = loading;
   }
 }
 
