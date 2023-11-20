@@ -3,7 +3,7 @@
 import { makeAutoObservable } from 'mobx';
 import type RootStore from './RootStore';
 import api from '../shared/api';
-import { UnoffFilmsQueryParams, UnoffPremiersQueryParams } from '../shared/api/kinopoiskUnofficial/api-methods';
+import { UnoffCollectionsQueryParams, UnoffFilmsQueryParams, UnoffPremiersQueryParams } from '../shared/api/kinopoiskUnofficial/api-methods';
 
 export interface IFilm {
   name: string,
@@ -25,7 +25,11 @@ export interface IFilters {
   // year?: string,
 }
 
-export interface IPremiereFiltesr {
+export interface ITopFilters {
+  type: 'TOP_250_TV_SHOWS' | 'TOP_250_MOVIES'
+}
+
+export interface IPremiereFilters {
   year: number,
   month: 'JANUARY' | 'FEBRUARY' | 'MARCH' | 'APRIL' | 'MAY' | 'JUNE' | 'JULY' | 'AUGUST' | 'SEPTEMBER' | 'OCTOBER' | 'NOVEMBER' | 'DECEMBER',
 }
@@ -39,18 +43,8 @@ class FilmsStore {
     makeAutoObservable(this, { rootStore: false });
   }
 
-  public getPremiereFilms(premiereFilters: IPremiereFiltesr) {
+  public getPremiereFilms(premiereFilters: IPremiereFilters) {
     this.fetchPremieres(premiereFilters);
-  }
-
-  public getFilms(filters: IFilters) {
-    const formattedFilters: UnoffFilmsQueryParams = {
-      order: 'RATING',
-      type: filters.type,
-      genres: filters.genre ? [filters.genre] : undefined,
-      countries: filters.country ? [filters.country] : undefined,
-    };
-    this.fetchFilms(formattedFilters);
   }
 
   private async fetchPremieres(filters: UnoffPremiersQueryParams) {
@@ -73,6 +67,42 @@ class FilmsStore {
       console.log(error);
     }
     this.setFilmLoading(false);
+  }
+
+  public getTopMovies(filter: ITopFilters) {
+    this.fetchTopFilms({ ...filter, page: 1 });
+  }
+
+  private async fetchTopFilms(filters: UnoffCollectionsQueryParams) {
+    this.setFilmLoading(true);
+    try {
+      const { data: { items } } = await api.kinoUnoff.collections.get(filters);
+      const newData = items.map(f => ({
+        name: f.nameRu ?? '',
+        enName: f.nameOriginal ?? f.nameEn ?? '',
+        rating: f.ratingKinopoisk ?? 0,
+        countries: f.countries?.slice(0, 3).map(i => i.country) ?? [],
+        genres: f.genres?.slice(0, 3).map(i => i.genre) ?? [],
+        poster: f.posterUrl ?? '',
+        year: f.year as unknown as number ?? 0,
+        kId: f.kinopoiskId ?? 0,
+      }));
+      this.setFilmList(newData);
+    } catch (error) {
+      console.log(error);
+    }
+    this.setFilmLoading(false);
+  }
+
+  public getFilms(filters: IFilters) {
+    const formattedFilters: UnoffFilmsQueryParams = {
+      order: 'RATING',
+      type: filters.type,
+      genres: filters.genre ? [filters.genre] : undefined,
+      countries: filters.country ? [filters.country] : undefined,
+      page: 1,
+    };
+    this.fetchFilms(formattedFilters);
   }
 
   private async fetchFilms(filters: UnoffFilmsQueryParams) {

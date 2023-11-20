@@ -9,6 +9,9 @@ export type UnoffFilmsQueryParams = GetQueryParams<'/api/v2.2/films'>
 export type UnoffPremiersGetResponse = GetResponse<'/api/v2.2/films/premieres'>
 export type UnoffPremiersQueryParams = GetQueryParams<'/api/v2.2/films/premieres'>
 
+export type UnoffCollectionsGetResponse = GetResponse<'/api/v2.2/films/collections'>
+export type UnoffCollectionsQueryParams = GetQueryParams<'/api/v2.2/films/collections'>
+
 const kinoUnoffAxios = axios.create({
   baseURL: API_URL,
   headers: {
@@ -42,6 +45,9 @@ const kinoUnoff = {
   },
   premiers: {
     get: (query: UnoffPremiersQueryParams): Response<UnoffPremiersGetResponse> => kinoUnoffAxios.get('/v2.2/films/premieres', { params: query }),
+  },
+  collections: {
+    get: (query: UnoffCollectionsQueryParams): Response<UnoffCollectionsGetResponse> => kinoUnoffAxios.get('/v2.2/films/collections', { params: query }),
   },
 };
 

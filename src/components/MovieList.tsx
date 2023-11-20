@@ -30,21 +30,28 @@ const EmptyFilmList = styled.div`
 
 interface Props {
   type: 'FILM' | 'TV_SERIES',
+  isTop?: boolean,
 }
 
-const MovieList: React.FC<Props> = ({ type }) => {
+const MovieList: React.FC<Props> = ({ type, isTop }) => {
   const { filmsStore } = useRootStore();
   const params = useParams();
 
   useEffect(() => {
-    const genre = genres.find(i => i.short === params.genre);
-    const country = countries.find(i => i.short === params.country);
-    filmsStore.getFilms({
-      type,
-      genre: genre?.id,
-      country: country?.id,
-    });
-  }, [filmsStore, params, type]);
+    if (isTop) {
+      filmsStore.getTopMovies({
+        type: type === 'FILM' ? 'TOP_250_MOVIES' : 'TOP_250_TV_SHOWS',
+      });
+    } else {
+      const genre = genres.find(i => i.short === params.genre);
+      const country = countries.find(i => i.short === params.country);
+      filmsStore.getFilms({
+        type,
+        genre: genre?.id,
+        country: country?.id,
+      });
+    }
+  }, [filmsStore, params, type, isTop]);
 
   return (
     <Container>

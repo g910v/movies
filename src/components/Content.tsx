@@ -34,7 +34,7 @@ const Content: React.FC = () => (
         <Route index element={<Navigate to={routes.PREMIERES.path} />} />
         <Route path={routes.PREMIERES.path} element={<PremieresPage />} />
         <Route path={`${routes.FILMS.path}/*`} element={<FilmsPage />}>
-          <Route path="top" element={<MovieList type="FILM" />} />
+          <Route path="top" element={<MovieList type="FILM" isTop />} />
           <Route path="genres" element={<TypeFilmCard types={genres} />} />
           <Route path="genres/:genre" element={<MovieList type="FILM" />} />
           <Route path="countries" element={<TypeFilmCard types={countries} />} />
