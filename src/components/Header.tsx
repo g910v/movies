@@ -12,7 +12,7 @@ const Header: React.FC = () => {
     },
     {
       label: routes.FILMS.name,
-      path: routes.FILMS.path,
+      path: `${routes.FILMS.path}/top`,
     },
     {
       label: routes.SERIES.name,

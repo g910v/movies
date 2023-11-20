@@ -8,33 +8,39 @@ import korea from '../assets/countries/korea.webp';
 const countries = [
   {
     name: 'Россия',
-    short: '2',
+    short: 'ru',
     img: ru,
+    id: 34,
   },
   {
     name: 'СССР',
-    short: '13',
+    short: 'sssr',
     img: sssr,
+    id: 33,
   },
   {
     name: 'США',
-    short: '1',
+    short: 'usa',
     img: usa,
+    id: 1,
   },
   {
     name: 'Великобритания',
-    short: '11',
+    short: 'en',
     img: en,
+    id: 5,
   },
   {
     name: 'Франция',
-    short: '8',
+    short: 'fr',
     img: fr,
+    id: 3,
   },
   {
     name: 'Южная Корея',
-    short: '26',
+    short: 'korea',
     img: korea,
+    id: 49,
   },
 ];
 

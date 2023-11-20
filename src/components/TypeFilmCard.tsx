@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Card from './styled/Card';
 
 interface Props {
@@ -22,17 +23,20 @@ const TypeName = styled.div`
   font-weight: 200;
 `;
 
-const TypeFilmCard: React.FC<Props> = ({ types }) => (
-  <>
-    {
+const TypeFilmCard: React.FC<Props> = ({ types }) => {
+  const navigate = useNavigate();
+  return (
+    <>
+      {
         types.map(t => (
-          <Card key={t.short}>
-            <Image src={t.img} alt="l" />
+          <Card key={t.short} onClick={() => navigate(`${t.short}`, { replace: false })}>
+            <Image src={t.img} alt="poster" />
             <TypeName>{t.name}</TypeName>
           </Card>
         ))
       }
-  </>
-);
+    </>
+  );
+};
 
 export default TypeFilmCard;

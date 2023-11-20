@@ -59,7 +59,7 @@ const SearchIcon = styled.div`
 `;
 
 const SearchInput = styled.div`
-  width: 40%;
+  width: 50%;
   display: flex;
 `;
 

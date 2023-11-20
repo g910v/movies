@@ -21,7 +21,7 @@ const PageContainer = styled.div`
 `;
 
 const FilmsPage: React.FC = () => {
-  const { uiStore, filmsStore } = useRootStore();
+  const { uiStore } = useRootStore();
   const items = useRef([
     {
       label: 'Топ',
@@ -33,11 +33,11 @@ const FilmsPage: React.FC = () => {
       short: 'genres',
       key: 2,
     },
-    {
-      label: 'Годы',
-      short: 'years',
-      key: 3,
-    },
+    // {
+    //   label: 'Годы',
+    //   short: 'years',
+    //   key: 3,
+    // },
     {
       label: 'Страны',
       short: 'countries',
@@ -48,8 +48,7 @@ const FilmsPage: React.FC = () => {
 
   useEffect(() => {
     uiStore.updateDocumentTitle(routes.FILMS.name);
-    filmsStore.fetchFilms();
-  }, [uiStore, filmsStore]);
+  }, [uiStore]);
 
   return (
     <PageContainer>

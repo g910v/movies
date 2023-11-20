@@ -5,11 +5,11 @@ import {
 import styled from 'styled-components';
 import routes from '../shared/routes';
 import Spinner from './styled/Spinner';
-import FilmBigCard from './FilmBigCard';
 import TypeFilmCard from './TypeFilmCard';
 import genres from '../shared/genres';
 import countries from '../shared/countries';
 import Layout from './Layout';
+import MovieList from './MovieList';
 
 const FilmsPage = lazy(() => import('../pages/FilmsPage'));
 const SeriesPage = lazy(() => import('../pages/SeriesPage'));
@@ -34,9 +34,11 @@ const Content: React.FC = () => (
         <Route index element={<Navigate to={routes.PREMIERES.path} />} />
         <Route path={routes.PREMIERES.path} element={<PremieresPage />} />
         <Route path={`${routes.FILMS.path}/*`} element={<FilmsPage />}>
-          <Route path="top" element={<FilmBigCard />} />
-          <Route path="genres/*" element={<TypeFilmCard types={genres} />} />
-          <Route path="countries/*" element={<TypeFilmCard types={countries} />} />
+          <Route path="top" element={<MovieList type="FILM" />} />
+          <Route path="genres" element={<TypeFilmCard types={genres} />} />
+          <Route path="genres/:genre" element={<MovieList type="FILM" />} />
+          <Route path="countries" element={<TypeFilmCard types={countries} />} />
+          <Route path="countries/:country" element={<MovieList type="FILM" />} />
         </Route>
         <Route path={routes.SERIES.path} element={<SeriesPage />} />
       </Route>
