@@ -1,6 +1,6 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import baseTheme from '../../styles/theme';
 
 interface IItem {
@@ -10,14 +10,11 @@ interface IItem {
 }
 interface Props {
   items: IItem[],
-  selectedItem: IItem,
-  setSelectedItem: React.Dispatch<React.SetStateAction<IItem>>,
 }
 
 const Container = styled.div`
   display: flex;
   column-gap: 1.5rem;
-  margin-bottom: 1rem;
 `;
 
 const showSelect = keyframes`
@@ -29,41 +26,39 @@ const showSelect = keyframes`
   }
 `;
 
-const StyledButton = styled(Link)<{ selected: boolean }>`
+const StyledButton = styled(NavLink)`
   position: relative;
   padding: 0.2rem;
   cursor: pointer;
-  color: ${props => (!props.selected ? baseTheme.colors.textSecondary : baseTheme.colors.text)};
+  &.active {
+    color: ${baseTheme.colors.text}
+  }
+  color: ${baseTheme.colors.textSecondary};
   &:hover {
     color: ${baseTheme.colors.text};
   }
-  ${props => (
-    props.selected && css`
-      &:after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -3px;
-        width: 100%;
-        height: 3px;
-        border-radius: 3px;
-        background: ${baseTheme.colors.gradient};
-        animation: ${showSelect} 0.5s linear;
-      }
-    `
-  )}
-
+  &.active {
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 3px;
+      border-radius: 3px;
+      background: ${baseTheme.colors.gradient};
+      animation: ${showSelect} 0.5s linear;
+    }
+  }
 `;
 
-const SelectButton: React.FC<Props> = ({ items, selectedItem, setSelectedItem }) => (
+const SelectButton: React.FC<Props> = ({ items }) => (
   <Container>
     {
       items.map(i => (
         <StyledButton
-          onClick={() => setSelectedItem(i)}
           key={i.key}
-          selected={i.key === selectedItem.key}
           to={i.short}
         >
           {i.label}

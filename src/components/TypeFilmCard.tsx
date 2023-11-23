@@ -23,16 +23,24 @@ const TypeName = styled.div`
   font-weight: 200;
 `;
 
+const TypeContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
 const TypeFilmCard: React.FC<Props> = ({ types }) => {
   const navigate = useNavigate();
   return (
     <>
       {
         types.map(t => (
-          <Card key={t.short} onClick={() => navigate(`${t.short}`, { replace: false })}>
-            <Image src={t.img} alt="poster" />
-            <TypeName>{t.name}</TypeName>
-          </Card>
+          <TypeContainer>
+            <Card key={t.short} onClick={() => navigate(`${t.short}`, { replace: false })}>
+              <Image src={t.img} alt="poster" />
+              <TypeName>{t.name}</TypeName>
+            </Card>
+          </TypeContainer>
+
         ))
       }
     </>

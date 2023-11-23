@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import {
-  Outlet,
+  Outlet, useNavigate,
 } from 'react-router-dom';
+import { BiLeftArrowAlt } from 'react-icons/bi';
 import SelectButton from '../components/styled/SelectButtons';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
+import baseTheme from '../styles/theme';
 
 const Title = styled.div`
   font-size: 3.5rem;
@@ -20,8 +22,26 @@ const PageContainer = styled.div`
   padding: 3rem;
 `;
 
+const MenuContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 0.7rem;
+`;
+
+const BackIcon = styled.div`
+  font-size: 1.7rem;
+  padding-top: 0.5rem;
+  cursor: pointer;
+  &:hover {
+    color: ${baseTheme.colors.mix};
+  }
+`;
+
 const FilmsPage: React.FC = () => {
   const { uiStore } = useRootStore();
+  const navigate = useNavigate();
   const items = useRef([
     {
       label: 'Топ',
@@ -44,7 +64,6 @@ const FilmsPage: React.FC = () => {
       key: 4,
     },
   ]);
-  const [selectedItem, setSelectedItem] = useState(items.current[0]);
 
   useEffect(() => {
     uiStore.updateDocumentTitle(routes.FILMS.name);
@@ -53,11 +72,14 @@ const FilmsPage: React.FC = () => {
   return (
     <PageContainer>
       <Title>{routes.FILMS.name}</Title>
-      <SelectButton
-        items={items.current}
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-      />
+      <MenuContainer>
+        <SelectButton
+          items={items.current}
+        />
+        <BackIcon onClick={() => navigate(-1)}>
+          <BiLeftArrowAlt />
+        </BackIcon>
+      </MenuContainer>
       <Outlet />
     </PageContainer>
   );

@@ -39,14 +39,14 @@ const genres = [
     id: 11,
   },
   {
-    name: 'Мелодраммы',
+    name: 'Мелодрамы',
     short: 'romance',
     img: dram,
     id: 4,
   },
   {
-    name: 'Драмма',
-    short: 'romance',
+    name: 'Драма',
+    short: 'drama',
     img: dram,
     id: 2,
   },
