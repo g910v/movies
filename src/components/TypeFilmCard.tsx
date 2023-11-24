@@ -34,8 +34,8 @@ const TypeFilmCard: React.FC<Props> = ({ types }) => {
     <>
       {
         types.map(t => (
-          <TypeContainer>
-            <Card key={t.short} onClick={() => navigate(`${t.short}`, { replace: false })}>
+          <TypeContainer key={t.short}>
+            <Card onClick={() => navigate(`${t.short}`, { replace: false })}>
               <Image src={t.img} alt="poster" />
               <TypeName>{t.name}</TypeName>
             </Card>

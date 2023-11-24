@@ -10,6 +10,7 @@ import genres from '../shared/genres';
 import countries from '../shared/countries';
 import Layout from './Layout';
 import MovieList from './MovieList';
+import years from '../shared/years';
 
 const FilmsPage = lazy(() => import('../pages/FilmsPage'));
 const SeriesPage = lazy(() => import('../pages/SeriesPage'));
@@ -37,6 +38,8 @@ const Content: React.FC = () => (
           <Route path="top" element={<MovieList type="FILM" isTop />} />
           <Route path="genres" element={<TypeFilmCard types={genres} />} />
           <Route path="genres/:genre" element={<MovieList type="FILM" />} />
+          <Route path="years" element={<TypeFilmCard types={years} />} />
+          <Route path="years/:year" element={<MovieList type="FILM" />} />
           <Route path="countries" element={<TypeFilmCard types={countries} />} />
           <Route path="countries/:country" element={<MovieList type="FILM" />} />
         </Route>

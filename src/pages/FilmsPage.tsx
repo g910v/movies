@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import {
-  Outlet, useNavigate,
+  Outlet, useNavigate, useParams,
 } from 'react-router-dom';
 import { BiLeftArrowAlt } from 'react-icons/bi';
 import SelectButton from '../components/styled/SelectButtons';
@@ -42,6 +42,7 @@ const BackIcon = styled.div`
 const FilmsPage: React.FC = () => {
   const { uiStore } = useRootStore();
   const navigate = useNavigate();
+  const params = useParams();
   const items = useRef([
     {
       label: 'Топ',
@@ -53,11 +54,11 @@ const FilmsPage: React.FC = () => {
       short: 'genres',
       key: 2,
     },
-    // {
-    //   label: 'Годы',
-    //   short: 'years',
-    //   key: 3,
-    // },
+    {
+      label: 'Годы',
+      short: 'years',
+      key: 3,
+    },
     {
       label: 'Страны',
       short: 'countries',
@@ -76,9 +77,13 @@ const FilmsPage: React.FC = () => {
         <SelectButton
           items={items.current}
         />
-        <BackIcon onClick={() => navigate(-1)}>
-          <BiLeftArrowAlt />
-        </BackIcon>
+        {
+          (!!params.genre || !!params.country || !!params.year) && (
+            <BackIcon onClick={() => navigate(-1)}>
+              <BiLeftArrowAlt />
+            </BackIcon>
+          )
+        }
       </MenuContainer>
       <Outlet />
     </PageContainer>

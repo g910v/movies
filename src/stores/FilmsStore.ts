@@ -22,7 +22,7 @@ export interface IFilters {
   type: 'FILM' | 'TV_SERIES',
   genre?: number,
   country?: number,
-  // year?: string,
+  year?: number,
 }
 
 export interface ITopFilters {
@@ -95,13 +95,39 @@ class FilmsStore {
   }
 
   public getFilms(filters: IFilters) {
+    let startYear;
+    let endYear;
+    switch (filters.year) {
+      case 2010:
+        startYear = 2010;
+        endYear = 2014;
+        break;
+      case 2000:
+        startYear = 2000;
+        endYear = 2009;
+        break;
+      case 1990:
+        startYear = 1990;
+        endYear = 1999;
+        break;
+      case 1980:
+        startYear = 1980;
+        endYear = 1989;
+        break;
+      default:
+        startYear = filters.year;
+        endYear = filters.year;
+    }
     const formattedFilters: UnoffFilmsQueryParams = {
       order: 'RATING',
       type: filters.type,
       genres: filters.genre ? [filters.genre] : undefined,
       countries: filters.country ? [filters.country] : undefined,
       page: 1,
+      yearFrom: startYear,
+      yearTo: endYear,
     };
+    console.log(formattedFilters, filters.year);
     this.fetchFilms(formattedFilters);
   }
 

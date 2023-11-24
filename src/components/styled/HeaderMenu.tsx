@@ -80,7 +80,7 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
         searchVisible
           ? (
             <SearchInput>
-              <Input placeholder="Поиск" value={inputValue} onChange={e => onChangeInputValue(e.target.value)} />
+              <Input placeholder="Поиск фильмов и сериалов" value={inputValue} onChange={e => onChangeInputValue(e.target.value)} />
               <SearchIcon onClick={closeSearch}>
                 <BiX />
               </SearchIcon>

@@ -49,6 +49,7 @@ const MovieList: React.FC<Props> = ({ type, isTop }) => {
         type,
         genre: genre?.id,
         country: country?.id,
+        year: params.year ? Number(params.year) : undefined,
       });
     }
   }, [filmsStore, params, type, isTop]);
