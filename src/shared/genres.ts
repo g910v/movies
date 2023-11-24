@@ -1,10 +1,11 @@
 import comedy from '../assets/genres/comedy.jpg';
 import horror from '../assets/genres/horror.jpg';
 import fant from '../assets/genres/fantastika.jpg';
-import trillers from '../assets/genres/trillers.jpg';
+import trillers from '../assets/genres/triller.jpeg';
 import action from '../assets/genres/action.jpg';
 import mystery from '../assets/genres/detective.jpg';
-import dram from '../assets/genres/dram.jpg';
+import romance from '../assets/genres/romance.jpg';
+import drama from '../assets/genres/drama.png';
 import adv from '../assets/genres/adv.jpg';
 
 const genres = [
@@ -41,13 +42,13 @@ const genres = [
   {
     name: 'Мелодрамы',
     short: 'romance',
-    img: dram,
+    img: romance,
     id: 4,
   },
   {
     name: 'Драма',
     short: 'drama',
-    img: dram,
+    img: drama,
     id: 2,
   },
   {

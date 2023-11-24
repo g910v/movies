@@ -14,7 +14,7 @@ interface Props {
 const Image = styled.img`
   height: 7rem;
   width: 7rem;
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
 const TypeName = styled.div`

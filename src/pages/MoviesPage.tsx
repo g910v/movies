@@ -7,7 +7,6 @@ import {
 import { BiLeftArrowAlt } from 'react-icons/bi';
 import SelectButton from '../components/styled/SelectButtons';
 import { useRootStore } from '../hooks';
-import routes from '../shared/routes';
 import baseTheme from '../styles/theme';
 
 const Title = styled.div`
@@ -39,7 +38,11 @@ const BackIcon = styled.div`
   }
 `;
 
-const FilmsPage: React.FC = () => {
+interface Props {
+  pageName: string,
+}
+
+const MoviesPage: React.FC<Props> = ({ pageName }) => {
   const { uiStore } = useRootStore();
   const navigate = useNavigate();
   const params = useParams();
@@ -67,12 +70,12 @@ const FilmsPage: React.FC = () => {
   ]);
 
   useEffect(() => {
-    uiStore.updateDocumentTitle(routes.FILMS.name);
-  }, [uiStore]);
+    uiStore.updateDocumentTitle(pageName);
+  }, [uiStore, pageName]);
 
   return (
     <PageContainer>
-      <Title>{routes.FILMS.name}</Title>
+      <Title>{pageName}</Title>
       <MenuContainer>
         <SelectButton
           items={items.current}
@@ -90,4 +93,4 @@ const FilmsPage: React.FC = () => {
   );
 };
 
-export default observer(FilmsPage);
+export default observer(MoviesPage);

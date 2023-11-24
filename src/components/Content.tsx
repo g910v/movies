@@ -12,8 +12,7 @@ import Layout from './Layout';
 import MovieList from './MovieList';
 import years from '../shared/years';
 
-const FilmsPage = lazy(() => import('../pages/FilmsPage'));
-const SeriesPage = lazy(() => import('../pages/SeriesPage'));
+const MoviesPage = lazy(() => import('../pages/MoviesPage'));
 const PremieresPage = lazy(() => import('../pages/PremieresPage'));
 
 const SpinContainer = styled.div`
@@ -22,6 +21,18 @@ const SpinContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const pageComponent = (type: 'FILM' | 'TV_SERIES') => (
+  <>
+    <Route path="top" element={<MovieList type={type} isTop />} />
+    <Route path="genres" element={<TypeFilmCard types={genres} />} />
+    <Route path="genres/:genre" element={<MovieList type={type} />} />
+    <Route path="years" element={<TypeFilmCard types={years} />} />
+    <Route path="years/:year" element={<MovieList type={type} />} />
+    <Route path="countries" element={<TypeFilmCard types={countries} />} />
+    <Route path="countries/:country" element={<MovieList type={type} />} />
+  </>
+);
 
 const Content: React.FC = () => (
   <Suspense fallback={(
@@ -34,16 +45,12 @@ const Content: React.FC = () => (
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate to={routes.PREMIERES.path} />} />
         <Route path={routes.PREMIERES.path} element={<PremieresPage />} />
-        <Route path={`${routes.FILMS.path}/*`} element={<FilmsPage />}>
-          <Route path="top" element={<MovieList type="FILM" isTop />} />
-          <Route path="genres" element={<TypeFilmCard types={genres} />} />
-          <Route path="genres/:genre" element={<MovieList type="FILM" />} />
-          <Route path="years" element={<TypeFilmCard types={years} />} />
-          <Route path="years/:year" element={<MovieList type="FILM" />} />
-          <Route path="countries" element={<TypeFilmCard types={countries} />} />
-          <Route path="countries/:country" element={<MovieList type="FILM" />} />
+        <Route path={`${routes.FILMS.path}/*`} element={<MoviesPage pageName={routes.FILMS.name} />}>
+          {pageComponent('FILM')}
         </Route>
-        <Route path={routes.SERIES.path} element={<SeriesPage />} />
+        <Route path={routes.SERIES.path} element={<MoviesPage pageName={routes.SERIES.name} />}>
+          {pageComponent('TV_SERIES')}
+        </Route>
       </Route>
     </Routes>
   </Suspense>

@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     },
     {
       label: routes.SERIES.name,
-      path: routes.SERIES.path,
+      path: `${routes.SERIES.path}/top`,
     },
     {
       label: routes.ACTORS.name,
