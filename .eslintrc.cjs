@@ -68,6 +68,7 @@ module.exports = {
         "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
       }
     ],
+    "no-nested-ternary": "off",
     "default-param-last": "off",
     "object-shorthand": "warn",
     "no-underscore-dangle": "off",

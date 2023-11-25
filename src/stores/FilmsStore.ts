@@ -19,7 +19,7 @@ export interface IFilm {
 }
 
 export interface IFilters {
-  type: 'FILM' | 'TV_SERIES',
+  type: 'FILM' | 'TV_SERIES' | 'PREMIERES',
   genre?: number,
   country?: number,
   year?: number,
@@ -29,10 +29,7 @@ export interface ITopFilters {
   type: 'TOP_250_TV_SHOWS' | 'TOP_250_MOVIES'
 }
 
-export interface IPremiereFilters {
-  year: number,
-  month: 'JANUARY' | 'FEBRUARY' | 'MARCH' | 'APRIL' | 'MAY' | 'JUNE' | 'JULY' | 'AUGUST' | 'SEPTEMBER' | 'OCTOBER' | 'NOVEMBER' | 'DECEMBER',
-}
+export interface IPremiereFilters extends UnoffPremiersQueryParams {}
 
 class FilmsStore {
   filmList: IFilm[] = [];
@@ -49,6 +46,7 @@ class FilmsStore {
 
   private async fetchPremieres(filters: UnoffPremiersQueryParams) {
     this.setFilmLoading(true);
+    this.filmList = [];
     try {
       const { data: { items } } = await api.kinoUnoff.premiers.get(filters);
       const newData = items.map(f => ({
@@ -75,6 +73,7 @@ class FilmsStore {
 
   private async fetchTopFilms(filters: UnoffCollectionsQueryParams) {
     this.setFilmLoading(true);
+    this.filmList = [];
     try {
       const { data: { items } } = await api.kinoUnoff.collections.get(filters);
       const newData = items.map(f => ({
@@ -95,6 +94,10 @@ class FilmsStore {
   }
 
   public getFilms(filters: IFilters) {
+    if (filters.type === 'PREMIERES') {
+      //
+      return;
+    }
     let startYear;
     let endYear;
     switch (filters.year) {
@@ -133,6 +136,7 @@ class FilmsStore {
 
   private async fetchFilms(filters: UnoffFilmsQueryParams) {
     this.setFilmLoading(true);
+    this.filmList = [];
     try {
       const { data: { items } } = await api.kinoUnoff.films.get(filters);
       const newData = items.map(f => ({

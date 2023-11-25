@@ -28,10 +28,17 @@ const TypeContainer = styled.div`
   display: flex;
 `;
 
+const TypeList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 1rem;
+  margin-top: 0.7rem;
+`;
+
 const TypeFilmCard: React.FC<Props> = ({ types }) => {
   const navigate = useNavigate();
   return (
-    <>
+    <TypeList>
       {
         types.map(t => (
           <TypeContainer key={t.short}>
@@ -43,7 +50,7 @@ const TypeFilmCard: React.FC<Props> = ({ types }) => {
 
         ))
       }
-    </>
+    </TypeList>
   );
 };
 

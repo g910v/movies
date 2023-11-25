@@ -7,6 +7,7 @@ import FilmBigCard from './FilmBigCard';
 import Spinner from './styled/Spinner';
 import genres from '../shared/genres';
 import countries from '../shared/countries';
+import { IPremiereFilters } from '../stores/FilmsStore';
 
 const Container = styled.div`
   display: flex;
@@ -29,11 +30,12 @@ const EmptyFilmList = styled.div`
 `;
 
 interface Props {
-  type: 'FILM' | 'TV_SERIES',
+  type: 'FILM' | 'TV_SERIES' | 'PREMIERES',
   isTop?: boolean,
+  premiereFilters?: IPremiereFilters,
 }
 
-const MovieList: React.FC<Props> = ({ type, isTop }) => {
+const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
   const { filmsStore } = useRootStore();
   const params = useParams();
 
@@ -42,6 +44,8 @@ const MovieList: React.FC<Props> = ({ type, isTop }) => {
       filmsStore.getTopMovies({
         type: type === 'FILM' ? 'TOP_250_MOVIES' : 'TOP_250_TV_SHOWS',
       });
+    } else if (type === 'PREMIERES' && premiereFilters) {
+      filmsStore.getPremiereFilms(premiereFilters);
     } else {
       const genre = genres.find(i => i.short === params.genre);
       const country = countries.find(i => i.short === params.country);
@@ -52,7 +56,7 @@ const MovieList: React.FC<Props> = ({ type, isTop }) => {
         year: params.year ? Number(params.year) : undefined,
       });
     }
-  }, [filmsStore, params, type, isTop]);
+  }, [filmsStore, params, type, isTop, premiereFilters]);
 
   return (
     <Container>

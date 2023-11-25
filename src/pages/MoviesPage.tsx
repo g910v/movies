@@ -9,12 +9,12 @@ import SelectButton from '../components/styled/SelectButtons';
 import { useRootStore } from '../hooks';
 import baseTheme from '../styles/theme';
 
-const Title = styled.div`
+export const Title = styled.div`
   font-size: 3.5rem;
   font-weight: 200;
 `;
 
-const PageContainer = styled.div`
+export const PageContainer = styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -27,11 +27,11 @@ const MenuContainer = styled.div`
   width: 100%;
   align-items: center;
   margin-bottom: 0.7rem;
+  height: 3rem;
 `;
 
 const BackIcon = styled.div`
   font-size: 1.7rem;
-  padding-top: 0.5rem;
   cursor: pointer;
   &:hover {
     color: ${baseTheme.colors.mix};

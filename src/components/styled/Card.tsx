@@ -25,7 +25,6 @@ const Card = styled.div`
   border-radius: 5px;
   backdrop-filter: blur(60px);
   cursor: pointer;
-  margin: 1rem 0rem 1rem;
   display: flex;
   align-items: center;
 
