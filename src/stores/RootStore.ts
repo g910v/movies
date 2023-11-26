@@ -13,6 +13,7 @@ class RootStore {
     this.uiStore = new UiStore(this);
     this.uiStore.init();
     this.filmsStore = new FilmsStore(this);
+    this.filmsStore.init();
     this.actorStote = new ActorsStore(this);
   }
 }

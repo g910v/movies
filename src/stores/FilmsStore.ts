@@ -16,6 +16,7 @@ export interface IFilm {
   poster: string,
   year: number,
   kId: number,
+  saved: boolean,
 }
 
 export interface IFilters {
@@ -34,10 +35,45 @@ export interface IPremiereFilters extends UnoffPremiersQueryParams {}
 class FilmsStore {
   filmList: IFilm[] = [];
 
+  savedFilms: IFilm[] = [];
+
   filmsLoading = false;
 
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
+  }
+
+  init(): void {
+    const films = JSON.parse(localStorage.getItem('saved') ?? '[]');
+    this.savedFilms = films;
+  }
+
+  public changeSavedFilms(film: IFilm, add: boolean) {
+    const currentFilm = this.filmList.find(i => i.kId === film.kId);
+    if (currentFilm) currentFilm.saved = !currentFilm.saved;
+    if (add) {
+      this.addSavedFilm(film);
+    } else {
+      this.removeSavedFilm(film.kId);
+    }
+  }
+
+  private removeSavedFilm(filmId: number) {
+    this.savedFilms = this.savedFilms.filter(i => i.kId !== filmId);
+    localStorage.setItem('saved', JSON.stringify(this.savedFilms));
+  }
+
+  private addSavedFilm(film: IFilm) {
+    this.savedFilms.push(film);
+    localStorage.setItem('saved', JSON.stringify(this.savedFilms));
+  }
+
+  private isSavedFilm(id: number): boolean {
+    const savedFilm = this.savedFilms.find(i => i.kId === id);
+    if (savedFilm) {
+      return true;
+    }
+    return false;
   }
 
   public getPremiereFilms(premiereFilters: IPremiereFilters) {
@@ -59,6 +95,7 @@ class FilmsStore {
         poster: f.posterUrl ?? '',
         year: f.year ?? 0,
         kId: f.kinopoiskId ?? 0,
+        saved: this.isSavedFilm(f.kinopoiskId),
       }));
       this.setFilmList(newData);
     } catch (error) {
@@ -85,6 +122,7 @@ class FilmsStore {
         poster: f.posterUrl ?? '',
         year: f.year as unknown as number ?? 0,
         kId: f.kinopoiskId ?? 0,
+        saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
       this.setFilmList(newData);
     } catch (error) {
@@ -126,7 +164,6 @@ class FilmsStore {
       yearFrom: startYear,
       yearTo: endYear,
     };
-    console.log(formattedFilters, filters.year);
     this.fetchFilms(formattedFilters);
   }
 
@@ -144,6 +181,7 @@ class FilmsStore {
         poster: f.posterUrl ?? '',
         year: f.year ?? 0,
         kId: f.kinopoiskId ?? 0,
+        saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
       this.setFilmList(newData);
     } catch (error) {
