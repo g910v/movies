@@ -15,7 +15,8 @@ const Image = styled.img`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  row-gap: 0.55rem;
+  justify-content: center;
   height: 10rem;
 `;
 
@@ -26,11 +27,11 @@ const TextContainer = styled(Container)`
 const ActiveContainer = styled(Container)`
   margin-left: auto;
   align-items: end;
+  justify-content: start;
 `;
 
 const IconSelect = styled.span`
   font-size: 1.8rem;
-  padding: 0.3rem 0.3rem 0 0;
   color: ${baseTheme.colors.yellow};
   cursor: pointer;
 `;
@@ -38,7 +39,7 @@ const IconSelect = styled.span`
 const FilmName = styled.div`
   font-size: 1.8rem;
   font-weight: 600;
-  line-height: 1.75rem;
+  line-height: 1.9rem;
   cursor: pointer;
 `;
 
@@ -58,7 +59,7 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
       <TextContainer>
         <FilmName>{film.name}</FilmName>
         <div>
-          <div>{film.enName && (<>{film.enName}, </>)} {film.year && film.year}</div>
+          <div>{film.enName && (<>{film.enName}, </>)} {film.year && (<>{film.year} г.</>)}</div>
           {
             film.rating && (<div>Рейтинг: {film.rating}</div>)
           }
