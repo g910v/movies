@@ -14,6 +14,7 @@ import years from '../shared/years';
 
 const MoviesPage = lazy(() => import('../pages/MoviesPage'));
 const PremieresPage = lazy(() => import('../pages/PremieresPage'));
+const ActorsPage = lazy(() => import('../pages/ActorsPage'));
 
 const SpinContainer = styled.div`
   margin-top: 45vh;
@@ -51,6 +52,7 @@ const Content: React.FC = () => (
         <Route path={routes.SERIES.path} element={<MoviesPage pageName={routes.SERIES.name} />}>
           {pageComponent('TV_SERIES')}
         </Route>
+        <Route path={routes.ACTORS.path} element={<ActorsPage />} />
       </Route>
     </Routes>
   </Suspense>

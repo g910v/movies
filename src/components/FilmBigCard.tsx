@@ -29,7 +29,7 @@ const ActiveContainer = styled(Container)`
 const IconSelect = styled.span`
   font-size: 1.8rem;
   padding: 0.3rem 0.3rem 0 0;
-  color: ${baseTheme.colors.yellow}
+  color: ${baseTheme.colors.yellow};
 `;
 
 const FilmName = styled.div`
@@ -38,7 +38,7 @@ const FilmName = styled.div`
 `;
 
 const Description = styled.div`
-  color: ${baseTheme.colors.textSecondary}
+  color: ${baseTheme.colors.textSecondary};
 `;
 
 interface Props {

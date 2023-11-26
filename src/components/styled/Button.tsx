@@ -8,11 +8,11 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const StyledButton = styled.button`
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   background: ${baseTheme.colors.bgSecondary};
   color: ${baseTheme.colors.text};
   position: relative;
-  border-radius: 50px;
+  border-radius: 7px;
   border: 0px;
   cursor: pointer;
   font-weight: 600;
@@ -27,7 +27,7 @@ const StyledButton = styled.button`
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 50px; 
+    border-radius: 7px; 
     padding: 0.15rem; 
     background: ${baseTheme.colors.gradient}; 
     -webkit-mask: 
@@ -38,22 +38,24 @@ const StyledButton = styled.button`
   }
 
   &:hover {
-    background: ${baseTheme.colors.hoverButtonGradient};
-  }
-
-  &:active {
-    background: ${baseTheme.colors.hoverButtonGradient};
-  }
-
-  &:focus {
-    background: ${baseTheme.colors.hoverButtonGradient};
     &:after {
       content: "";
       position: absolute;
       inset: 1px;
       z-index: -1;
       background: ${baseTheme.colors.gradient};
-      filter: blur(14px);
+      filter: blur(7px);
+    }
+  }
+
+  &:focus {
+    &:after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      z-index: -1;
+      background: ${baseTheme.colors.gradient};
+      filter: blur(10px);
     }
   }
 

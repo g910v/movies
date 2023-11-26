@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
 import { PageContainer, Title } from './MoviesPage';
@@ -63,4 +64,4 @@ const PremieresPage: React.FC = () => {
   );
 };
 
-export default PremieresPage;
+export default observer(PremieresPage);
