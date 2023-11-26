@@ -46,7 +46,7 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
       });
     } else if (type === 'PREMIERES' && premiereFilters) {
       filmsStore.getPremiereFilms(premiereFilters);
-    } else {
+    } else if (type !== 'PREMIERES') {
       const genre = genres.find(i => i.short === params.genre);
       const country = countries.find(i => i.short === params.country);
       filmsStore.getFilms({

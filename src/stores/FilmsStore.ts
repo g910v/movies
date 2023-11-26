@@ -19,7 +19,7 @@ export interface IFilm {
 }
 
 export interface IFilters {
-  type: 'FILM' | 'TV_SERIES' | 'PREMIERES',
+  type: 'FILM' | 'TV_SERIES',
   genre?: number,
   country?: number,
   year?: number,
@@ -94,10 +94,6 @@ class FilmsStore {
   }
 
   public getFilms(filters: IFilters) {
-    if (filters.type === 'PREMIERES') {
-      //
-      return;
-    }
     let startYear;
     let endYear;
     switch (filters.year) {
