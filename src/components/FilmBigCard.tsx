@@ -22,12 +22,14 @@ const Container = styled.div`
 
 const TextContainer = styled(Container)`
   margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const ActiveContainer = styled(Container)`
   margin-left: auto;
   align-items: end;
   justify-content: start;
+
 `;
 
 const IconSelect = styled.span`
