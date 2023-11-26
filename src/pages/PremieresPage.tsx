@@ -19,6 +19,7 @@ const FiltersContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+  margin-bottom: 1.4rem;
 `;
 
 const Filter = styled.div`

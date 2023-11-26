@@ -26,6 +26,7 @@ const TypeName = styled.div`
 const TypeContainer = styled.div`
   width: 100%;
   display: flex;
+  cursor: pointer;
 `;
 
 const TypeList = styled.div`

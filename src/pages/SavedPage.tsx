@@ -22,7 +22,7 @@ const Container = styled.div`
 const EmptyMessage = styled.div`
   width: 100%;
   font-size: 1.5rem;
-  margin-top: 3rem;
+  margin-top: 1rem;
 `;
 
 const SavedPage: React.FC = () => {

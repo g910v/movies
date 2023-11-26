@@ -38,6 +38,8 @@ const IconSelect = styled.span`
 const FilmName = styled.div`
   font-size: 1.8rem;
   font-weight: 600;
+  line-height: 1.75rem;
+  cursor: pointer;
 `;
 
 const Description = styled.div`
@@ -56,22 +58,24 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
       <TextContainer>
         <FilmName>{film.name}</FilmName>
         <div>
-          <div>{film.enName}, {film.year}</div>
-          <div>Рейтинг: {film.rating}</div>
+          <div>{film.enName && (<>{film.enName}, </>)} {film.year && film.year}</div>
+          {
+            film.rating && (<div>Рейтинг: {film.rating}</div>)
+          }
         </div>
         <div>
           <Description>
             {
-            film.countries.map((f, index, arr) => {
-              const comma = index === arr.length - 1 ? '' : ', ';
-              return f + comma;
-            })
-          } • {
-            film.genres.map((f, index, arr) => {
-              const comma = index === arr.length - 1 ? '' : ', ';
-              return f + comma;
-            })
-          }
+              film.countries.map((f, index, arr) => {
+                const comma = index === arr.length - 1 ? '' : ', ';
+                return f + comma;
+              })
+            } • {
+              film.genres.map((f, index, arr) => {
+                const comma = index === arr.length - 1 ? '' : ', ';
+                return f + comma;
+              })
+            }
           </Description>
         </div>
       </TextContainer>

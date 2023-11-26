@@ -64,7 +64,7 @@ class FilmsStore {
   }
 
   private addSavedFilm(film: IFilm) {
-    this.savedFilms.push(film);
+    this.savedFilms.unshift(film);
     localStorage.setItem('saved', JSON.stringify(this.savedFilms));
   }
 
