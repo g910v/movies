@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { BiSearchAlt, BiX } from 'react-icons/bi';
+import { BiSearchAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import baseTheme from '../../styles/theme';
-import Input from './Input';
-import routes from '../../shared/routes';
+import baseTheme from '../styles/theme';
+import routes from '../shared/routes';
+import HeaderSearch from './HeaderSearch';
 
 interface Props {
   items: {
     label: string,
     path: string,
   }[],
-  inputValue: string,
-  onChangeInputValue: React.Dispatch<React.SetStateAction<string>>,
 }
 
 const textGradient = css`
@@ -58,17 +56,11 @@ const SearchIcon = styled.div`
   }
 `;
 
-const SearchInput = styled.div`
-  width: 50%;
-  display: flex;
-`;
-
-const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) => {
+const HeaderMenu: React.FC<Props> = ({ items }) => {
   const [searchVisible, setSearchVisible] = useState(false);
 
   const closeSearch = () => {
     setSearchVisible(false);
-    onChangeInputValue('');
   };
 
   return (
@@ -79,12 +71,7 @@ const HeaderMenu: React.FC<Props> = ({ items, inputValue, onChangeInputValue }) 
       {
         searchVisible
           ? (
-            <SearchInput>
-              <Input placeholder="Поиск фильмов и сериалов" value={inputValue} onChange={e => onChangeInputValue(e.target.value)} />
-              <SearchIcon onClick={closeSearch}>
-                <BiX />
-              </SearchIcon>
-            </SearchInput>
+            <HeaderSearch closeSearch={closeSearch} />
           ) : (
             <>
               {

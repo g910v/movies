@@ -1,10 +1,8 @@
-import React, { useRef, useState } from 'react';
-import HeaderMenu from './styled/HeaderMenu';
+import React, { useRef } from 'react';
+import HeaderMenu from './HeaderMenu';
 import routes from '../shared/routes';
 
 const Header: React.FC = () => {
-  const [searchValue, setSearchValue] = useState('');
-
   const menuItems = useRef([
     {
       label: routes.PREMIERES.name,
@@ -29,7 +27,7 @@ const Header: React.FC = () => {
   ]);
 
   return (
-    <HeaderMenu items={menuItems.current} inputValue={searchValue} onChangeInputValue={setSearchValue} />
+    <HeaderMenu items={menuItems.current} />
   );
 };
 

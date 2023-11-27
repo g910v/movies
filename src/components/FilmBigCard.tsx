@@ -61,9 +61,12 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
       <TextContainer>
         <FilmName>{film.name}</FilmName>
         <div>
-          <div>{film.enName && (<>{film.enName}, </>)} {film.year && (<>{film.year} г.</>)}</div>
+          <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин.,</>)} {film.year && (<>{film.year} г.</>)}</div>
           {
             film.rating && (<div>Рейтинг: {film.rating}</div>)
+          }
+          {
+            film.premiereRu && (<div>Премьера в России: {film.premiereRu}</div>)
           }
         </div>
         <div>

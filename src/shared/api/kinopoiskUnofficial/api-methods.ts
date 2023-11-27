@@ -15,6 +15,9 @@ export type UnoffCollectionsQueryParams = GetQueryParams<'/api/v2.2/films/collec
 export type UnoffActorsGetResponse = GetResponse<'/api/v1/persons'>
 export type UnoffActorsQueryParams = GetQueryParams<'/api/v1/persons'>
 
+export type UnoffSearchGetResponse = GetResponse<'/api/v2.1/films/search-by-keyword'>
+export type UnoffSearchQueryParams = GetQueryParams<'/api/v2.1/films/search-by-keyword'>
+
 const kinoUnoffAxios = axios.create({
   baseURL: API_URL,
   headers: {
@@ -45,6 +48,9 @@ const paramsSerializer = (params: Record<string, string[] | string>) => {
 const kinoUnoff = {
   films: {
     get: (query?: UnoffFilmsQueryParams): Response<UnoffFilmsGetResponse> => kinoUnoffAxios.get('/v2.2/films', { params: query, paramsSerializer }),
+    search: {
+      get: (query?: UnoffSearchQueryParams): Response<UnoffSearchGetResponse> => kinoUnoffAxios.get('/v2.1/films/search-by-keyword', { params: query, paramsSerializer }),
+    },
   },
   premiers: {
     get: (query: UnoffPremiersQueryParams): Response<UnoffPremiersGetResponse> => kinoUnoffAxios.get('/v2.2/films/premieres', { params: query }),

@@ -14,6 +14,7 @@ const baseTheme = {
 
     bg: '#050511',
     bgSecondary: '#16161d',
+    bgLighter: '#1f1f27',
     buttonGradient: 'linear-gradient(#151639, #070815)',
     hoverButtonGradient: 'linear-gradient(#141431, #070815)',
   },
