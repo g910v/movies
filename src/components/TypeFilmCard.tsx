@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import Card from './styled/Card';
+import { Card } from './styled';
 
 interface Props {
   types: {

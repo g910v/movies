@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../hooks';
-import Spinner from './styled/Spinner';
+import { Spinner } from './styled';
 import baseTheme from '../styles/theme';
 
 const SpinnerContainer = styled.div`

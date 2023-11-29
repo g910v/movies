@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useRootStore } from '../hooks';
 import FilmBigCard from './FilmBigCard';
-import Spinner from './styled/Spinner';
+import { Spinner } from './styled';
 import genres from '../shared/genres';
 import countries from '../shared/countries';
 import { IPremiereFilters } from '../stores/FilmsStore';

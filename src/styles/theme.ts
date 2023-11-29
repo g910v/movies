@@ -1,3 +1,5 @@
+import { css } from 'styled-components';
+
 const baseTheme = {
   colors: {
     link: '#FFFFFF',
@@ -26,5 +28,15 @@ const baseTheme = {
     small: '(max-width: 540px)',
   },
 };
+
+export const textGradient = css`
+background-image: ${baseTheme.colors.gradient};
+background-size: 100%;
+background-repeat: repeat;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent; 
+-moz-background-clip: text;
+-moz-text-fill-color: transparent;
+`;
 
 export default baseTheme;

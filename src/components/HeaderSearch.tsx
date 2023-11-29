@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BiX } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
 import baseTheme from '../styles/theme';
-import Input from './styled/Input';
+import { Input } from './styled';
 import SearchResults from './SearchResults';
 import { useRootStore } from '../hooks';
 

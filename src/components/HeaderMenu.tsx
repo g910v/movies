@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import baseTheme from '../styles/theme';
+import baseTheme, { textGradient } from '../styles/theme';
 import routes from '../shared/routes';
 import HeaderSearch from './HeaderSearch';
 
@@ -12,16 +12,6 @@ interface Props {
     path: string,
   }[],
 }
-
-const textGradient = css`
-  background-image: ${baseTheme.colors.gradient};
-  background-size: 100%;
-  background-repeat: repeat;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; 
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-`;
 
 const Container = styled.div`
   padding: 0.2rem 1rem;

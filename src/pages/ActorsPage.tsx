@@ -4,9 +4,9 @@ import { useSearchParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
-import { PageContainer, Title } from './MoviesPage';
-import Input from '../components/styled/Input';
-import Button from '../components/styled/Button';
+import {
+  PageContainer, Title, Input, Button,
+} from '../components/styled';
 import PersonList from '../components/PersonList';
 import baseTheme from '../styles/theme';
 

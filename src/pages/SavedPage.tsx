@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
-import { PageContainer, Title } from './MoviesPage';
+import { PageContainer, Title } from '../components/styled';
 import FilmBigCard from '../components/FilmBigCard';
 
 export interface Option {

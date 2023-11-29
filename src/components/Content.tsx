@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 import routes from '../shared/routes';
-import Spinner from './styled/Spinner';
+import { Spinner } from './styled';
 import TypeFilmCard from './TypeFilmCard';
 import genres from '../shared/genres';
 import countries from '../shared/countries';
@@ -16,6 +16,7 @@ const MoviesPage = lazy(() => import('../pages/MoviesPage'));
 const PremieresPage = lazy(() => import('../pages/PremieresPage'));
 const ActorsPage = lazy(() => import('../pages/ActorsPage'));
 const SavedPage = lazy(() => import('../pages/SavedPage'));
+const MovieInfoPage = lazy(() => import('../pages/MovieInfoPage'));
 
 const SpinContainer = styled.div`
   margin-top: 45vh;
@@ -55,6 +56,7 @@ const Content: React.FC = () => (
         </Route>
         <Route path={routes.ACTORS.path} element={<ActorsPage />} />
         <Route path={routes.SAVED.path} element={<SavedPage />} />
+        <Route path="movie/:movieId" element={<MovieInfoPage />} />
       </Route>
     </Routes>
   </Suspense>

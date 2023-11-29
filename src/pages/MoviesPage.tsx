@@ -5,21 +5,9 @@ import {
   Outlet, useNavigate, useParams,
 } from 'react-router-dom';
 import { BiLeftArrowAlt } from 'react-icons/bi';
-import SelectButton from '../components/styled/SelectButtons';
 import { useRootStore } from '../hooks';
 import baseTheme from '../styles/theme';
-
-export const Title = styled.div`
-  font-size: 3.5rem;
-  font-weight: 200;
-`;
-
-export const PageContainer = styled.div`
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  padding: 3rem;
-`;
+import { PageContainer, Title, SelectButtons } from '../components/styled';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -77,7 +65,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
     <PageContainer>
       <Title>{pageName}</Title>
       <MenuContainer>
-        <SelectButton
+        <SelectButtons
           items={items.current}
         />
         {

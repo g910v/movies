@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { useRootStore } from '../hooks';
-import Spinner from './styled/Spinner';
+import { Spinner } from './styled';
 import ActorBigCard from './ActorBigCard';
 
 const Container = styled.div`

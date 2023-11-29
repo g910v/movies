@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
-import Card from './styled/Card';
-import baseTheme from '../styles/theme';
+import { Link } from 'react-router-dom';
+import { Card } from './styled';
+import baseTheme, { textGradient } from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
 import { useRootStore } from '../hooks';
 
@@ -38,11 +39,15 @@ const IconSelect = styled.span`
   cursor: pointer;
 `;
 
-const FilmName = styled.div`
+const FilmName = styled(Link)`
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.9rem;
   cursor: pointer;
+  color: ${baseTheme.colors.text};
+  &:hover {
+    ${textGradient}
+  }
 `;
 
 const Description = styled.div`
@@ -59,7 +64,7 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
     <Card>
       <Image src={film.poster} alt={film.name} />
       <TextContainer>
-        <FilmName>{film.name}</FilmName>
+        <FilmName to={`/movie/${film.kId}`}>{film.name}</FilmName>
         <div>
           <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин.,</>)} {film.year && (<>{film.year} г.</>)}</div>
           {

@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
-import { PageContainer, Title } from './MoviesPage';
 import MovieList from '../components/MovieList';
 import { IPremiereFilters } from '../stores/FilmsStore';
-import StyledSelect from '../components/styled/Select';
 import months, { years } from '../shared/premierOptions';
+import { PageContainer, Title, Select } from '../components/styled';
 
 export interface Option {
   value: string,
@@ -40,14 +39,14 @@ const PremieresPage: React.FC = () => {
       <Title>Премьеры</Title>
       <FiltersContainer>
         <Filter>
-          <StyledSelect
+          <Select
             options={months}
             selected={month}
             setSelected={setMonth}
           />
         </Filter>
         <Filter>
-          <StyledSelect
+          <Select
             options={years}
             selected={year}
             setSelected={setYear}
