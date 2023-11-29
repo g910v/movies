@@ -1,10 +1,11 @@
 import axios from 'axios';
 import {
-  API_URL, Response, GetResponse, GetQueryParams,
+  API_URL, Response, GetResponse, GetQueryParams, Id,
 } from './core';
 
 export type DevFilmsGetResponse = GetResponse<'/v1.4/movie'>
 export type DevFilmsQueryParams = GetQueryParams<'/v1.4/movie'>
+export type DevFilmGetOneResponse = GetResponse<'/v1.4/movie/{id}'>
 
 const kinoDevAxios = axios.create({
   baseURL: API_URL,
@@ -34,6 +35,7 @@ const kinoDev = {
       params: query,
       paramsSerializer,
     }),
+    getOne: (id: Id): Response<DevFilmGetOneResponse> => kinoDevAxios.get(`/v1.4/movie/${id}`),
   },
 };
 

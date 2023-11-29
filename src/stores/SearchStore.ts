@@ -11,7 +11,7 @@ export interface ISearchResults {
   kId: number,
 }
 
-class ActorsStore {
+class SearchStore {
   searchResults: ISearchResults[] | undefined = undefined;
 
   searchLoading = false;
@@ -57,4 +57,4 @@ class ActorsStore {
   }
 }
 
-export default ActorsStore;
+export default SearchStore;

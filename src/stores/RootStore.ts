@@ -1,7 +1,6 @@
-import UiStore from './UiStore';
-import FilmsStore from './FilmsStore';
-import ActorsStore from './ActorsStore';
-import SearchStore from './SearchStore';
+import {
+  UiStore, FilmInfoStore, FilmsStore, ActorsStore, SearchStore,
+} from '.';
 
 class RootStore {
   uiStore;
@@ -12,6 +11,8 @@ class RootStore {
 
   searchStore;
 
+  filmInfoStore;
+
   constructor() {
     this.uiStore = new UiStore(this);
     this.uiStore.init();
@@ -19,6 +20,7 @@ class RootStore {
     this.filmsStore.init();
     this.actorStote = new ActorsStore(this);
     this.searchStore = new SearchStore(this);
+    this.filmInfoStore = new FilmInfoStore(this);
   }
 }
 

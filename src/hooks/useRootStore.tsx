@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useMemo } from 'react';
-import { RootStore } from '../stores';
+import RootStore from '../stores/RootStore';
 
 let store: RootStore;
 
