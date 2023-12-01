@@ -17,6 +17,9 @@ const Container = styled.div`
   padding: 0.2rem 1rem;
   display: flex;
   align-items: center;
+  background: ${baseTheme.colors.headerGradient};
+  z-index: 10;
+  position: relative;
 `;
 
 const Title = styled.div`

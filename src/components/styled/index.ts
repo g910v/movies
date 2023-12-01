@@ -6,3 +6,5 @@ export { default as PageContainer } from './PageContainer';
 export { default as Select } from './Select';
 export { default as Title } from './Title';
 export { default as Spinner } from './Spinner';
+export { default as RatingStars } from './RatingStars';
+export { default as Carousel } from './Carousel';

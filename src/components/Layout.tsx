@@ -5,6 +5,7 @@ import Header from './Header';
 
 const MainContainer = styled.div`
   width: 100%;
+  height: calc(100% - 5rem);
   display: flex;
   justify-content: center;
   align-items: center;

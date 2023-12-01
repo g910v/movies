@@ -40,7 +40,7 @@ const pageComponent = (type: 'FILM' | 'TV_SERIES') => (
 const Content: React.FC = () => (
   <Suspense fallback={(
     <SpinContainer>
-      <Spinner size={70} strokeWidth={4} />
+      <Spinner size={70} strokeWidth={3} />
     </SpinContainer>
     )}
   >

@@ -19,6 +19,8 @@ const baseTheme = {
     bgLighter: '#1f1f27',
     buttonGradient: 'linear-gradient(#151639, #070815)',
     hoverButtonGradient: 'linear-gradient(#141431, #070815)',
+    headerGradient: 'linear-gradient(#050511, transparent)',
+    backimgGradient: 'linear-gradient(transparent, #050511)',
   },
 
   media: {

@@ -22,6 +22,7 @@ class FilmInfoStore {
 
   private async fetchMovie(id: string) {
     this.setMovieInfoLoading(true);
+    this.setMovieInfo(undefined);
     try {
       const { data } = await api.kinoDev.films.getOne(id);
       this.setMovieInfo(data);
