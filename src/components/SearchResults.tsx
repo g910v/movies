@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 import { useRootStore } from '../hooks';
 import { Spinner } from './styled';
 import baseTheme from '../styles/theme';
@@ -16,7 +17,8 @@ const EmptyFilmList = styled.div`
   width: 100%;
 `;
 
-const Result = styled.div`
+const Result = styled(Link)`
+  color: ${baseTheme.colors.text};
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -42,7 +44,11 @@ const MoreInfo = styled.div`
   font-size: 0.8rem;
 `;
 
-const SearchResults: React.FC = () => {
+interface Props {
+  onCloseSearch: () => void,
+}
+
+const SearchResults: React.FC<Props> = ({ onCloseSearch }) => {
   const { searchStore } = useRootStore();
 
   return (
@@ -53,7 +59,7 @@ const SearchResults: React.FC = () => {
       {
         (!searchStore.searchLoading && !!searchStore.searchResults?.length)
         && searchStore.searchResults.map(f => (
-          <Result key={f.kId}>
+          <Result key={f.kId} to={`/movie/${f.kId}`} onClick={onCloseSearch}>
             <FilmName>{f.name}</FilmName>
             <MoreInfo>
               {(f.rating && f.rating !== 'null') && <>Рейтинг: {f.rating}, </>} {(f.year && f.year !== 'null') && <>{f.year} г.</>}

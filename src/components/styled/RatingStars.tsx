@@ -29,11 +29,11 @@ const RatingStars: React.FC<Props> = ({ rating }) => {
     <Container>
       {
         numbers.current.map(i => {
-          let star = <FaRegStar />;
+          let star = <FaRegStar key={i} />;
           if (roundRating === i - 0.5) {
-            star = <FaStarHalfAlt />;
+            star = <FaStarHalfAlt key={i} />;
           } else if (i <= roundRating) {
-            star = <FaStar />;
+            star = <FaStar key={i} />;
           }
           return (
             star

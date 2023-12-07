@@ -14,9 +14,10 @@ import { IMovieInfo } from '../stores/FilmInfoStore';
 import YoutubeIcon from '../assets/icons/YoutubeIcon.svg?react';
 import { IActor } from '../stores/ActorsStore';
 import ActorSmallCard from '../components/ActorSmallCard';
+import FilmSmallCard from '../components/FilmSmallCard';
 
 const BackImg = styled.div<{ url: string }>`
-  height: 100%;
+  height: 100vh;
   width: 100%;
   margin-top: -5rem;
   background-image: url(${props => props.url});
@@ -27,13 +28,13 @@ const BackImg = styled.div<{ url: string }>`
 
 const GradientContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: ${baseTheme.colors.backimgGradient};
 `;
 
 const GradientContainerRevert = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: ${baseTheme.colors.headerGradient};
   display: flex;
   justify-content: center;
@@ -47,7 +48,8 @@ const SpinnerContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  padding-top: 6rem;
+  padding: 8rem 0;
+  height: fit-content;
   width: 85%;
   display: flex;
   flex-wrap: wrap;
@@ -73,7 +75,7 @@ const InfoContainer = styled.div`
 
 const ActorsContainer = styled.div`
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 2rem;
 `;
 
 const Title = styled.div`
@@ -92,6 +94,7 @@ const DetailsButton = styled.div`
   display: flex;
   color: ${baseTheme.colors.text};
   cursor: pointer;
+  width: fit-content;
   &:hover {
     color: ${baseTheme.colors.mix}
   }
@@ -277,7 +280,31 @@ const MovieInfoPage: React.FC = () => {
                         <Carousel>
                             {
                               actors?.map(i => (
-                                <ActorSmallCard actor={i} />
+                                <ActorSmallCard key={i.kinopoiskId} actor={i} />
+                              ))
+                            }
+                        </Carousel>
+                      )
+                    }
+                  </ActorsContainer>
+                  <ActorsContainer>
+                    <SubTitle>Похожие фильмы</SubTitle>
+                    {
+                      movie?.similarMovies && (
+                        <Carousel>
+                            {
+                              movie.similarMovies?.map(i => (
+                                <FilmSmallCard
+                                  key={i.id}
+                                  film={{
+                                    name: i.name,
+                                    enName: i.alternativeName,
+                                    rating: i.rating.kp ?? undefined,
+                                    poster: i.poster.previewUrl ?? '',
+                                    kId: i.id ?? -1,
+                                    year: i.year,
+                                  }}
+                                />
                               ))
                             }
                         </Carousel>

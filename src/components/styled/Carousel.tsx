@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import baseTheme from '../../styles/theme';
 
 interface Props {
   children: React.ReactElement[],
@@ -36,6 +37,7 @@ const CarouselButton = styled.div<{ disabled: boolean }>`
   border-radius: 5px;
   cursor: ${props => (props.disabled ? 'default' : 'pointer')};
   background: rgba(255, 255, 255, 0.05);
+  color: ${props => (props.disabled ? baseTheme.colors.textSecondary : baseTheme.colors.text)};
   &:hover {
     background: ${props => (props.disabled ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.2)')};
   }

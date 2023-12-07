@@ -86,7 +86,7 @@ const HeaderSearch: React.FC<Props> = ({ closeSearch }) => {
           searchStore.searchResults && (
             <ResultPanel>
               <ResultScroll>
-                <SearchResults />
+                <SearchResults onCloseSearch={onCloseSearch} />
               </ResultScroll>
             </ResultPanel>
           )
