@@ -4,7 +4,9 @@ import {
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import {
+  BiChevronDown, BiChevronUp, BiBookmark, BiSolidBookmark,
+} from 'react-icons/bi';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { useRootStore } from '../hooks';
@@ -111,8 +113,24 @@ const SubTitle = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+const SavedIcon = styled.div`
+  font-size: 2rem;
+  margin-left: 1rem;
+  padding: 0.75rem 0 0 0.75rem;
+  display: flex;
+  align-items: start;
+  color: ${baseTheme.colors.yellow};
+  cursor: pointer;
+`;
+
+const MainTitle = styled.div`
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+`;
+
 const MovieInfoPage: React.FC = () => {
-  const { filmInfoStore } = useRootStore();
+  const { filmInfoStore, filmsStore } = useRootStore();
   const params = useParams();
   const [movie, setMovie] = useState<IMovieInfo | undefined>(undefined);
   const [showDetails, setShowDetails] = useState(false);
@@ -122,6 +140,7 @@ const MovieInfoPage: React.FC = () => {
   const [writers, setWriters] = useState<IMovieInfo['persons']>([]);
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [youtubeVisible, setYoutubeVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (params.movieId) {
@@ -144,6 +163,28 @@ const MovieInfoPage: React.FC = () => {
     setWriters(filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'writer'));
     setYoutubeUrl(filmInfoStore.movieInfo?.videos?.trailers?.find(i => i.site === 'youtube')?.url ?? '');
   }, [filmInfoStore.movieInfo]);
+
+  useEffect(() => {
+    setIsSaved(filmsStore.isSavedFilm(filmInfoStore.movieInfo?.id ?? 0));
+  }, [filmInfoStore.movieInfo?.id, filmsStore]);
+
+  useEffect(() => {
+    if (movie) {
+      filmsStore.changeSavedFilms({
+        name: movie.name ?? '',
+        enName: movie.alternativeName ?? '',
+        rating: movie.rating?.kp ?? undefined,
+        duration: movie.movieLength ?? undefined,
+        premiereRu: movie.premiere?.russia ?? '',
+        countries: movie.countries?.map(i => i.name ?? '').slice(0, 3) ?? [],
+        genres: movie.genres?.map(i => i.name ?? '').slice(0, 3) ?? [],
+        poster: movie.poster?.url ?? movie.poster?.previewUrl ?? '',
+        year: movie.year ?? 0,
+        kId: movie.id,
+        saved: isSaved,
+      }, isSaved);
+    }
+  }, [isSaved, movie, filmsStore]);
 
   return (
     <>
@@ -181,7 +222,14 @@ const MovieInfoPage: React.FC = () => {
                     <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
                   </PosterContainer>
                   <InfoContainer>
-                    <Title>{movie.name} ({movie.alternativeName}, {movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
+                    <MainTitle>
+                      <Title>{movie.name} ({movie.alternativeName}, {movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
+                      <SavedIcon onClick={() => setIsSaved(prev => !prev)}>
+                        {
+                          isSaved ? <BiSolidBookmark /> : <BiBookmark />
+                        }
+                      </SavedIcon>
+                    </MainTitle>
                     <Description>
                       {!!movie.rating?.kp && (<RatingStars rating={movie.rating.kp} />)}
                     </Description>

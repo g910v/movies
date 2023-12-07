@@ -68,7 +68,7 @@ class FilmsStore {
     localStorage.setItem('saved', JSON.stringify(this.savedFilms));
   }
 
-  private isSavedFilm(id: number): boolean {
+  public isSavedFilm(id: number): boolean {
     const savedFilm = this.savedFilms.find(i => i.kId === id);
     if (savedFilm) {
       return true;
