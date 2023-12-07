@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  ReactNode, useEffect, useRef, useState,
+} from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import baseTheme from '../../styles/theme';
-
-interface Props {
-  children: React.ReactElement[],
-}
 
 const ContainerCarousel = styled.div`
   display: flex;
@@ -45,7 +43,7 @@ const CarouselButton = styled.div<{ disabled: boolean }>`
 
 const transition = 155;
 
-const Carousel: React.FC<Props> = ({ children }) => {
+const Carousel: React.FC<{ children: ReactNode}> = ({ children }) => {
   const [translate, setTranslate] = useState(0);
   const [maxTranslate, setMaxTranslate] = useState(0);
   const list = useRef<HTMLDivElement>(null);

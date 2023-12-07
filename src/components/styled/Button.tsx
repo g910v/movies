@@ -34,7 +34,7 @@ const StyledButton = styled.button`
        linear-gradient(#fff 0 0) content-box, 
        linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out; 
-    mask-composite: exclude; 
+    mask-composite: exclude;
   }
 
   &:hover {

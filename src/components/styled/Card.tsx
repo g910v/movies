@@ -14,7 +14,7 @@ const shadowAnimation = keyframes`
     box-shadow: 0px 0px 10px 10px rgba(225, 225, 225, 0);
   }
   100% {
-    ${shadow}
+    /* ${shadow} */
   }
 `;
 
@@ -29,7 +29,7 @@ const Card = styled.div`
 
   &:hover {
     animation: ${shadowAnimation} 0.15s linear;
-    ${shadow}
+    /* ${shadow} */
   }
 `;
 

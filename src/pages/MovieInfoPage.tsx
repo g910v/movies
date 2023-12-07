@@ -8,13 +8,15 @@ import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { useRootStore } from '../hooks';
-import { Carousel, Spinner, RatingStars } from '../components/styled';
+import {
+  Carousel, Spinner, RatingStars, Button,
+} from '../components/styled';
 import baseTheme from '../styles/theme';
 import { IMovieInfo } from '../stores/FilmInfoStore';
-import YoutubeIcon from '../assets/icons/YoutubeIcon.svg?react';
 import { IActor } from '../stores/ActorsStore';
 import ActorSmallCard from '../components/ActorSmallCard';
 import FilmSmallCard from '../components/FilmSmallCard';
+import Modal from '../components/styled/Modal';
 
 const BackImg = styled.div<{ url: string }>`
   height: 100vh;
@@ -23,13 +25,13 @@ const BackImg = styled.div<{ url: string }>`
   background-image: url(${props => props.url});
   background-position: center;
   background-size: cover;
-  margin-bottom: 5rem;
 `;
 
 const GradientContainer = styled.div`
   width: 100%;
   height: 100vh;
   background: ${baseTheme.colors.backimgGradient};
+  z-index: -1;
 `;
 
 const GradientContainerRevert = styled.div`
@@ -38,6 +40,7 @@ const GradientContainerRevert = styled.div`
   background: ${baseTheme.colors.headerGradient};
   display: flex;
   justify-content: center;
+  z-index: -1;
 `;
 
 const SpinnerContainer = styled.div`
@@ -53,16 +56,19 @@ const ContentContainer = styled.div`
   width: 85%;
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 `;
 
 const PosterContainer = styled.div`
   width: 45vh;
   margin-right: 1rem;
   height: max-content;
+  margin-bottom: 1.5rem;
 `;
 
 const Poster = styled.img`
   width: 45vh;
+  margin-bottom: 1rem;
 `;
 
 const InfoContainer = styled.div`
@@ -75,7 +81,7 @@ const InfoContainer = styled.div`
 
 const ActorsContainer = styled.div`
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 `;
 
 const Title = styled.div`
@@ -105,32 +111,6 @@ const SubTitle = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const YoutubeImg = styled.div<{ url: string }>`
-  margin-top: 1rem;
-  background-image: url(${props => props.url});
-  background-position: center;
-  background-size: cover;
-  width: 100%;
-  height: 25vh;
-`;
-
-const YoutubeIconContainer = styled.div`
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const YoutubeIconStyled = styled(YoutubeIcon)`
-  height: 6rem;
-  cursor: pointer;
-  &:hover {
-    height: 7rem;
-  }
-`;
-
 const MovieInfoPage: React.FC = () => {
   const { filmInfoStore } = useRootStore();
   const params = useParams();
@@ -141,6 +121,7 @@ const MovieInfoPage: React.FC = () => {
   const [producers, setProducers] = useState<IMovieInfo['persons']>([]);
   const [writers, setWriters] = useState<IMovieInfo['persons']>([]);
   const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [youtubeVisible, setYoutubeVisible] = useState(false);
 
   useEffect(() => {
     if (params.movieId) {
@@ -166,6 +147,19 @@ const MovieInfoPage: React.FC = () => {
 
   return (
     <>
+      <Modal
+        visible={youtubeVisible}
+        setVisible={setYoutubeVisible}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={youtubeUrl}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        />
+      </Modal>
       {
         filmInfoStore.movieInfoLoading && (
           <SpinnerContainer>
@@ -184,18 +178,7 @@ const MovieInfoPage: React.FC = () => {
                       src={movie.poster?.url ?? ''}
                       alt={movie.enName ?? ''}
                     />
-                    {/* <YoutubeImg url={movie.backdrop?.previewUrl ?? ''}>
-                      <YoutubeIconContainer>
-                        <YoutubeIconStyled />
-                      </YoutubeIconContainer>
-                    </YoutubeImg> */}
-                    {/* <iframe
-                      width="100%"
-                      src={youtubeUrl}
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    /> */}
+                    <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
                   </PosterContainer>
                   <InfoContainer>
                     <Title>{movie.name} ({movie.alternativeName}, {movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
