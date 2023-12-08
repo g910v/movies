@@ -74,7 +74,6 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
         filmsStore.filmsLoading && (
         <Container gridMode={false}>
           <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
-
         </Container>
         )
       }
@@ -91,7 +90,6 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
         && (
         <Container gridMode={false}>
           <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
-
         </Container>
         )
       }
