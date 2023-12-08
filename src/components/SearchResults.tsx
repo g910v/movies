@@ -23,7 +23,7 @@ const Result = styled(Link)`
   justify-content: space-between;
   flex-direction: column;
   padding: 0.25rem 0.75rem;
-  border-radius: 7px;
+  border-radius: 5px;
   cursor: pointer;
   background: ${baseTheme.colors.bgLighter};
   margin: 0.25rem;

@@ -43,7 +43,7 @@ const ResultPanel = styled.div`
   background: ${baseTheme.colors.bgSecondary};
   z-index: 10;
   padding: 1rem;
-  border-radius: 7px;
+  border-radius: 5px;
 `;
 
 const ResultScroll = styled.div`

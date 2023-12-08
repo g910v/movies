@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useRootStore } from '../hooks';
 import FilmBigCard from './FilmBigCard';
@@ -8,12 +8,22 @@ import { Spinner } from './styled';
 import genres from '../shared/genres';
 import countries from '../shared/countries';
 import { IPremiereFilters } from '../stores/FilmsStore';
+import FilmSmallCard from './FilmSmallCard';
 
-const Container = styled.div`
+const grid = css`
+  display: grid;
+  column-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+`;
+
+const list = css`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const Container = styled.div<{gridMode: boolean}>`
+  ${props => (props.gridMode ? grid : list)};
   row-gap: 1rem;
-  column-gap: 1rem;
 `;
 
 const SpinnerContainer = styled.div`
@@ -36,7 +46,7 @@ interface Props {
 }
 
 const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
-  const { filmsStore } = useRootStore();
+  const { filmsStore, uiStore } = useRootStore();
   const params = useParams();
 
   useEffect(() => {
@@ -59,19 +69,33 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
   }, [filmsStore, params, type, isTop, premiereFilters]);
 
   return (
-    <Container>
+    <>
       {
-        filmsStore.filmsLoading && <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
+        filmsStore.filmsLoading && (
+        <Container gridMode={false}>
+          <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
+
+        </Container>
+        )
       }
-      {
-        (!filmsStore.filmsLoading && !!filmsStore.filmList.length)
-        && filmsStore.filmList.map(f => <FilmBigCard key={f.kId} film={f} />)
-      }
+      <Container gridMode={uiStore.viewMode === 'grid'}>
+        {
+          (!filmsStore.filmsLoading && !!filmsStore.filmList.length)
+          && filmsStore.filmList.map(f => (uiStore.viewMode === 'list'
+            ? <FilmBigCard key={f.kId} film={f} />
+            : <FilmSmallCard key={f.kId} film={f} />))
+        }
+      </Container>
       {
         (!filmsStore.filmsLoading && !filmsStore.filmList.length)
-        && <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
+        && (
+        <Container gridMode={false}>
+          <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
+
+        </Container>
+        )
       }
-    </Container>
+    </>
   );
 };
 

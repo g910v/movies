@@ -29,7 +29,7 @@ const Window = styled.div<{ maxiSize: boolean }>`
   z-index: 12;
   background: ${baseTheme.colors.bgLighter};
   padding: 1rem;
-  border-radius: 7px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
 `;

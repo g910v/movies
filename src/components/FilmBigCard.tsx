@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 import { Card } from './styled';
 import baseTheme, { textGradient } from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
@@ -66,12 +67,12 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
       <TextContainer>
         <FilmName to={`/movie/${film.kId}`}>{film.name}</FilmName>
         <div>
-          <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин.,</>)} {film.year && (<>{film.year} г.</>)}</div>
+          <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин., </>)} {film.year && (<>{film.year} г.</>)}</div>
           {
             film.rating && (<div>Рейтинг: {film.rating}</div>)
           }
           {
-            film.premiereRu && (<div>Премьера в России: {film.premiereRu}</div>)
+            film.premiereRu && (<div>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</div>)
           }
         </div>
         <div>

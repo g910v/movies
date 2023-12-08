@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   background: ${baseTheme.colors.bgSecondary};
   color: ${baseTheme.colors.text};
   position: relative;
-  border-radius: 7px;
+  border-radius: 5px;
   border: 0px;
   cursor: pointer;
   font-weight: 600;
@@ -27,7 +27,7 @@ const StyledButton = styled.button`
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 7px; 
+    border-radius: 5px; 
     padding: 0.15rem; 
     background: ${baseTheme.colors.gradient}; 
     -webkit-mask: 
