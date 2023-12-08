@@ -7,11 +7,17 @@ import MovieList from '../components/MovieList';
 import { IPremiereFilters } from '../stores/FilmsStore';
 import months, { years } from '../shared/premierOptions';
 import { PageContainer, Title, Select } from '../components/styled';
+import SelectViewButtons from '../components/SelectViewButtons';
 
 export interface Option {
   value: string,
   label: string,
 }
+
+const ModeButtons = styled.div`
+  margin-left: auto;
+  padding-top: 1.75rem;
+`;
 
 const FiltersContainer = styled.div`
   width: 100%;
@@ -36,7 +42,12 @@ const PremieresPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <Title>Премьеры</Title>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Title>Премьеры</Title>
+        <ModeButtons>
+          <SelectViewButtons />
+        </ModeButtons>
+      </div>
       <FiltersContainer>
         <Filter>
           <Select

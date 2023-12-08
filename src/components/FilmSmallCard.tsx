@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
@@ -85,10 +85,6 @@ interface Props {
 const FilmSmallCard: React.FC<Props> = ({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   const { filmsStore } = useRootStore();
-
-  useEffect(() => {
-    console.log(filmsStore.savedFilms);
-  }, [filmsStore.savedFilms]);
 
   return (
     <Container

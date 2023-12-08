@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import {
-  Outlet, useNavigate, useParams,
+  Outlet, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
 import { BiLeftArrowAlt } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
@@ -13,8 +13,8 @@ import SelectViewButtons from '../components/SelectViewButtons';
 const MenuContainer = styled.div`
   display: flex;
   width: 100%;
-  align-items: center;
-  margin-bottom: 0.7rem;
+  align-items: start;
+  margin: 0.7rem 0;
   height: 3rem;
 `;
 
@@ -24,7 +24,7 @@ const BackIcon = styled.div`
   &:hover {
     color: ${baseTheme.colors.mix};
   }
-  margin: 0 1rem 0 auto;
+  margin: 0 1rem 0;
 `;
 
 interface Props {
@@ -35,6 +35,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
   const { uiStore } = useRootStore();
   const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
   const items = useRef([
     {
       label: 'Топ',
@@ -60,7 +61,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
 
   useEffect(() => {
     uiStore.updateDocumentTitle(pageName);
-  }, [uiStore, pageName]);
+  }, [uiStore, pageName, location]);
 
   return (
     <PageContainer>
@@ -69,16 +70,20 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
         <SelectButtons
           items={items.current}
         />
-        {
-          (!!params.genre || !!params.country || !!params.year) && (
-            <>
+        <div style={{ marginLeft: 'auto', display: 'flex' }}>
+          {
+            (!!params.genre || !!params.country || !!params.year) && (
               <BackIcon onClick={() => navigate(-1)}>
                 <BiLeftArrowAlt />
               </BackIcon>
+            )
+          }
+          {
+            (!!params.genre || !!params.country || !!params.year || location.pathname.search('top') !== -1) && (
               <SelectViewButtons />
-            </>
-          )
-        }
+            )
+          }
+        </div>
       </MenuContainer>
       <Outlet />
     </PageContainer>
