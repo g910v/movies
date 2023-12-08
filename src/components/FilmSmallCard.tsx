@@ -10,6 +10,7 @@ import { useRootStore } from '../hooks';
 
 const CardFixed = styled(Card)`
   width: auto;
+  height: calc(100% - 2rem);
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -17,11 +18,11 @@ const CardFixed = styled(Card)`
 
 const Image = styled.img`
   width: 100%;
+  height: 100%;
   border-radius: 5px;
 `;
 
 const Container = styled.div`
-  height: max-content;
   position: relative;
   cursor: pointer;
 `;
@@ -29,7 +30,6 @@ const Container = styled.div`
 const MoreContainer = styled.div`
   width: calc(100% - 4rem);
   display: flex;
-  /* justify-content: space-between; */
   flex-direction: column;
   position: absolute;
   top: 0;
