@@ -8,10 +8,10 @@ import { BiLeftArrowAlt } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import baseTheme from '../styles/theme';
 import { PageContainer, Title, SelectButtons } from '../components/styled';
+import SelectViewButtons from '../components/SelectViewButtons';
 
 const MenuContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   width: 100%;
   align-items: center;
   margin-bottom: 0.7rem;
@@ -24,6 +24,7 @@ const BackIcon = styled.div`
   &:hover {
     color: ${baseTheme.colors.mix};
   }
+  margin: 0 1rem 0 auto;
 `;
 
 interface Props {
@@ -70,9 +71,12 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
         />
         {
           (!!params.genre || !!params.country || !!params.year) && (
-            <BackIcon onClick={() => navigate(-1)}>
-              <BiLeftArrowAlt />
-            </BackIcon>
+            <>
+              <BackIcon onClick={() => navigate(-1)}>
+                <BiLeftArrowAlt />
+              </BackIcon>
+              <SelectViewButtons />
+            </>
           )
         }
       </MenuContainer>

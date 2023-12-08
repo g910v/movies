@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import baseTheme from '../../styles/theme';
 
 interface IItem {
   key: number,
-  label: string,
+  label: string | ReactNode,
   short: string,
 }
 interface Props {
