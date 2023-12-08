@@ -4,7 +4,7 @@ const PageContainer = styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
-  margin-top: 3rem;
+  margin: 3rem 0;
   height: calc(100% - 3rem);
 `;
 

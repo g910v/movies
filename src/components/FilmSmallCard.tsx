@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import { Card } from './styled';
 import baseTheme from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
@@ -27,10 +28,11 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const MoreContainer = styled.div`
+const MoreContainer = styled(Link)`
   width: calc(100% - 4rem);
   display: flex;
   flex-direction: column;
+  justify-content: end;
   position: absolute;
   top: 0;
   left: 0;
@@ -38,6 +40,7 @@ const MoreContainer = styled.div`
   background: rgba(0, 0, 0, 0.8);
   height: calc(100% - 5.5rem);
   padding: 1.5rem 2rem 4rem;
+  color: ${baseTheme.colors.text};
 `;
 
 const Name = styled.div`
@@ -65,11 +68,10 @@ const Description = styled.div`
 `;
 
 const ActiveContainer = styled(Container)`
-  margin-bottom: auto;
-  margin-left: auto;
-  align-items: end;
-  justify-content: start;
-
+  position: absolute;
+  z-index: 10;
+  top: 1.5rem;
+  right: 1.5rem;
 `;
 
 const IconSelect = styled.span`
@@ -95,7 +97,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
         <Image src={film.poster} alt={film.enName ?? ''} />
         {
           nameVisible && (
-            <MoreContainer>
+            <>
               <ActiveContainer>
                 <IconSelect onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}>
                   {
@@ -103,26 +105,28 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
                   }
                 </IconSelect>
               </ActiveContainer>
-              {film.enName && (<EnName>{film.enName}</EnName>)}
-              {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
-              <Rating>{film.year && (<>{film.year} г.</>)} {film.duration && (<>, {film.duration} мин.</>)}</Rating>
-              {
-                film.premiereRu && (<Rating>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</Rating>)
-              }
-              <Description>
+              <MoreContainer to={`/movie/${film.kId}`}>
+                {film.enName && (<EnName>{film.enName}</EnName>)}
+                {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
+                <Rating>{film.year && (<>{film.year} г.</>)} {film.duration && (<>, {film.duration} мин.</>)}</Rating>
                 {
-                  film.countries.map((f, index, arr) => {
-                    const comma = index === arr.length - 1 ? '' : ', ';
-                    return f + comma;
-                  })
-                } • {
-                  film.genres.map((f, index, arr) => {
-                    const comma = index === arr.length - 1 ? '' : ', ';
-                    return f + comma;
-                  })
+                  film.premiereRu && (<Rating>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</Rating>)
                 }
-              </Description>
-            </MoreContainer>
+                <Description>
+                  {
+                    film.countries.map((f, index, arr) => {
+                      const comma = index === arr.length - 1 ? '' : ', ';
+                      return f + comma;
+                    })
+                  } • {
+                    film.genres.map((f, index, arr) => {
+                      const comma = index === arr.length - 1 ? '' : ', ';
+                      return f + comma;
+                    })
+                  }
+                </Description>
+              </MoreContainer>
+            </>
           )
         }
         <Name>{film.name}</Name>
