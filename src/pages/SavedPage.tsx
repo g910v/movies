@@ -12,7 +12,7 @@ export interface Option {
 }
 
 const Container = styled.div`
-  margin-top: 1.4rem;
+  margin: 1.4rem 0;
   display: flex;
   flex-wrap: wrap;
   row-gap: 1rem;

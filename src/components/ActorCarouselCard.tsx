@@ -19,11 +19,11 @@ interface Props {
   actor: IActor,
 }
 
-const ActorSmallCard: React.FC<Props> = ({ actor }) => (
+const ActorCarouselCard: React.FC<Props> = ({ actor }) => (
   <Container>
     <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
     <div>{actor.nameRu}</div>
   </Container>
 );
 
-export default ActorSmallCard;
+export default ActorCarouselCard;

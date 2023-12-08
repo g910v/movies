@@ -16,8 +16,8 @@ import {
 import baseTheme from '../styles/theme';
 import { IMovieInfo } from '../stores/FilmInfoStore';
 import { IActor } from '../stores/ActorsStore';
-import ActorSmallCard from '../components/ActorSmallCard';
-import FilmSmallCard from '../components/FilmSmallCard';
+import ActorCarouselCard from '../components/ActorCarouselCard';
+import FilmCarouselCard from '../components/FilmCarouselCard';
 import Modal from '../components/styled/Modal';
 
 const BackImg = styled.div<{ url: string }>`
@@ -311,7 +311,7 @@ const MovieInfoPage: React.FC = () => {
                         <Carousel>
                             {
                               actors?.map(i => (
-                                <ActorSmallCard key={i.kinopoiskId} actor={i} />
+                                <ActorCarouselCard key={i.kinopoiskId} actor={i} />
                               ))
                             }
                         </Carousel>
@@ -325,7 +325,7 @@ const MovieInfoPage: React.FC = () => {
                         <Carousel>
                             {
                               movie.similarMovies?.map(i => (
-                                <FilmSmallCard
+                                <FilmCarouselCard
                                   key={i.id}
                                   film={{
                                     name: i.name,

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Card } from './styled';
 
 const Image = styled.img`
   width: 9rem;
@@ -51,27 +50,25 @@ interface Props {
   film: IMovie,
 }
 
-const FilmSmallCard: React.FC<Props> = ({ film }) => {
+const FilmCarouselCard: React.FC<Props> = ({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   return (
-    <Card>
-      <Container
-        onMouseEnter={() => setNameVisible(true)}
-        onMouseLeave={() => setNameVisible(false)}
-      >
-        <Image src={film.poster} alt={film.enName ?? ''} />
-        {
-          nameVisible && (
-            <MoreContainer>
-              <Name>{film.name}</Name>
-              <Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>
-              <Rating>{film.year} г.</Rating>
-            </MoreContainer>
-          )
-        }
-      </Container>
-    </Card>
+    <Container
+      onMouseEnter={() => setNameVisible(true)}
+      onMouseLeave={() => setNameVisible(false)}
+    >
+      <Image src={film.poster} alt={film.enName ?? ''} />
+      {
+        nameVisible && (
+          <MoreContainer>
+            <Name>{film.name}</Name>
+            <Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>
+            <Rating>{film.year} г.</Rating>
+          </MoreContainer>
+        )
+      }
+    </Container>
   );
 };
 
-export default FilmSmallCard;
+export default FilmCarouselCard;
