@@ -90,7 +90,7 @@ const MovieContent = styled.div`
 `;
 
 const MovieTitle = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 500;
 `;
 
@@ -203,7 +203,12 @@ const ActorInfoPage: React.FC = () => {
                         {
                           i.name ? (<div>{i.alternativeName}</div>) : (<MovieTitle>{i.alternativeName}</MovieTitle>)
                         }
-                        <ProfessionMovie>{i.description && (<>Роль: {i.description}</>)}</ProfessionMovie>
+                        <ProfessionMovie>{i.description && (
+                          <>
+                            Роль: {i.description === 'Self' ? 'играет самого себя' : i.description}
+                          </>
+                        )}
+                        </ProfessionMovie>
                       </MovieContent>
                       <RatingMovie>
                         <div>{i.rating?.toFixed(1)}</div>
