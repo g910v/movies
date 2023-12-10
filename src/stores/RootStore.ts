@@ -1,5 +1,5 @@
 import {
-  UiStore, FilmInfoStore, FilmsStore, ActorsStore, SearchStore,
+  UiStore, FilmInfoStore, FilmsStore, ActorsStore, SearchStore, ActorInfoStore,
 } from '.';
 
 class RootStore {
@@ -13,6 +13,8 @@ class RootStore {
 
   filmInfoStore;
 
+  actorInfoStore;
+
   constructor() {
     this.uiStore = new UiStore(this);
     this.uiStore.init();
@@ -21,6 +23,7 @@ class RootStore {
     this.actorStote = new ActorsStore(this);
     this.searchStore = new SearchStore(this);
     this.filmInfoStore = new FilmInfoStore(this);
+    this.actorInfoStore = new ActorInfoStore(this);
   }
 }
 

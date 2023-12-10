@@ -17,6 +17,7 @@ const PremieresPage = lazy(() => import('../pages/PremieresPage'));
 const ActorsPage = lazy(() => import('../pages/ActorsPage'));
 const SavedPage = lazy(() => import('../pages/SavedPage'));
 const MovieInfoPage = lazy(() => import('../pages/MovieInfoPage'));
+const ActorInfoPage = lazy(() => import('../pages/ActorInfoPage'));
 
 const SpinContainer = styled.div`
   margin-top: 45vh;
@@ -57,6 +58,7 @@ const Content: React.FC = () => (
         <Route path={routes.ACTORS.path} element={<ActorsPage />} />
         <Route path={routes.SAVED.path} element={<SavedPage />} />
         <Route path="movie/:movieId" element={<MovieInfoPage />} />
+        <Route path="person/:personId" element={<ActorInfoPage />} />
       </Route>
     </Routes>
   </Suspense>

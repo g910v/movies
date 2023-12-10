@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Card } from './styled';
 import { IActor } from '../stores/ActorsStore';
+import baseTheme from '../styles/theme';
+
+const ActorCard = styled(Link)`
+  width: 100%;
+  color: ${baseTheme.colors.text};
+`;
 
 const Image = styled.img`
   width: 7rem;
@@ -26,14 +33,16 @@ interface Props {
 }
 
 const ActorBigCard: React.FC<Props> = ({ actor }) => (
-  <Card>
-    <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
-    <Container>
-      <ActorName>{actor.nameRu}</ActorName>
-      <div>{actor.nameEn}</div>
-      <div>Пол: {actor.sex}</div>
-    </Container>
-  </Card>
+  <ActorCard to={`/person/${actor.kinopoiskId}`}>
+    <Card>
+      <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
+      <Container>
+        <ActorName>{actor.nameRu}</ActorName>
+        <div>{actor.nameEn}</div>
+        <div>Пол: {actor.sex}</div>
+      </Container>
+    </Card>
+  </ActorCard>
 );
 
 export default ActorBigCard;
