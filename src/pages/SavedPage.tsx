@@ -29,8 +29,8 @@ const list = css`
   flex-wrap: wrap;
 `;
 
-const Container = styled.div<{gridMode: boolean}>`
-  ${props => (props.gridMode ? grid : list)};
+const Container = styled.div<{gridmode: boolean}>`
+  ${props => (props.gridmode ? grid : list)};
   row-gap: 1rem;
 `;
 
@@ -55,7 +55,7 @@ const SavedPage: React.FC = () => {
           <SelectViewButtons />
         </ModeButtons>
       </div>
-      <Container gridMode={uiStore.viewMode === 'grid'}>
+      <Container gridmode={uiStore.viewMode === 'grid'}>
         {
           filmsStore.savedFilms.length ? (
             filmsStore.savedFilms.map(f => (uiStore.viewMode === 'list'

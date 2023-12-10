@@ -80,8 +80,11 @@ const IconSelect = styled.span`
   cursor: pointer;
 `;
 
+interface IMovie extends Omit<IFilm, 'saved'> {
+  saved: boolean | null,
+}
 interface Props {
-  film: IFilm,
+  film: IMovie,
 }
 
 const FilmSmallCard: React.FC<Props> = ({ film }) => {
@@ -99,32 +102,40 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
           nameVisible && (
             <>
               <ActiveContainer>
-                <IconSelect onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}>
-                  {
-                    film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
-                  }
-                </IconSelect>
+                {
+                  film.saved !== null && (
+                    <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IFilm, !film.saved)}>
+                      {
+                        film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
+                      }
+                    </IconSelect>
+                  )
+                }
               </ActiveContainer>
               <MoreContainer to={`/movie/${film.kId}`}>
                 {film.enName && (<EnName>{film.enName}</EnName>)}
                 {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
-                <Rating>{film.year && (<>{film.year} г.</>)} {film.duration && (<>, {film.duration} мин.</>)}</Rating>
+                <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
                 {
                   film.premiereRu && (<Rating>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</Rating>)
                 }
-                <Description>
-                  {
-                    film.countries.map((f, index, arr) => {
-                      const comma = index === arr.length - 1 ? '' : ', ';
-                      return f + comma;
-                    })
-                  } • {
-                    film.genres.map((f, index, arr) => {
-                      const comma = index === arr.length - 1 ? '' : ', ';
-                      return f + comma;
-                    })
-                  }
-                </Description>
+                {
+                  !!film.countries.length && !!film.genres.length && (
+                    <Description>
+                      {
+                        film.countries.map((f, index, arr) => {
+                          const comma = index === arr.length - 1 ? '' : ', ';
+                          return f + comma;
+                        })
+                      } • {
+                        film.genres.map((f, index, arr) => {
+                          const comma = index === arr.length - 1 ? '' : ', ';
+                          return f + comma;
+                        })
+                      }
+                    </Description>
+                  )
+                }
               </MoreContainer>
             </>
           )

@@ -17,8 +17,8 @@ import baseTheme from '../styles/theme';
 import { IMovieInfo } from '../stores/FilmInfoStore';
 import { IActor } from '../stores/ActorsStore';
 import ActorCarouselCard from '../components/ActorCarouselCard';
-import FilmCarouselCard from '../components/FilmCarouselCard';
 import Modal from '../components/styled/Modal';
+import FilmSmallCard from '../components/FilmSmallCard';
 
 const BackImg = styled.div<{ url: string }>`
   height: 100vh;
@@ -53,7 +53,7 @@ const SpinnerContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  padding: 8rem 0;
+  padding: 8rem 0 4rem 0;
   height: fit-content;
   width: 85%;
   display: flex;
@@ -65,7 +65,6 @@ const PosterContainer = styled.div`
   width: 45vh;
   margin-right: 1rem;
   height: max-content;
-  margin-bottom: 1.5rem;
 `;
 
 const Poster = styled.img`
@@ -83,7 +82,7 @@ const InfoContainer = styled.div`
 
 const ActorsContainer = styled.div`
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
 `;
 
 const Title = styled.div`
@@ -111,6 +110,8 @@ const DetailsButton = styled.div`
 const SubTitle = styled.div`
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 `;
 
 const SavedIcon = styled.div`
@@ -129,6 +130,20 @@ const MainTitle = styled.div`
   justify-content: space-between;
 `;
 
+const SimilarMovies = styled.div`
+  display: grid;
+  column-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  row-gap: 1rem;
+`;
+
+const SimilarTitle = styled(SubTitle)`
+  cursor: pointer;
+  &:hover {
+    color: ${baseTheme.colors.mix};
+  }
+`;
+
 const MovieInfoPage: React.FC = () => {
   const { filmInfoStore, filmsStore } = useRootStore();
   const params = useParams();
@@ -141,6 +156,7 @@ const MovieInfoPage: React.FC = () => {
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [youtubeVisible, setYoutubeVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [showSimilar, setShowSimilar] = useState(false);
 
   useEffect(() => {
     if (params.movieId) {
@@ -234,7 +250,7 @@ const MovieInfoPage: React.FC = () => {
                       {!!movie.rating?.kp && (<RatingStars rating={movie.rating.kp} />)}
                     </Description>
                     <Description>
-                      {movie.year}, {movie.movieLength} мин.
+                      {movie.year} г., {movie.movieLength} мин.
                     </Description>
                     <Description>
                       Жанр: {
@@ -264,42 +280,61 @@ const MovieInfoPage: React.FC = () => {
                     {
                       showDetails && (
                         <>
+                          {
+                            !!directors?.length && (
+                              <Description>
+                                Режиссер: {
+                                  directors?.map((f, index, arr) => {
+                                    const comma = index === arr.length - 1 ? '' : ', ';
+                                    return f.name + comma;
+                                  })
+                                }
+                              </Description>
+                            )
+                          }
+                          {
+                            !!writers?.length && (
+                              <Description>
+                                Сценарист: {
+                                  writers?.map((f, index, arr) => {
+                                    const comma = index === arr.length - 1 ? '' : ', ';
+                                    return f.name + comma;
+                                  })
+                                }
+                              </Description>
+                            )
+                          }
+                          {
+                            !!producers?.length && (
+                              <Description>
+                                Продюсер: {
+                                  producers?.map((f, index, arr) => {
+                                    const comma = index === arr.length - 1 ? '' : ', ';
+                                    return f.name + comma;
+                                  })
+                                }
+                              </Description>
+                            )
+                          }
+                          {
+
+                          }
                           <Description>
-                            Режиссер: {
-                              directors?.map((f, index, arr) => {
-                                const comma = index === arr.length - 1 ? '' : ', ';
-                                return f.name + comma;
-                              })
-                            }
+                            Бюджет: {movie.budget?.value ? `${movie.budget.value} ${movie.budget?.currency}` : 'Информация отсутсвует'}
                           </Description>
                           <Description>
-                            Сценарист: {
-                              writers?.map((f, index, arr) => {
-                                const comma = index === arr.length - 1 ? '' : ', ';
-                                return f.name + comma;
-                              })
-                            }
-                          </Description>
-                          <Description>
-                            Продюсер: {
-                              producers?.map((f, index, arr) => {
-                                const comma = index === arr.length - 1 ? '' : ', ';
-                                return f.name + comma;
-                              })
-                            }
-                          </Description>
-                          <Description>
-                            Бюджет: {movie.budget?.value} {movie.budget?.currency}
-                          </Description>
-                          <Description>
-                            Сборы в мире: {movie.fees?.world?.value} {movie.fees?.world?.currency}
+                            Сборы в мире: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
                           </Description>
                           <Description>
                             Премьера в мире: {format(new Date(movie.premiere?.world ?? ''), 'dd MMMM Y', { locale: ruLocale })}
                           </Description>
-                          <Description>
-                            «{movie.slogan}»
-                          </Description>
+                          {
+                            movie.slogan && (
+                              <Description>
+                                «{movie.slogan}»
+                              </Description>
+                            )
+                          }
                         </>
                       )
                     }
@@ -307,38 +342,48 @@ const MovieInfoPage: React.FC = () => {
                   <ActorsContainer>
                     <SubTitle>Актерский состав</SubTitle>
                     {
-                      actors?.length && (
+                      actors?.length ? (
                         <Carousel>
-                            {
-                              actors?.map(i => (
-                                <ActorCarouselCard key={i.kinopoiskId} actor={i} />
-                              ))
-                            }
+                          {
+                            actors?.map(i => (
+                              <ActorCarouselCard key={i.kinopoiskId} actor={i} />
+                            ))
+                          }
                         </Carousel>
+                      ) : (
+                        <div>Информация отсутвует</div>
                       )
                     }
                   </ActorsContainer>
                   <ActorsContainer>
-                    <SubTitle>Похожие фильмы</SubTitle>
+                    <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
+                      Похожие фильмы
+                      {
+                        showSimilar ? <BiChevronUp style={{ fontSize: '2.5rem' }} /> : <BiChevronDown style={{ fontSize: '2.5rem' }} />
+                      }
+                    </SimilarTitle>
                     {
-                      movie?.similarMovies && (
-                        <Carousel>
-                            {
-                              movie.similarMovies?.map(i => (
-                                <FilmCarouselCard
-                                  key={i.id}
-                                  film={{
-                                    name: i.name,
-                                    enName: i.alternativeName,
-                                    rating: i.rating.kp ?? undefined,
-                                    poster: i.poster.previewUrl ?? '',
-                                    kId: i.id ?? -1,
-                                    year: i.year,
-                                  }}
-                                />
-                              ))
-                            }
-                        </Carousel>
+                      showSimilar && (
+                        <SimilarMovies>
+                          {
+                            movie.similarMovies?.map(i => (
+                              <FilmSmallCard
+                                key={i.id}
+                                film={{
+                                  name: i.name,
+                                  enName: i.alternativeName,
+                                  rating: i.rating.kp ?? undefined,
+                                  poster: i.poster.previewUrl ?? '',
+                                  kId: i.id ?? -1,
+                                  year: i.year,
+                                  countries: [],
+                                  genres: [],
+                                  saved: null,
+                                }}
+                              />
+                            ))
+                          }
+                        </SimilarMovies>
                       )
                     }
                   </ActorsContainer>

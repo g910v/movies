@@ -21,8 +21,8 @@ const list = css`
   flex-wrap: wrap;
 `;
 
-const Container = styled.div<{gridMode: boolean}>`
-  ${props => (props.gridMode ? grid : list)};
+const Container = styled.div<{gridmode: boolean}>`
+  ${props => (props.gridmode ? grid : list)};
   row-gap: 1rem;
 `;
 
@@ -72,12 +72,12 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
     <>
       {
         filmsStore.filmsLoading && (
-        <Container gridMode={false}>
+        <Container gridmode={false}>
           <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
         </Container>
         )
       }
-      <Container gridMode={uiStore.viewMode === 'grid'}>
+      <Container gridmode={uiStore.viewMode === 'grid'}>
         {
           (!filmsStore.filmsLoading && !!filmsStore.filmList.length)
           && filmsStore.filmList.map(f => (uiStore.viewMode === 'list'
@@ -88,7 +88,7 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
       {
         (!filmsStore.filmsLoading && !filmsStore.filmList.length)
         && (
-        <Container gridMode={false}>
+        <Container gridmode={false}>
           <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
         </Container>
         )
