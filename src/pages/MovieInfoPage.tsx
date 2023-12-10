@@ -150,7 +150,7 @@ const SimilarTitle = styled(SubTitle)`
 `;
 
 const MovieInfoPage: React.FC = () => {
-  const { filmInfoStore, filmsStore } = useRootStore();
+  const { filmInfoStore, filmsStore, uiStore } = useRootStore();
   const params = useParams();
   const [movie, setMovie] = useState<IMovieInfo | undefined>(undefined);
   const [showDetails, setShowDetails] = useState(false);
@@ -160,7 +160,7 @@ const MovieInfoPage: React.FC = () => {
   const [writers, setWriters] = useState<IMovieInfo['persons']>([]);
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [youtubeVisible, setYoutubeVisible] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isSaved, setIsSaved] = useState(true);
   const [showSimilar, setShowSimilar] = useState(false);
 
   useEffect(() => {
@@ -206,6 +206,10 @@ const MovieInfoPage: React.FC = () => {
       }, isSaved);
     }
   }, [isSaved, movie, filmsStore]);
+
+  useEffect(() => {
+    uiStore.updateDocumentTitle('Актеры');
+  }, [uiStore]);
 
   return (
     <>

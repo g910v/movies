@@ -20,7 +20,7 @@ const Image = styled.img`
 const TypeName = styled.div`
   font-size: 1.8rem;
   margin-left: 2rem;
-  font-weight: 200;
+  font-weight: 400;
 `;
 
 const TypeContainer = styled.div`

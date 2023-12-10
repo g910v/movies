@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { BiArrowFromTop } from 'react-icons/bi';
+import { BiChevronsDown } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import FilmBigCard from './FilmBigCard';
 import { Spinner } from './styled';
@@ -44,7 +44,7 @@ const MoreButton = styled.div`
   }
 `;
 
-const MoreIcon = styled(BiArrowFromTop)`
+const MoreIcon = styled(BiChevronsDown)`
   font-size: 1.5rem;
 `;
 

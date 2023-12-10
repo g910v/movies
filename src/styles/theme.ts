@@ -9,7 +9,7 @@ const baseTheme = {
 
     yellow: '#F3CE3E',
     pink: '#B42790',
-    mix: '#d88563',
+    mix: '#c96073',
 
     gradient: 'linear-gradient(to right, #F3CE3E, #B42790)',
     gradientDisabled: 'linear-gradient(to right, #a89b67, #692c59)',

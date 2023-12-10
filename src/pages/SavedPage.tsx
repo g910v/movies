@@ -32,6 +32,7 @@ const list = css`
 const Container = styled.div<{gridmode: boolean}>`
   ${props => (props.gridmode ? grid : list)};
   row-gap: 1rem;
+  margin-top: 0.5rem;
 `;
 
 const EmptyMessage = styled.div`

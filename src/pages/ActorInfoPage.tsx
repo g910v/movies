@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   Link,
@@ -7,9 +7,11 @@ import {
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
+import { BiChevronsDown } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import { Card, Spinner } from '../components/styled';
-import baseTheme from '../styles/theme';
+import baseTheme, { textGradient } from '../styles/theme';
+import { IActorInfo } from '../stores/ActorInfoStore';
 
 const SpinnerContainer = styled.div`
   width: 100%;
@@ -107,15 +109,43 @@ const ProfessionMovie = styled.div`
   color: ${baseTheme.colors.textSecondary};
 `;
 
+const MoreButton = styled.div`
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    color: ${baseTheme.colors.pink};
+    ${textGradient}
+  }
+`;
+
+const MoreIcon = styled(BiChevronsDown)`
+  font-size: 1.5rem;
+`;
+
 const ActorInfoPage: React.FC = () => {
-  const { actorInfoStore } = useRootStore();
+  const { actorInfoStore, uiStore } = useRootStore();
   const params = useParams();
+  const [filmList, setFilmList] = useState<IActorInfo['movies']>([]);
 
   useEffect(() => {
     if (params.personId) {
       actorInfoStore.getActor(params.personId);
     }
   }, [actorInfoStore, params]);
+
+  useEffect(() => {
+    uiStore.updateDocumentTitle('Актеры');
+  }, [uiStore]);
+
+  useEffect(() => {
+    if (actorInfoStore.actorInfo?.movies) {
+      setFilmList(actorInfoStore.actorInfo.movies.slice(0, 5));
+    }
+  }, [actorInfoStore.actorInfo]);
 
   return (
     <>
@@ -195,7 +225,7 @@ const ActorInfoPage: React.FC = () => {
             </SubTitle>
             <Movies>
               {
-                actorInfoStore.actorInfo.movies?.map(i => (
+                filmList?.map(i => (
                   <MovieCard to={`/movie/${i.id}`}>
                     <Card>
                       <MovieContent>
@@ -217,6 +247,15 @@ const ActorInfoPage: React.FC = () => {
                   </MovieCard>
                 ))
               }
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {
+                  actorInfoStore.actorInfo.movies?.length && actorInfoStore.actorInfo.movies.length > 5 && filmList?.length === 5 && (
+                    <MoreButton onClick={() => setFilmList(actorInfoStore.actorInfo?.movies)}>
+                      Показать полный список фильмов <MoreIcon />
+                    </MoreButton>
+                  )
+                }
+              </div>
             </Movies>
           </ActorsContainer>
         </ContentContainer>
