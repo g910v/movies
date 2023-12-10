@@ -19,7 +19,7 @@ const SpinnerContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  padding: 4rem 0 4rem 0;
+  padding: 3rem 0 4rem 0;
   height: fit-content;
   width: 85%;
   display: flex;
