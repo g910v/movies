@@ -6,6 +6,7 @@ import {
 export type DevFilmsGetResponse = GetResponse<'/v1.4/movie'>
 export type DevFilmsQueryParams = GetQueryParams<'/v1.4/movie'>
 export type DevFilmGetOneResponse = GetResponse<'/v1.4/movie/{id}'>
+export type DevActorGetOneResponse = GetResponse<'/v1.4/person/{id}'>
 
 const kinoDevAxios = axios.create({
   baseURL: API_URL,
@@ -36,6 +37,9 @@ const kinoDev = {
       paramsSerializer,
     }),
     getOne: (id: Id): Response<DevFilmGetOneResponse> => kinoDevAxios.get(`/v1.4/movie/${id}`),
+  },
+  actors: {
+    getOne: (id: Id): Response<DevActorGetOneResponse> => kinoDevAxios.get(`/v1.4/person/${id}`),
   },
 };
 
