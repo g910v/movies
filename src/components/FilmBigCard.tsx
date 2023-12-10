@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Card } from './styled';
-import baseTheme, { textGradient } from '../styles/theme';
+import baseTheme from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
 import { useRootStore } from '../hooks';
 
@@ -22,33 +22,31 @@ const Container = styled.div`
   height: 10rem;
 `;
 
+const InfoContainer = styled(Link)`
+  display: flex;
+  width: 100%;
+  color: ${baseTheme.colors.text};
+`;
+
 const TextContainer = styled(Container)`
   margin-left: 1rem;
   margin-right: 1rem;
-`;
-
-const ActiveContainer = styled(Container)`
-  margin-left: auto;
-  align-items: end;
-  justify-content: start;
-
 `;
 
 const IconSelect = styled.span`
   font-size: 1.8rem;
   color: ${baseTheme.colors.yellow};
   cursor: pointer;
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
 `;
 
-const FilmName = styled(Link)`
+const FilmName = styled.div`
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.9rem;
   cursor: pointer;
-  color: ${baseTheme.colors.text};
-  &:hover {
-    ${textGradient}
-  }
 `;
 
 const Description = styled.div`
@@ -63,21 +61,22 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
   const { filmsStore } = useRootStore();
   return (
     <Card>
-      <Image src={film.poster} alt={film.name} />
-      <TextContainer>
-        <FilmName to={`/movie/${film.kId}`}>{film.name}</FilmName>
-        <div>
-          <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин., </>)} {film.year && (<>{film.year} г.</>)}</div>
-          {
+      <InfoContainer to={`/movie/${film.kId}`}>
+        <Image src={film.poster} alt={film.name} />
+        <TextContainer>
+          <FilmName>{film.name}</FilmName>
+          <div>
+            <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин., </>)} {film.year && (<>{film.year} г.</>)}</div>
+            {
             film.rating && (<div>Рейтинг: {film.rating}</div>)
           }
-          {
+            {
             film.premiereRu && (<div>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</div>)
           }
-        </div>
-        <div>
-          <Description>
-            {
+          </div>
+          <div>
+            <Description>
+              {
               film.countries.map((f, index, arr) => {
                 const comma = index === arr.length - 1 ? '' : ', ';
                 return f + comma;
@@ -88,16 +87,15 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
                 return f + comma;
               })
             }
-          </Description>
-        </div>
-      </TextContainer>
-      <ActiveContainer>
-        <IconSelect onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}>
-          {
-            film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
-          }
-        </IconSelect>
-      </ActiveContainer>
+            </Description>
+          </div>
+        </TextContainer>
+      </InfoContainer>
+      <IconSelect onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}>
+        {
+          film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
+        }
+      </IconSelect>
     </Card>
   );
 };
