@@ -13,7 +13,7 @@ import { useRootStore } from '../hooks';
 import {
   Carousel, Spinner, RatingStars, Button,
 } from '../components/styled';
-import baseTheme from '../styles/theme';
+import baseTheme, { textGradient } from '../styles/theme';
 import { IMovieInfo } from '../stores/FilmInfoStore';
 import { IActor } from '../stores/ActorsStore';
 import ActorCarouselCard from '../components/ActorCarouselCard';
@@ -103,7 +103,8 @@ const DetailsButton = styled.div`
   cursor: pointer;
   width: fit-content;
   &:hover {
-    color: ${baseTheme.colors.mix}
+    color: ${baseTheme.colors.pink};
+    ${textGradient}
   }
 `;
 
@@ -133,14 +134,18 @@ const MainTitle = styled.div`
 const SimilarMovies = styled.div`
   display: grid;
   column-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   row-gap: 1rem;
 `;
 
 const SimilarTitle = styled(SubTitle)`
   cursor: pointer;
+  width: fit-content;
+  display: flex;
+  margin-top: 0;
   &:hover {
-    color: ${baseTheme.colors.mix};
+    color: ${baseTheme.colors.pink};
+    ${textGradient}
   }
 `;
 
@@ -274,7 +279,7 @@ const MovieInfoPage: React.FC = () => {
                     <DetailsButton onClick={() => setShowDetails(prev => !prev)}>
                       Детали о {movie.type === 'movie' ? 'фильме' : 'сериале'}
                       {
-                        showDetails ? <BiChevronUp style={{ fontSize: '1.5rem' }} /> : <BiChevronDown style={{ fontSize: '1.5rem' }} />
+                        showDetails ? <BiChevronUp style={{ fontSize: '1.5rem', marginTop: '0.1rem' }} /> : <BiChevronDown style={{ fontSize: '1.5rem' }} />
                       }
                     </DetailsButton>
                     {
@@ -359,7 +364,7 @@ const MovieInfoPage: React.FC = () => {
                     <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
                       Похожие фильмы
                       {
-                        showSimilar ? <BiChevronUp style={{ fontSize: '2.5rem' }} /> : <BiChevronDown style={{ fontSize: '2.5rem' }} />
+                        showSimilar ? <BiChevronUp style={{ fontSize: '2.5rem', marginBottom: '-0.5rem' }} /> : <BiChevronDown style={{ fontSize: '2.5rem' }} />
                       }
                     </SimilarTitle>
                     {

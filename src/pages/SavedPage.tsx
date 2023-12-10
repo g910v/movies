@@ -21,7 +21,7 @@ const ModeButtons = styled.div`
 const grid = css`
   display: grid;
   column-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
 `;
 
 const list = css`

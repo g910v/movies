@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 const MoreContainer = styled(Link)`
-  width: calc(100% - 4rem);
+  width: calc(100% - 3rem);
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -38,8 +38,8 @@ const MoreContainer = styled(Link)`
   left: 0;
   border-radius: 5px;
   background: rgba(0, 0, 0, 0.8);
-  height: calc(100% - 5.5rem);
-  padding: 1.5rem 2rem 4rem;
+  height: calc(100% - 4.5rem);
+  padding: 1rem 1.5rem 3.5rem;
   color: ${baseTheme.colors.text};
 `;
 
@@ -70,8 +70,8 @@ const Description = styled.div`
 const ActiveContainer = styled(Container)`
   position: absolute;
   z-index: 10;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
 `;
 
 const IconSelect = styled.span`
@@ -113,7 +113,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
                 }
               </ActiveContainer>
               <MoreContainer to={`/movie/${film.kId}`}>
-                {film.enName && (<EnName>{film.enName}</EnName>)}
+                {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
                 {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
                 <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
                 {

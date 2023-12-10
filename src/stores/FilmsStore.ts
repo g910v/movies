@@ -24,10 +24,12 @@ export interface IFilters {
   genre?: number,
   country?: number,
   year?: number,
+  page: number,
 }
 
 export interface ITopFilters {
   type: 'TOP_250_TV_SHOWS' | 'TOP_250_MOVIES'
+  page: number,
 }
 
 export interface IPremiereFilters extends UnoffPremiersQueryParams {}
@@ -105,12 +107,12 @@ class FilmsStore {
   }
 
   public getTopMovies(filter: ITopFilters) {
-    this.fetchTopFilms({ ...filter, page: 1 });
+    this.fetchTopFilms(filter);
   }
 
   private async fetchTopFilms(filters: UnoffCollectionsQueryParams) {
     this.setFilmLoading(true);
-    this.filmList = [];
+    if (filters?.page === 1) this.filmList = [];
     try {
       const { data: { items } } = await api.kinoUnoff.collections.get(filters);
       const newData = items.map(f => ({
@@ -124,7 +126,7 @@ class FilmsStore {
         kId: f.kinopoiskId ?? 0,
         saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
-      this.setFilmList(newData);
+      this.setFilmList([...this.filmList, ...newData]);
     } catch (error) {
       console.log(error);
     }
@@ -160,7 +162,7 @@ class FilmsStore {
       type: filters.type,
       genres: filters.genre ? [filters.genre] : undefined,
       countries: filters.country ? [filters.country] : undefined,
-      page: 1,
+      page: filters.page,
       yearFrom: startYear,
       yearTo: endYear,
     };
@@ -169,7 +171,7 @@ class FilmsStore {
 
   private async fetchFilms(filters: UnoffFilmsQueryParams) {
     this.setFilmLoading(true);
-    this.filmList = [];
+    if (filters?.page === 1) this.filmList = [];
     try {
       const { data: { items } } = await api.kinoUnoff.films.get(filters);
       const newData = items.map(f => ({
@@ -183,7 +185,7 @@ class FilmsStore {
         kId: f.kinopoiskId ?? 0,
         saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
-      this.setFilmList(newData);
+      this.setFilmList([...this.filmList, ...newData]);
     } catch (error) {
       console.log(error);
     }

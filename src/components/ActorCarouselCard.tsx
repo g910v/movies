@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { IActor } from '../stores/ActorsStore';
+import baseTheme from '../styles/theme';
 
 const Image = styled.img`
   width: 9rem;
@@ -8,11 +10,12 @@ const Image = styled.img`
   border-radius: 5px;
 `;
 
-const Container = styled.div`
+const Container = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: max-content;
+  color: ${baseTheme.colors.text};
 `;
 
 interface Props {
@@ -20,7 +23,7 @@ interface Props {
 }
 
 const ActorCarouselCard: React.FC<Props> = ({ actor }) => (
-  <Container>
+  <Container to={`/person/${actor.kinopoiskId}`}>
     <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
     <div>{actor.nameRu}</div>
   </Container>

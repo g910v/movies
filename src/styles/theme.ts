@@ -32,13 +32,13 @@ const baseTheme = {
 };
 
 export const textGradient = css`
-background-image: ${baseTheme.colors.gradient};
-background-size: 100%;
-background-repeat: repeat;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent; 
--moz-background-clip: text;
--moz-text-fill-color: transparent;
+  background-image: ${baseTheme.colors.gradient};
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
 `;
 
 export default baseTheme;

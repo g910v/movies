@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
+import { BiArrowFromTop } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import FilmBigCard from './FilmBigCard';
 import { Spinner } from './styled';
@@ -9,11 +10,12 @@ import genres from '../shared/genres';
 import countries from '../shared/countries';
 import { IPremiereFilters } from '../stores/FilmsStore';
 import FilmSmallCard from './FilmSmallCard';
+import baseTheme, { textGradient } from '../styles/theme';
 
 const grid = css`
   display: grid;
   column-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
 `;
 
 const list = css`
@@ -21,9 +23,35 @@ const list = css`
   flex-wrap: wrap;
 `;
 
+const MainContent = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+`;
+
+const MoreButton = styled.div`
+  width: fit-content;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    color: ${baseTheme.colors.pink};
+    ${textGradient}
+  }
+`;
+
+const MoreIcon = styled(BiArrowFromTop)`
+  font-size: 1.5rem;
+`;
+
 const Container = styled.div<{gridmode: boolean}>`
   ${props => (props.gridmode ? grid : list)};
   row-gap: 1rem;
+  width: 100%;
 `;
 
 const SpinnerContainer = styled.div`
@@ -48,11 +76,13 @@ interface Props {
 const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
   const { filmsStore, uiStore } = useRootStore();
   const params = useParams();
+  const [page, setPage] = useState(1);
 
-  useEffect(() => {
+  const getFilmList = useCallback(() => {
     if (isTop) {
       filmsStore.getTopMovies({
         type: type === 'FILM' ? 'TOP_250_MOVIES' : 'TOP_250_TV_SHOWS',
+        page,
       });
     } else if (type === 'PREMIERES' && premiereFilters) {
       filmsStore.getPremiereFilms(premiereFilters);
@@ -64,33 +94,48 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
         genre: genre?.id,
         country: country?.id,
         year: params.year ? Number(params.year) : undefined,
+        page,
       });
     }
-  }, [filmsStore, params, type, isTop, premiereFilters]);
+  }, [filmsStore, isTop, premiereFilters, type, params, page]);
+
+  useEffect(() => {
+    getFilmList();
+  }, [getFilmList]);
 
   return (
     <>
       {
-        filmsStore.filmsLoading && (
-        <Container gridmode={false}>
-          <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
-        </Container>
+        filmsStore.filmsLoading && !filmsStore.filmList.length && (
+          <Container gridmode={false}>
+            <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
+          </Container>
         )
       }
-      <Container gridmode={uiStore.viewMode === 'grid'}>
-        {
-          (!filmsStore.filmsLoading && !!filmsStore.filmList.length)
-          && filmsStore.filmList.map(f => (uiStore.viewMode === 'list'
-            ? <FilmBigCard key={f.kId} film={f} />
-            : <FilmSmallCard key={f.kId} film={f} />))
-        }
-      </Container>
+      {
+        (!!filmsStore.filmList.length) && (
+          <MainContent>
+            <Container gridmode={uiStore.viewMode === 'grid'}>
+              {
+                filmsStore.filmList.map(f => (uiStore.viewMode === 'list'
+                  ? <FilmBigCard key={f.kId} film={f} />
+                  : <FilmSmallCard key={f.kId} film={f} />))
+              }
+            </Container>
+            <MoreButton onClick={() => setPage(prev => prev + 1)}>Показать еще {
+              filmsStore.filmsLoading ? <Spinner strokeWidth={2} size={20} /> : <MoreIcon />
+            }
+            </MoreButton>
+          </MainContent>
+        )
+      }
+
       {
         (!filmsStore.filmsLoading && !filmsStore.filmList.length)
         && (
-        <Container gridmode={false}>
-          <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
-        </Container>
+          <Container gridmode={false}>
+            <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
+          </Container>
         )
       }
     </>
