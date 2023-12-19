@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {
   Outlet, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
-import { BiLeftArrowAlt } from 'react-icons/bi';
+import { BiExit } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import baseTheme from '../styles/theme';
 import { PageContainer, Title, SelectButtons } from '../components/styled';
@@ -21,6 +21,7 @@ const MenuContainer = styled.div`
 const BackIcon = styled.div`
   font-size: 1.7rem;
   cursor: pointer;
+  transform: scale(-1, 1);
   &:hover {
     color: ${baseTheme.colors.mix};
   }
@@ -74,7 +75,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
           {
             (!!params.genre || !!params.country || !!params.year) && (
               <BackIcon onClick={() => navigate(-1)}>
-                <BiLeftArrowAlt />
+                <BiExit />
               </BackIcon>
             )
           }

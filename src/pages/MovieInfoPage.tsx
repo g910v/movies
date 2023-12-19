@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
+  useNavigate,
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-  BiChevronDown, BiChevronUp, BiBookmark, BiSolidBookmark,
+  BiChevronDown, BiChevronUp, BiBookmark, BiSolidBookmark, BiExit,
 } from 'react-icons/bi';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -120,7 +121,7 @@ const SavedIcon = styled.div`
   margin-left: 1rem;
   padding: 0.75rem 0 0 0.75rem;
   display: flex;
-  align-items: start;
+  align-items: center;
   color: ${baseTheme.colors.yellow};
   cursor: pointer;
 `;
@@ -149,9 +150,26 @@ const SimilarTitle = styled(SubTitle)`
   }
 `;
 
+const BackButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+`;
+
+const BackIcon = styled(BiExit)`
+  font-size: 1.7rem;
+  cursor: pointer;
+  color: ${baseTheme.colors.text};
+  transform: scale(-1, 1);
+  &:hover {
+    color: ${baseTheme.colors.mix};
+  }
+`;
+
 const MovieInfoPage: React.FC = () => {
   const { filmInfoStore, filmsStore, uiStore } = useRootStore();
   const params = useParams();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<IMovieInfo | undefined>(undefined);
   const [showDetails, setShowDetails] = useState(false);
   const [actors, setActors] = useState<IActor[]>([]);
@@ -209,7 +227,7 @@ const MovieInfoPage: React.FC = () => {
   }, [isSaved, movie, filmsStore]);
 
   useEffect(() => {
-    uiStore.updateDocumentTitle('Актеры');
+    uiStore.updateDocumentTitle('Фильмы и сериалы');
   }, [uiStore]);
 
   return (
@@ -250,10 +268,14 @@ const MovieInfoPage: React.FC = () => {
                   <InfoContainer>
                     <MainTitle>
                       <Title>{movie.name} ({movie.alternativeName && <>{movie.alternativeName}, </> }{movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
-                      <SavedIcon onClick={() => setIsSaved(prev => !prev)}>
+                      <SavedIcon>
                         {
-                          isSaved ? <BiSolidBookmark /> : <BiBookmark />
+                          isSaved
+                            ? <BiSolidBookmark onClick={() => setIsSaved(prev => !prev)} /> : <BiBookmark onClick={() => setIsSaved(prev => !prev)} />
                         }
+                        <BackButtonContainer>
+                          <BackIcon onClick={() => navigate(-1)} />
+                        </BackButtonContainer>
                       </SavedIcon>
                     </MainTitle>
                     <Description>
@@ -378,8 +400,9 @@ const MovieInfoPage: React.FC = () => {
                     </SimilarTitle>
                     {
                       showSimilar && (
-                        <SimilarMovies>
-                          {
+                        movie.similarMovies?.length ? (
+                          <SimilarMovies>
+                            {
                             movie.similarMovies?.map(i => (
                               <FilmSmallCard
                                 key={i.id}
@@ -398,7 +421,8 @@ const MovieInfoPage: React.FC = () => {
                               />
                             ))
                           }
-                        </SimilarMovies>
+                          </SimilarMovies>
+                        ) : <>Список фильмов и сериалов отсуствует</>
                       )
                     }
                   </ActorsContainer>

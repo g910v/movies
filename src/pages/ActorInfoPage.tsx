@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   Link,
+  useNavigate,
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
-import { BiChevronsDown } from 'react-icons/bi';
+import { BiChevronsDown, BiExit } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import { Card, Spinner } from '../components/styled';
 import baseTheme, { textGradient } from '../styles/theme';
@@ -126,10 +127,36 @@ const MoreIcon = styled(BiChevronsDown)`
   font-size: 1.5rem;
 `;
 
+const BackButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const BackIcon = styled(BiExit)`
+  font-size: 1.7rem;
+  cursor: pointer;
+  color: ${baseTheme.colors.text};
+  transform: scale(-1, 1);
+  padding-top: 0.75rem;
+  &:hover {
+    color: ${baseTheme.colors.mix};
+  }
+`;
+
+const SavedIcon = styled.div`
+  font-size: 2rem;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  cursor: pointer;
+`;
+
 const ActorInfoPage: React.FC = () => {
   const { actorInfoStore, uiStore } = useRootStore();
   const params = useParams();
   const [filmList, setFilmList] = useState<IActorInfo['movies']>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (params.personId) {
@@ -166,7 +193,13 @@ const ActorInfoPage: React.FC = () => {
             />
           </PosterContainer>
           <InfoContainer>
-            <Title>{actorInfoStore.actorInfo.name} {actorInfoStore.actorInfo.enName && <>({actorInfoStore.actorInfo.enName})</>}</Title>
+            <SavedIcon>
+              <Title>{actorInfoStore.actorInfo.name} {actorInfoStore.actorInfo.enName && <>({actorInfoStore.actorInfo.enName})</>}
+              </Title>
+              <BackButtonContainer>
+                <BackIcon onClick={() => navigate(-1)} />
+              </BackButtonContainer>
+            </SavedIcon>
             <Description>
               Пол: {actorInfoStore.actorInfo.sex}
             </Description>
