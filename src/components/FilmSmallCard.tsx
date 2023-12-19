@@ -17,10 +17,14 @@ const CardFixed = styled(Card)`
   align-items: start;
 `;
 
-const Image = styled.img`
+const ImagePreview = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 5px;
+`;
+
+const Image = styled(ImagePreview)<{height: string}>`
+  height: ${props => props.height};
 `;
 
 const Container = styled.div`
@@ -43,7 +47,7 @@ const MoreContainer = styled(Link)`
   color: ${baseTheme.colors.text};
 `;
 
-const Name = styled.div`
+const Name = styled.div<{height: string}>`
   font-weight: 800;
   font-size: 1.15rem;
   margin-top: 0.75rem;
@@ -51,6 +55,7 @@ const Name = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+  height: ${props => props.height};
 `;
 
 const EnName = styled.div`
@@ -90,6 +95,8 @@ interface Props {
 const FilmSmallCard: React.FC<Props> = ({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   const { filmsStore } = useRootStore();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   return (
     <Container
@@ -97,9 +104,23 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
       onMouseLeave={() => setNameVisible(false)}
     >
       <CardFixed>
-        <Image src={film.poster} alt={film.enName ?? ''} />
+        <Image
+          src={film.poster}
+          alt={film.name ?? ''}
+          onLoad={() => setIsLoading(false)}
+          onError={() => setIsError(true)}
+          height={isLoading ? '0px' : '100%'}
+        />
         {
-          nameVisible && (
+          isLoading && !isError && (
+          <ImagePreview
+            src={film.posterPreview}
+            alt={film.name ?? ''}
+          />
+          )
+        }
+        {
+          nameVisible && !isLoading && (
             <>
               <ActiveContainer>
                 {
@@ -140,7 +161,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
             </>
           )
         }
-        <Name>{film.name}</Name>
+        <Name height={isLoading ? '3rem' : 'auto'}>{film.name}</Name>
       </CardFixed>
     </Container>
   );

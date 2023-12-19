@@ -166,7 +166,7 @@ const ActorInfoPage: React.FC = () => {
             />
           </PosterContainer>
           <InfoContainer>
-            <Title>{actorInfoStore.actorInfo.name} ({actorInfoStore.actorInfo.enName})</Title>
+            <Title>{actorInfoStore.actorInfo.name} {actorInfoStore.actorInfo.enName && <>({actorInfoStore.actorInfo.enName})</>}</Title>
             <Description>
               Пол: {actorInfoStore.actorInfo.sex}
             </Description>

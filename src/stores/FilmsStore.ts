@@ -14,6 +14,7 @@ export interface IFilm {
   countries: string[],
   genres: string[],
   poster: string,
+  posterPreview: string,
   year: number,
   kId: number,
   saved: boolean,
@@ -97,6 +98,7 @@ class FilmsStore {
         poster: f.posterUrl ?? '',
         year: f.year ?? 0,
         kId: f.kinopoiskId ?? 0,
+        posterPreview: f.posterUrlPreview,
         saved: this.isSavedFilm(f.kinopoiskId),
       }));
       this.setFilmList(newData);
@@ -124,6 +126,7 @@ class FilmsStore {
         poster: f.posterUrl ?? '',
         year: f.year as unknown as number ?? 0,
         kId: f.kinopoiskId ?? 0,
+        posterPreview: f.posterUrlPreview ?? '',
         saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
       this.setFilmList([...this.filmList, ...newData]);
@@ -183,6 +186,7 @@ class FilmsStore {
         poster: f.posterUrl ?? '',
         year: f.year ?? 0,
         kId: f.kinopoiskId ?? 0,
+        posterPreview: f.posterUrlPreview ?? '',
         saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
       this.setFilmList([...this.filmList, ...newData]);

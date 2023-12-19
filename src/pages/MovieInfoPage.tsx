@@ -203,6 +203,7 @@ const MovieInfoPage: React.FC = () => {
         year: movie.year ?? 0,
         kId: movie.id,
         saved: isSaved,
+        posterPreview: movie.poster?.previewUrl ?? '',
       }, isSaved);
     }
   }, [isSaved, movie, filmsStore]);
@@ -248,7 +249,7 @@ const MovieInfoPage: React.FC = () => {
                   </PosterContainer>
                   <InfoContainer>
                     <MainTitle>
-                      <Title>{movie.name} ({movie.alternativeName}, {movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
+                      <Title>{movie.name} ({movie.alternativeName && <>{movie.alternativeName}, </> }{movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
                       <SavedIcon onClick={() => setIsSaved(prev => !prev)}>
                         {
                           isSaved ? <BiSolidBookmark /> : <BiBookmark />
@@ -334,9 +335,13 @@ const MovieInfoPage: React.FC = () => {
                           <Description>
                             Сборы в мире: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
                           </Description>
-                          <Description>
-                            Премьера в мире: {format(new Date(movie.premiere?.world ?? ''), 'dd MMMM Y', { locale: ruLocale })}
-                          </Description>
+                          {
+                            movie.premiere?.world && (
+                              <Description>
+                                Премьера в мире: {format(new Date(movie.premiere?.world ?? ''), 'dd MMMM Y', { locale: ruLocale })}
+                              </Description>
+                            )
+                          }
                           {
                             movie.slogan && (
                               <Description>
@@ -382,7 +387,8 @@ const MovieInfoPage: React.FC = () => {
                                   name: i.name,
                                   enName: i.alternativeName,
                                   rating: i.rating.kp ?? undefined,
-                                  poster: i.poster.previewUrl ?? '',
+                                  poster: i.poster.url ?? '',
+                                  posterPreview: i.poster.previewUrl ?? '',
                                   kId: i.id ?? -1,
                                   year: i.year,
                                   countries: [],
