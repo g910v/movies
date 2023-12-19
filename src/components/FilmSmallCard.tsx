@@ -32,7 +32,7 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const MoreContainer = styled(Link)`
+const MoreContainer = styled(Link)<{ opacity: number}>`
   width: calc(100% - 3rem);
   display: flex;
   flex-direction: column;
@@ -45,6 +45,8 @@ const MoreContainer = styled(Link)`
   height: calc(100% - 4.5rem);
   padding: 1rem 1.5rem 3.5rem;
   color: ${baseTheme.colors.text};
+  opacity: ${props => props.opacity};
+  transition: all .2s ease;
 `;
 
 const Name = styled.div<{height: string}>`
@@ -72,11 +74,13 @@ const Description = styled.div`
   margin-top: 1rem;
 `;
 
-const ActiveContainer = styled(Container)`
+const ActiveContainer = styled(Container)<{ opacity: number}>`
   position: absolute;
   z-index: 10;
   top: 1rem;
   right: 1rem;
+  opacity: ${props => props.opacity};
+  transition: all .2s ease;
 `;
 
 const IconSelect = styled.span`
@@ -120,9 +124,9 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
           )
         }
         {
-          nameVisible && !isLoading && (
+          !isLoading && (
             <>
-              <ActiveContainer>
+              <ActiveContainer opacity={nameVisible ? 1 : 0}>
                 {
                   film.saved !== null && (
                     <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IFilm, !film.saved)}>
@@ -133,7 +137,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
                   )
                 }
               </ActiveContainer>
-              <MoreContainer to={`/movie/${film.kId}`}>
+              <MoreContainer opacity={nameVisible ? 1 : 0} to={`/movie/${film.kId}`}>
                 {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
                 {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
                 <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
