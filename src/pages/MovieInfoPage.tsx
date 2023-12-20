@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
-  useNavigate,
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-  BiChevronDown, BiChevronUp, BiBookmark, BiSolidBookmark, BiExit,
+  BiChevronDown, BiChevronUp, BiBookmark, BiSolidBookmark,
 } from 'react-icons/bi';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { useRootStore } from '../hooks';
 import {
-  Carousel, Spinner, RatingStars, Button,
+  Carousel, Spinner, RatingStars, Button, SimpleButton,
 } from '../components/styled';
 import baseTheme, { textGradient } from '../styles/theme';
 import { IMovieInfo } from '../stores/FilmInfoStore';
@@ -20,6 +19,7 @@ import { IActor } from '../stores/ActorsStore';
 import ActorCarouselCard from '../components/ActorCarouselCard';
 import Modal from '../components/styled/Modal';
 import FilmSmallCard from '../components/FilmSmallCard';
+import BackButton from '../components/BackButton';
 
 const BackImg = styled.div<{ url: string }>`
   height: 100vh;
@@ -62,8 +62,8 @@ const ContentContainer = styled.div`
   z-index: 1;
 `;
 
-const PosterContainer = styled.div`
-  width: 45vh;
+const PosterContainer = styled.div<{poster: boolean}>`
+  width: ${props => (props.poster ? '45vh' : '0px')};
   margin-right: 1rem;
   height: max-content;
 `;
@@ -73,8 +73,8 @@ const Poster = styled.img`
   margin-bottom: 1rem;
 `;
 
-const InfoContainer = styled.div`
-  width: calc(100% - 45vh - 1rem);
+const InfoContainer = styled.div<{poster: boolean}>`
+  width: ${props => (props.poster ? 'calc(100% - 45vh - 1rem)' : '100%')};
   display: flex;
   flex-direction: column;
   row-gap: 0.35rem;
@@ -116,14 +116,11 @@ const SubTitle = styled.div`
   align-items: center;
 `;
 
-const SavedIcon = styled.div`
-  font-size: 2rem;
+const SavedBackIcons = styled.div`
   margin-left: 1rem;
-  padding: 0.75rem 0 0 0.75rem;
+  padding-top: 0.25rem;
   display: flex;
   align-items: center;
-  color: ${baseTheme.colors.yellow};
-  cursor: pointer;
 `;
 
 const MainTitle = styled.div`
@@ -151,25 +148,12 @@ const SimilarTitle = styled(SubTitle)`
 `;
 
 const BackButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
   margin-left: 0.5rem;
-`;
-
-const BackIcon = styled(BiExit)`
-  font-size: 1.7rem;
-  cursor: pointer;
-  color: ${baseTheme.colors.text};
-  transform: scale(-1, 1);
-  &:hover {
-    color: ${baseTheme.colors.mix};
-  }
 `;
 
 const MovieInfoPage: React.FC = () => {
   const { filmInfoStore, filmsStore, uiStore } = useRootStore();
   const params = useParams();
-  const navigate = useNavigate();
   const [movie, setMovie] = useState<IMovieInfo | undefined>(undefined);
   const [showDetails, setShowDetails] = useState(false);
   const [actors, setActors] = useState<IActor[]>([]);
@@ -258,25 +242,25 @@ const MovieInfoPage: React.FC = () => {
             <GradientContainer>
               <GradientContainerRevert>
                 <ContentContainer>
-                  <PosterContainer>
+                  <PosterContainer poster={!!movie.poster?.url}>
                     <Poster
                       src={movie.poster?.url ?? ''}
                       alt={movie.enName ?? ''}
                     />
-                    <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
                   </PosterContainer>
-                  <InfoContainer>
+                  <InfoContainer poster={!!movie.poster?.url}>
                     <MainTitle>
                       <Title>{movie.name} ({movie.alternativeName && <>{movie.alternativeName}, </> }{movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
-                      <SavedIcon>
+                      <SavedBackIcons>
                         {
                           isSaved
-                            ? <BiSolidBookmark onClick={() => setIsSaved(prev => !prev)} /> : <BiBookmark onClick={() => setIsSaved(prev => !prev)} />
+                            ? <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiSolidBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
+                            : <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
                         }
                         <BackButtonContainer>
-                          <BackIcon onClick={() => navigate(-1)} />
+                          <BackButton />
                         </BackButtonContainer>
-                      </SavedIcon>
+                      </SavedBackIcons>
                     </MainTitle>
                     <Description>
                       {!!movie.rating?.kp && (<RatingStars rating={movie.rating.kp} />)}
@@ -306,7 +290,7 @@ const MovieInfoPage: React.FC = () => {
                     <DetailsButton onClick={() => setShowDetails(prev => !prev)}>
                       Детали о {movie.type === 'movie' ? 'фильме' : 'сериале'}
                       {
-                        showDetails ? <BiChevronUp style={{ fontSize: '1.5rem', marginTop: '0.1rem' }} /> : <BiChevronDown style={{ fontSize: '1.5rem' }} />
+                        showDetails ? <BiChevronDown style={{ fontSize: '1.5rem' }} /> : <BiChevronUp style={{ fontSize: '1.5rem', marginTop: '0.1rem' }} />
                       }
                     </DetailsButton>
                     {
@@ -375,6 +359,9 @@ const MovieInfoPage: React.FC = () => {
                       )
                     }
                   </InfoContainer>
+                  {
+                    youtubeUrl && <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
+                  }
                   <ActorsContainer>
                     <SubTitle>Актерский состав</SubTitle>
                     {
@@ -395,7 +382,7 @@ const MovieInfoPage: React.FC = () => {
                     <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
                       Похожие фильмы
                       {
-                        showSimilar ? <BiChevronUp style={{ fontSize: '2.5rem', marginBottom: '-0.5rem' }} /> : <BiChevronDown style={{ fontSize: '2.5rem' }} />
+                        showSimilar ? <BiChevronDown style={{ fontSize: '2.5rem' }} /> : <BiChevronUp style={{ fontSize: '2.5rem', marginBottom: '-0.5rem' }} />
                       }
                     </SimilarTitle>
                     {

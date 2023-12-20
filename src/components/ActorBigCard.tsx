@@ -10,6 +10,10 @@ const ActorCard = styled(Link)`
   color: ${baseTheme.colors.text};
 `;
 
+const FixedCard = styled(Card)`
+  width: auto;
+`;
+
 const Image = styled.img`
   width: 7rem;
   border-radius: 5px;
@@ -34,14 +38,14 @@ interface Props {
 
 const ActorBigCard: React.FC<Props> = ({ actor }) => (
   <ActorCard to={`/person/${actor.kinopoiskId}`}>
-    <Card>
+    <FixedCard>
       <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
       <Container>
         <ActorName>{actor.nameRu}</ActorName>
         <div>{actor.nameEn}</div>
         <div>Пол: {actor.sex}</div>
       </Container>
-    </Card>
+    </FixedCard>
   </ActorCard>
 );
 

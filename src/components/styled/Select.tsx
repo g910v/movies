@@ -24,10 +24,11 @@ const selectStyles: StylesConfig = {
     background: baseTheme.colors.bgSecondary,
     borderColor: isFocused ? baseTheme.colors.mix : baseTheme.colors.textSecondary,
     boxShadow: undefined,
+    transition: 'all .15s linear',
     // eslint-disable-next-line @typescript-eslint/naming-convention
     ':hover': {
       ...styles[':hover'],
-      borderColor: isFocused ? baseTheme.colors.mix : baseTheme.colors.text,
+      borderColor: isFocused ? baseTheme.colors.mix : baseTheme.colors.input,
       boxShadow: undefined,
       cursor: 'pointer',
     },

@@ -5,7 +5,9 @@ const baseTheme = {
     link: '#FFFFFF',
     text: '#cbbcb7',
     textSecondary: '#55545f',
+
     input: '#706e87',
+    simpleButton: '#373642',
 
     yellow: '#F3CE3E',
     pink: '#B42790',

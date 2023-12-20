@@ -15,7 +15,7 @@ export interface Option {
 
 const ModeButtons = styled.div`
   margin-left: auto;
-  padding-top: 1.75rem;
+  padding-top: 1rem;
 `;
 
 const grid = css`

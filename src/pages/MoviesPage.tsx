@@ -2,30 +2,21 @@ import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import {
-  Outlet, useLocation, useNavigate, useParams,
+  Outlet, useLocation, useParams,
 } from 'react-router-dom';
-import { BiExit } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
-import baseTheme from '../styles/theme';
-import { PageContainer, Title, SelectButtons } from '../components/styled';
+import {
+  PageContainer, Title, SelectButtons,
+} from '../components/styled';
 import SelectViewButtons from '../components/SelectViewButtons';
+import BackButton from '../components/BackButton';
 
 const MenuContainer = styled.div`
   display: flex;
   width: 100%;
-  align-items: start;
+  align-items: center;
   margin: 0.7rem 0;
   height: 3rem;
-`;
-
-const BackIcon = styled.div`
-  font-size: 1.7rem;
-  cursor: pointer;
-  transform: scale(-1, 1);
-  &:hover {
-    color: ${baseTheme.colors.mix};
-  }
-  margin: 0 1rem 0;
 `;
 
 interface Props {
@@ -34,7 +25,6 @@ interface Props {
 
 const MoviesPage: React.FC<Props> = ({ pageName }) => {
   const { uiStore } = useRootStore();
-  const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
   const items = useRef([
@@ -71,12 +61,10 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
         <SelectButtons
           items={items.current}
         />
-        <div style={{ marginLeft: 'auto', display: 'flex' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', columnGap: '0.5rem' }}>
           {
             (!!params.genre || !!params.country || !!params.year) && (
-              <BackIcon onClick={() => navigate(-1)}>
-                <BiExit />
-              </BackIcon>
+              <BackButton />
             )
           }
           {

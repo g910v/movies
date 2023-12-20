@@ -4,7 +4,7 @@ import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Card } from './styled';
+import { Card, SimpleButton } from './styled';
 import baseTheme from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
 import { useRootStore } from '../hooks';
@@ -33,13 +33,13 @@ const TextContainer = styled(Container)`
   margin-right: 1rem;
 `;
 
-const IconSelect = styled.span`
+const IconSelect = styled(SimpleButton)`
   font-size: 1.8rem;
   color: ${baseTheme.colors.yellow};
   cursor: pointer;
   position: absolute;
-  right: 1.25rem;
-  top: 1.25rem;
+  right: 0.75rem;
+  top: 0.75rem;
 `;
 
 const FilmName = styled.div`
@@ -59,10 +59,14 @@ interface Props {
 
 const FilmBigCard: React.FC<Props> = ({ film }) => {
   const { filmsStore } = useRootStore();
+
   return (
     <Card>
       <InfoContainer to={`/movie/${film.kId}`}>
-        <Image src={film.poster} alt={film.name} />
+        <Image
+          src={film.posterPreview}
+          alt={film.name}
+        />
         <TextContainer>
           <FilmName>{film.name}</FilmName>
           <div>
@@ -91,11 +95,10 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
           </div>
         </TextContainer>
       </InfoContainer>
-      <IconSelect onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}>
-        {
-          film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
-        }
-      </IconSelect>
+      <IconSelect
+        icon={film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)}
+        onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}
+      />
     </Card>
   );
 };

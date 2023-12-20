@@ -9,11 +9,11 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const StyledButton = styled.button`
   padding: 0.8rem 1.5rem;
-  background: ${baseTheme.colors.bgSecondary};
+  background: ${baseTheme.colors.bgLighter};
   color: ${baseTheme.colors.text};
   position: relative;
   border-radius: 5px;
-  border: 0px;
+  border: 1px solid ${baseTheme.colors.textSecondary};
   cursor: pointer;
   font-weight: 600;
   display: flex;
@@ -23,39 +23,51 @@ const StyledButton = styled.button`
   &:before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
     border-radius: 5px; 
-    padding: 0.15rem; 
+    padding: 0.1rem; 
     background: ${baseTheme.colors.gradient}; 
     -webkit-mask: 
        linear-gradient(#fff 0 0) content-box, 
        linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out; 
     mask-composite: exclude;
+    opacity: 0;
+    transition: all .3s linear;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    background: ${baseTheme.colors.gradient};
+    filter: blur(7px);
+    opacity: 0;
+    transition: all .3s linear;
   }
 
   &:hover {
-    &:after {
-      content: "";
-      position: absolute;
-      inset: 1px;
-      z-index: -1;
-      background: ${baseTheme.colors.gradient};
-      filter: blur(7px);
+    border: 1px solid transparent;
+    &:after{
+      opacity: 1;
+    }
+    &:before {
+      opacity: 1;
     }
   }
 
   &:focus {
+    border: 1px solid transparent;
     &:after {
-      content: "";
-      position: absolute;
-      inset: 1px;
-      z-index: -1;
-      background: ${baseTheme.colors.gradient};
+      opacity: 1;
       filter: blur(10px);
+    }
+    &:before {
+      opacity: 1;
     }
   }
 
