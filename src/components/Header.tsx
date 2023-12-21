@@ -1,6 +1,26 @@
 import React, { useRef } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import HeaderMenu from './HeaderMenu';
 import routes from '../shared/routes';
+import baseTheme, { textGradient } from '../styles/theme';
+import HeaderMobileMenu from './HeaderMobileMenu';
+
+const Container = styled.div`
+  padding: 0.2rem 0.5rem 0.2rem 1rem;
+  display: flex;
+  align-items: center;
+  background: ${baseTheme.colors.headerGradient};
+  z-index: 10;
+  position: relative;
+`;
+
+const Title = styled.div`
+  font-size: 3rem;
+  margin-right: auto;
+  font-weight: 800;
+  ${textGradient}
+`;
 
 const Header: React.FC = () => {
   const menuItems = useRef([
@@ -27,7 +47,13 @@ const Header: React.FC = () => {
   ]);
 
   return (
-    <HeaderMenu items={menuItems.current} />
+    <Container>
+      <Title>
+        <Link to={routes.PREMIERES.path}>MOVIES</Link>
+      </Title>
+      <HeaderMenu items={menuItems.current} />
+      <HeaderMobileMenu items={menuItems.current} />
+    </Container>
   );
 };
 

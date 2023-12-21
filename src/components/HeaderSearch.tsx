@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BiX } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
 import baseTheme from '../styles/theme';
 import { Input } from './styled';
@@ -18,28 +17,16 @@ const SearchContainer = styled.div`
   top: -1.3rem;
 `;
 
-const SearchIcon = styled.div`
-  display: flex;
-  place-items: center;
-  padding: 0.6rem 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-  &:hover {
-    color: ${baseTheme.colors.mix};
-  }
-`;
-
 const SearchInput = styled.div`
-  width: 50%;
-  display: flex;
+  width: 100%;
   position: relative;
 `;
 
 const ResultPanel = styled.div`
   position: absolute;
   top: 3.5rem;
-  max-height: 55vh;
-  width: calc(100% - 5.5rem);
+  max-height: 68vh;
+  width: calc(100% - 2rem);
   background: ${baseTheme.colors.bgSecondary};
   z-index: 10;
   padding: 1rem;
@@ -47,7 +34,7 @@ const ResultPanel = styled.div`
 `;
 
 const ResultScroll = styled.div`
-  max-height: 55vh;
+  max-height: 68vh;
   width: 100%;
   overflow-y: scroll;
 `;
@@ -79,9 +66,6 @@ const HeaderSearch: React.FC<Props> = ({ closeSearch }) => {
     <SearchInput>
       <SearchContainer>
         <Input placeholder="Поиск фильмов и сериалов" value={inputValue} onChange={e => setInputValue(e.target.value)} />
-        <SearchIcon onClick={onCloseSearch}>
-          <BiX />
-        </SearchIcon>
         {
           searchStore.searchResults && (
             <ResultPanel>

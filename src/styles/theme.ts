@@ -26,10 +26,10 @@ const baseTheme = {
   },
 
   media: {
-    extraLarge: '(max-width: 1140px)',
-    large: '(max-width: 960px)',
-    medium: '(max-width: 720px)',
-    small: '(max-width: 540px)',
+    xl: '(max-width: 1200px)',
+    l: '(max-width: 992px)',
+    m: '(max-width: 768px)',
+    sm: '(max-width: 576px)',
   },
 };
 

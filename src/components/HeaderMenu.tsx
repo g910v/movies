@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { BiSearchAlt } from 'react-icons/bi';
+import { BiSearchAlt, BiX } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import baseTheme, { textGradient } from '../styles/theme';
-import routes from '../shared/routes';
 import HeaderSearch from './HeaderSearch';
 
 interface Props {
@@ -13,24 +12,18 @@ interface Props {
   }[],
 }
 
-const Container = styled.div`
-  padding: 0.2rem 1rem;
+const MenuContainer = styled.div`
   display: flex;
-  align-items: center;
-  background: ${baseTheme.colors.headerGradient};
-  z-index: 10;
-  position: relative;
-`;
-
-const Title = styled.div`
-  font-size: 3rem;
-  margin-right: auto;
-  font-weight: 800;
-  ${textGradient}
+  width: calc(100% - 10rem);
+  justify-content: end;
+  @media ${baseTheme.media.m} {
+    display: none;
+  }
 `;
 
 const Item = styled(Link)`
-  padding: 0.6rem 2%;
+  padding: 0.6rem 0.5rem;
+  margin-left: 3.25%;
   cursor: pointer;
   color: ${baseTheme.colors.text} !important;
   &:hover {
@@ -38,10 +31,18 @@ const Item = styled(Link)`
   }
 `;
 
+const Search = styled.div`
+  width: 60%;
+  display: flex;
+  position: relative;
+  align-items: center;
+`;
+
 const SearchIcon = styled.div`
   display: flex;
   place-items: center;
   padding: 0.6rem 1rem;
+  margin-left: 1.5%;
   font-size: 1.5rem;
   cursor: pointer;
   &:hover {
@@ -57,14 +58,16 @@ const HeaderMenu: React.FC<Props> = ({ items }) => {
   };
 
   return (
-    <Container>
-      <Title>
-        <Link to={routes.PREMIERES.path}>MOVIES</Link>
-      </Title>
+    <MenuContainer>
       {
         searchVisible
           ? (
-            <HeaderSearch closeSearch={closeSearch} />
+            <Search>
+              <HeaderSearch closeSearch={closeSearch} />
+              <SearchIcon onClick={closeSearch}>
+                <BiX />
+              </SearchIcon>
+            </Search>
           ) : (
             <>
               {
@@ -80,7 +83,7 @@ const HeaderMenu: React.FC<Props> = ({ items }) => {
             </>
           )
       }
-    </Container>
+    </MenuContainer>
   );
 };
 
