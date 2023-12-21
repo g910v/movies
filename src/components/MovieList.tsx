@@ -48,8 +48,8 @@ const MoreIcon = styled(BiChevronsDown)`
   font-size: 1.5rem;
 `;
 
-const Container = styled.div<{gridmode: boolean}>`
-  ${props => (props.gridmode ? grid : list)};
+const Container = styled.div<{viewmode: string}>`
+  ${props => (props.viewmode === 'grid' ? grid : list)};
   row-gap: 1rem;
   width: 100%;
 `;
@@ -87,12 +87,10 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
     } else if (type === 'PREMIERES' && premiereFilters) {
       filmsStore.getPremiereFilms(premiereFilters);
     } else if (type !== 'PREMIERES') {
-      const genre = genres.find(i => i.short === params.genre);
-      const country = countries.find(i => i.short === params.country);
       filmsStore.getFilms({
         type,
-        genre: genre?.id,
-        country: country?.id,
+        genre: params.genre ? genres.find(i => i.short === params.genre)?.id : undefined,
+        country: params.country ? countries.find(i => i.short === params.country)?.id : undefined,
         year: params.year ? Number(params.year) : undefined,
         page,
       });
@@ -103,11 +101,15 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
     getFilmList();
   }, [getFilmList]);
 
+  useEffect(() => () => {
+    setPage(1);
+  }, [type, params]);
+
   return (
     <>
       {
         filmsStore.filmsLoading && !filmsStore.filmList.length && (
-          <Container gridmode={false}>
+          <Container viewmode="list">
             <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
           </Container>
         )
@@ -115,17 +117,21 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
       {
         (!!filmsStore.filmList.length) && (
           <MainContent>
-            <Container gridmode={uiStore.viewMode === 'grid'}>
+            <Container viewmode={uiStore.viewMode}>
               {
                 filmsStore.filmList.map(f => (uiStore.viewMode === 'list'
                   ? <FilmBigCard key={f.kId} film={f} />
                   : <FilmSmallCard key={f.kId} film={f} />))
               }
             </Container>
-            <MoreButton onClick={() => setPage(prev => prev + 1)}>Показать еще {
-              filmsStore.filmsLoading ? <Spinner strokeWidth={2} size={20} /> : <MoreIcon />
+            {
+              type !== 'PREMIERES' && page < filmsStore.filmTotalPages && (
+                <MoreButton onClick={() => setPage(prev => prev + 1)}>Показать еще {
+                  filmsStore.filmsLoading ? <Spinner strokeWidth={2} size={20} /> : <MoreIcon />
+                }
+                </MoreButton>
+              )
             }
-            </MoreButton>
           </MainContent>
         )
       }
@@ -133,7 +139,7 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
       {
         (!filmsStore.filmsLoading && !filmsStore.filmList.length)
         && (
-          <Container gridmode={false}>
+          <Container viewmode="list">
             <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>
           </Container>
         )

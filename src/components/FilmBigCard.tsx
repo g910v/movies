@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const InfoContainer = styled(Link)`
   display: flex;
-  width: 100%;
+  width: 95%;
   color: ${baseTheme.colors.text};
 `;
 

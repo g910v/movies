@@ -42,6 +42,8 @@ class FilmsStore {
 
   filmsLoading = false;
 
+  filmTotalPages = 0;
+
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
   }
@@ -116,7 +118,8 @@ class FilmsStore {
     this.setFilmLoading(true);
     if (filters?.page === 1) this.filmList = [];
     try {
-      const { data: { items } } = await api.kinoUnoff.collections.get(filters);
+      const { data: { items, totalPages } } = await api.kinoUnoff.collections.get(filters);
+      this.setFilmTotalPages(totalPages);
       const newData = items.map(f => ({
         name: f.nameRu ?? '',
         enName: f.nameOriginal ?? f.nameEn ?? '',
@@ -176,7 +179,8 @@ class FilmsStore {
     this.setFilmLoading(true);
     if (filters?.page === 1) this.filmList = [];
     try {
-      const { data: { items } } = await api.kinoUnoff.films.get(filters);
+      const { data: { items, totalPages } } = await api.kinoUnoff.films.get(filters);
+      this.setFilmTotalPages(totalPages);
       const newData = items.map(f => ({
         name: f.nameRu ?? '',
         enName: f.nameOriginal ?? f.nameEn ?? '',
@@ -202,6 +206,10 @@ class FilmsStore {
 
   private setFilmLoading(loading: boolean): void {
     this.filmsLoading = loading;
+  }
+
+  private setFilmTotalPages(count: number) :void {
+    this.filmTotalPages = count;
   }
 }
 

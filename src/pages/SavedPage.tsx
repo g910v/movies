@@ -56,7 +56,7 @@ const SavedPage: React.FC = () => {
           <SelectViewButtons />
         </ModeButtons>
       </div>
-      <Container gridmode={uiStore.viewMode === 'grid'}>
+      <Container gridmode={uiStore.viewMode === 'grid' && !!filmsStore.savedFilms.length}>
         {
           filmsStore.savedFilms.length ? (
             filmsStore.savedFilms.map(f => (uiStore.viewMode === 'list'

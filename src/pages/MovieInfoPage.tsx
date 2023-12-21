@@ -265,9 +265,13 @@ const MovieInfoPage: React.FC = () => {
                     <Description>
                       {!!movie.rating?.kp && (<RatingStars rating={movie.rating.kp} />)}
                     </Description>
-                    <Description>
-                      {movie.year} г., {movie.movieLength} мин.
-                    </Description>
+                    {
+                      movie.year && movie.movieLength && (
+                        <Description>
+                          {movie.year && <>{movie.year} г., </>}{movie.movieLength && <>{movie.movieLength} мин.</>}
+                        </Description>
+                      )
+                    }
                     <Description>
                       Жанр: {
                         movie.genres?.map((f, index, arr) => {
@@ -339,7 +343,7 @@ const MovieInfoPage: React.FC = () => {
                             Бюджет: {movie.budget?.value ? `${movie.budget.value} ${movie.budget?.currency}` : 'Информация отсутсвует'}
                           </Description>
                           <Description>
-                            Сборы в мире: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
+                            Сборы: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
                           </Description>
                           {
                             movie.premiere?.world && (
@@ -396,9 +400,9 @@ const MovieInfoPage: React.FC = () => {
                                 film={{
                                   name: i.name,
                                   enName: i.alternativeName,
-                                  rating: i.rating.kp ?? undefined,
-                                  poster: i.poster.url ?? '',
-                                  posterPreview: i.poster.previewUrl ?? '',
+                                  rating: i.rating?.kp ?? undefined,
+                                  poster: i.poster?.url ?? '',
+                                  posterPreview: i.poster?.previewUrl ?? '',
                                   kId: i.id ?? -1,
                                   year: i.year,
                                   countries: [],

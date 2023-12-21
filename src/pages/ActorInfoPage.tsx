@@ -188,15 +188,27 @@ const ActorInfoPage: React.FC = () => {
                 <BackButton />
               </BackButtonContainer>
             </SavedIcon>
-            <Description>
-              Пол: {actorInfoStore.actorInfo.sex}
-            </Description>
-            <Description>
-              Возраст: {actorInfoStore.actorInfo.age}
-            </Description>
-            <Description>
-              Дата рождения: {format(new Date(actorInfoStore.actorInfo.birthday ?? ''), 'dd MMMM Y', { locale: ruLocale })}
-            </Description>
+            {
+              actorInfoStore.actorInfo.sex && (
+                <Description>
+                  Пол: {actorInfoStore.actorInfo.sex}
+                </Description>
+              )
+            }
+            {
+              actorInfoStore.actorInfo.age && (
+                <Description>
+                  Возраст: {actorInfoStore.actorInfo.age}
+                </Description>
+              )
+            }
+            {
+              actorInfoStore.actorInfo.birthday && (
+                <Description>
+                  Дата рождения: {format(new Date(actorInfoStore.actorInfo.birthday), 'dd MMMM Y', { locale: ruLocale })}
+                </Description>
+              )
+            }
             {
               actorInfoStore.actorInfo.birthPlace?.length && (
                 <Description>
@@ -207,12 +219,20 @@ const ActorInfoPage: React.FC = () => {
                 </Description>
               )
             }
-            <Description>
-              Рост: {actorInfoStore.actorInfo.growth}
-            </Description>
-            <Description>
-              Количество наград: {actorInfoStore.actorInfo.countAwards ?? 0}
-            </Description>
+            {
+              actorInfoStore.actorInfo.growth && (
+                <Description>
+                  Рост: {actorInfoStore.actorInfo.growth}
+                </Description>
+              )
+            }
+            {
+              actorInfoStore.actorInfo.countAwards && (
+                <Description>
+                  Количество наград: {actorInfoStore.actorInfo.countAwards}
+                </Description>
+              )
+            }
             <Description>
               Карьера: {actorInfoStore.actorInfo.profession?.map((i, index, arr) => {
               const comma = index === arr.length - 1 ? '' : ', ';
@@ -223,9 +243,9 @@ const ActorInfoPage: React.FC = () => {
               Количество фильмов: {actorInfoStore.actorInfo.movies?.length ?? 0}
             </Description>
             {
-              actorInfoStore.actorInfo.death && (
+              actorInfoStore.actorInfo?.death && (
                 <Description>
-                  Дата смерти: {format(new Date(actorInfoStore.actorInfo?.death ?? ''), 'dd MMMM Y', { locale: ruLocale })}
+                  Дата смерти: {format(new Date(actorInfoStore.actorInfo.death), 'dd MMMM Y', { locale: ruLocale })}
                 </Description>
               )
             }

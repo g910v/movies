@@ -22,13 +22,15 @@ const Image = styled.img`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 7.5rem;
+  row-gap: 1rem;
+  justify-content: center;
+  height: 11rem;
   margin-left: 1rem;
 `;
 
 const ActorName = styled.div`
   font-size: 1.8rem;
+  line-height: 1.8rem;
   font-weight: 600;
 `;
 
