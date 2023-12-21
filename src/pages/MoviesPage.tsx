@@ -19,6 +19,13 @@ const MenuContainer = styled.div`
   height: 3rem;
 `;
 
+const ModeBackButtons = styled.div`
+  margin-left: auto;
+  display: flex;
+  column-gap: 0.5rem;
+  margin-top: -0.25rem;
+`;
+
 interface Props {
   pageName: string,
 }
@@ -61,7 +68,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
         <SelectButtons
           items={items.current}
         />
-        <div style={{ marginLeft: 'auto', display: 'flex', columnGap: '0.5rem' }}>
+        <ModeBackButtons>
           {
             (!!params.genre || !!params.country || !!params.year) && (
               <BackButton />
@@ -72,7 +79,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
               <SelectViewButtons />
             )
           }
-        </div>
+        </ModeBackButtons>
       </MenuContainer>
       <Outlet />
     </PageContainer>
