@@ -60,17 +60,44 @@ const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
+  @media ${baseTheme.media.l} {
+    width: 95%;
+  }
+  @media ${baseTheme.media.m} {
+    justify-content: center;
+  }
 `;
 
 const PosterContainer = styled.div<{poster: boolean}>`
   width: ${props => (props.poster ? '45vh' : '0px')};
   margin-right: 1rem;
+  margin-bottom: 1rem;
   height: max-content;
+  @media ${baseTheme.media.l} {
+    width: ${props => (props.poster ? '37vh' : '0px')};
+  }
+  @media ${baseTheme.media.m} {
+    width: ${props => (props.poster ? '50%' : '0px')};
+    margin-right: 0;
+  }
+  @media ${baseTheme.media.s} {
+    width: ${props => (props.poster ? '70%' : '0px')};
+    margin-right: 0;
+  }
+`;
+
+const SavedBackIcons = styled.div`
+  padding-top: 1rem;
+  display: flex;
+  column-gap: 0.5rem;
+  @media ${baseTheme.media.m} {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const Poster = styled.img`
-  width: 45vh;
-  margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const InfoContainer = styled.div<{poster: boolean}>`
@@ -79,6 +106,13 @@ const InfoContainer = styled.div<{poster: boolean}>`
   flex-direction: column;
   row-gap: 0.35rem;
   height: max-content;
+  @media ${baseTheme.media.l} {
+    width: ${props => (props.poster ? 'calc(100% - 37vh - 1rem)' : '100%')};
+  }
+  @media ${baseTheme.media.m} {
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 const ActorsContainer = styled.div`
@@ -90,12 +124,19 @@ const Title = styled.div`
   font-size: 3rem;
   font-weight: 400;
   line-height: 3.2rem;
+  @media ${baseTheme.media.l} {
+    font-size: 2rem;
+    line-height: 2.2rem;
+  }
 `;
 
 const Description = styled.div`
   font-weight: 400;
   display: flex;
   align-items: center;
+  @media ${baseTheme.media.m} {
+    text-align: center;
+  }
 `;
 
 const DetailsButton = styled.div`
@@ -116,17 +157,12 @@ const SubTitle = styled.div`
   align-items: center;
 `;
 
-const SavedBackIcons = styled.div`
-  margin-left: 1rem;
-  padding-top: 0.25rem;
-  display: flex;
-  align-items: center;
-`;
-
 const MainTitle = styled.div`
   display: flex;
-  align-items: start;
-  justify-content: space-between;
+  flex-direction: column;
+  @media ${baseTheme.media.m} {
+    align-items: center;
+  }
 `;
 
 const SimilarMovies = styled.div`
@@ -134,6 +170,9 @@ const SimilarMovies = styled.div`
   column-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   row-gap: 1rem;
+  @media ${baseTheme.media.s} {
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  }
 `;
 
 const SimilarTitle = styled(SubTitle)`
@@ -145,10 +184,6 @@ const SimilarTitle = styled(SubTitle)`
     color: ${baseTheme.colors.pink};
     ${textGradient}
   }
-`;
-
-const BackButtonContainer = styled.div`
-  margin-left: 0.5rem;
 `;
 
 const MovieInfoPage: React.FC = () => {
@@ -247,20 +282,22 @@ const MovieInfoPage: React.FC = () => {
                       src={movie.poster?.url ?? ''}
                       alt={movie.enName ?? ''}
                     />
+                    <SavedBackIcons>
+                      <BackButton />
+                      {
+                        isSaved
+                          ? <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiSolidBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
+                          : <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
+                      }
+                      {
+                        youtubeUrl && <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
+                      }
+                    </SavedBackIcons>
                   </PosterContainer>
                   <InfoContainer poster={!!movie.poster?.url}>
                     <MainTitle>
-                      <Title>{movie.name} ({movie.alternativeName && <>{movie.alternativeName}, </> }{movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
-                      <SavedBackIcons>
-                        {
-                          isSaved
-                            ? <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiSolidBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
-                            : <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
-                        }
-                        <BackButtonContainer>
-                          <BackButton />
-                        </BackButtonContainer>
-                      </SavedBackIcons>
+                      <Title>{movie.name}</Title>
+                      <Title>({movie.alternativeName && <>{movie.alternativeName}, </> }{movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
                     </MainTitle>
                     <Description>
                       {!!movie.rating?.kp && (<RatingStars rating={movie.rating.kp} />)}
@@ -363,9 +400,6 @@ const MovieInfoPage: React.FC = () => {
                       )
                     }
                   </InfoContainer>
-                  {
-                    youtubeUrl && <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
-                  }
                   <ActorsContainer>
                     <SubTitle>Актерский состав</SubTitle>
                     {
