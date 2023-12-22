@@ -68,11 +68,28 @@ const ContentContainer = styled.div`
   }
 `;
 
-const PosterContainer = styled.div<{poster: boolean}>`
-  width: ${props => (props.poster ? '45vh' : '0px')};
+const PosterContainer = styled.div`
+  width: fit-content;
   margin-right: 1rem;
   margin-bottom: 1rem;
   height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SavedBackIcons = styled.div`
+  padding-top: 1rem;
+  display: flex;
+  width: 100%;
+  column-gap: 0.5rem;
+  @media ${baseTheme.media.m} {
+    justify-content: center;
+  }
+`;
+
+const Poster = styled.img<{poster: boolean}>`
+  width: ${props => (props.poster ? '45vh' : '0px')};
   @media ${baseTheme.media.l} {
     width: ${props => (props.poster ? '37vh' : '0px')};
   }
@@ -84,20 +101,6 @@ const PosterContainer = styled.div<{poster: boolean}>`
     width: ${props => (props.poster ? '70%' : '0px')};
     margin-right: 0;
   }
-`;
-
-const SavedBackIcons = styled.div`
-  padding-top: 1rem;
-  display: flex;
-  column-gap: 0.5rem;
-  @media ${baseTheme.media.m} {
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const Poster = styled.img`
-  width: 100%;
 `;
 
 const InfoContainer = styled.div<{poster: boolean}>`
@@ -277,8 +280,9 @@ const MovieInfoPage: React.FC = () => {
             <GradientContainer>
               <GradientContainerRevert>
                 <ContentContainer>
-                  <PosterContainer poster={!!movie.poster?.url}>
+                  <PosterContainer>
                     <Poster
+                      poster={!!movie.poster?.url}
                       src={movie.poster?.url ?? ''}
                       alt={movie.enName ?? ''}
                     />
