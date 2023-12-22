@@ -61,8 +61,12 @@ const Name = styled.div<{height: string}>`
 `;
 
 const EnName = styled.div`
+  display: block;
   font-weight: 800;
   margin-bottom: 0.75rem;
+  @media ${baseTheme.media.s} {
+    display: none;
+  }
 `;
 
 const Rating = styled.div`
@@ -124,7 +128,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
           )
         }
         {
-          !isLoading && (
+          !isLoading && nameVisible && (
             <>
               <ActiveContainer opacity={nameVisible ? 1 : 0}>
                 {

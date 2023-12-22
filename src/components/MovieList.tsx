@@ -16,6 +16,9 @@ const grid = css`
   display: grid;
   column-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  @media ${baseTheme.media.s} {
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  }
 `;
 
 const list = css`

@@ -7,6 +7,7 @@ import { PageContainer, Title } from '../components/styled';
 import FilmBigCard from '../components/FilmBigCard';
 import SelectViewButtons from '../components/SelectViewButtons';
 import FilmSmallCard from '../components/FilmSmallCard';
+import baseTheme from '../styles/theme';
 
 export interface Option {
   value: string,
@@ -22,6 +23,9 @@ const grid = css`
   display: grid;
   column-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  @media ${baseTheme.media.s} {
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  }
 `;
 
 const list = css`

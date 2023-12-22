@@ -29,8 +29,15 @@ const baseTheme = {
     xl: '(max-width: 1200px)',
     l: '(max-width: 992px)',
     m: '(max-width: 768px)',
-    sm: '(max-width: 576px)',
+    s: '(max-width: 576px)',
   },
+};
+
+export const screenSize = {
+  xl: 1200,
+  l: 992,
+  m: 768,
+  s: 576,
 };
 
 export const textGradient = css`

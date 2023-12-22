@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BiGridAlt, BiListUl } from 'react-icons/bi';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import baseTheme from '../styles/theme';
-import { useRootStore } from '../hooks';
+import { useScreenResize, useRootStore } from '../hooks';
 
 const Container = styled.div`
   display: flex;
@@ -40,6 +40,17 @@ const IconList = styled(BiListUl)<{ selected: boolean }>`
 
 const SelectViewButtons: React.FC = () => {
   const { uiStore } = useRootStore();
+  const { isScreenS, isScreenM } = useScreenResize();
+
+  useEffect(() => {
+    if (isScreenM || isScreenS) {
+      uiStore.changeViewMode('grid');
+    }
+  }, [isScreenM, isScreenS, uiStore]);
+
+  if (isScreenS || isScreenM) {
+    return null;
+  }
 
   return (
     <Container>
