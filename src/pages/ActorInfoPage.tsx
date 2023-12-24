@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   Link,
+  useNavigate,
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
-import { BiChevronsDown } from 'react-icons/bi';
+import { BiChevronLeft, BiChevronsDown } from 'react-icons/bi';
 import { useRootStore } from '../hooks';
 import { Card, Spinner } from '../components/styled';
 import baseTheme, { textGradient } from '../styles/theme';
 import { IActorInfo } from '../stores/ActorInfoStore';
-import BackButton from '../components/BackButton';
 
 const SpinnerContainer = styled.div`
   width: 100%;
@@ -22,31 +22,64 @@ const SpinnerContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  padding: 3rem 0 4rem 0;
+  padding: 1.5rem 0 4rem 0;
   height: fit-content;
   width: 70%;
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
+  @media ${baseTheme.media.l} {
+    width: 95%;
+  }
+  @media ${baseTheme.media.m} {
+    justify-content: center;
+  }
 `;
 
-const PosterContainer = styled.div`
-  width: 40vh;
+const PosterContainer = styled.div<{poster: boolean}>`
+  width: ${props => (props.poster ? '40vh' : '0px')};
   margin-right: 1rem;
   height: max-content;
+  @media ${baseTheme.media.l} {
+    width: ${props => (props.poster ? '35vh' : '0px')};
+  }
+  @media ${baseTheme.media.m} {
+    width: ${props => (props.poster ? '50%' : '0px')};
+    margin-right: 0;
+  }
+  @media ${baseTheme.media.s} {
+    width: ${props => (props.poster ? '70%' : '0px')};
+    margin-right: 0;
+  }
 `;
 
 const Poster = styled.img`
-  width: 40vh;
+  width: 100%;
   margin-bottom: 1rem;
 `;
 
-const InfoContainer = styled.div`
-  width: calc(100% - 40vh - 1rem);
+const InfoContainer = styled.div<{poster: boolean}>`
+  width: ${props => (props.poster ? 'calc(100% - 40vh - 1rem)' : '100%')};
   display: flex;
   flex-direction: column;
   row-gap: 0.35rem;
   height: max-content;
+  @media ${baseTheme.media.l} {
+    width: ${props => (props.poster ? 'calc(100% - 35vh - 1rem)' : '100%')};
+  }
+  @media ${baseTheme.media.m} {
+    width: 100%;
+    align-items: center;
+  }
+`;
+
+const MainTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  @media ${baseTheme.media.m} {
+    align-items: center;
+  }
 `;
 
 const ActorsContainer = styled.div`
@@ -58,13 +91,19 @@ const Title = styled.div`
   font-size: 3rem;
   font-weight: 400;
   line-height: 3.2rem;
-  margin-bottom: 1rem;
+  @media ${baseTheme.media.l} {
+    font-size: 2rem;
+    line-height: 2.2rem;
+  }
 `;
 
 const Description = styled.div`
   font-weight: 400;
   display: flex;
   align-items: center;
+  @media ${baseTheme.media.m} {
+    text-align: center;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -100,10 +139,13 @@ const MovieTitle = styled.div`
 const RatingMovie = styled.div`
   display: flex;
   margin-left: auto;
-  margin-right: 1rem;
+  padding: 0 1rem;
   font-size: 1.25rem;
   font-weight: 700;
   color: ${baseTheme.colors.yellow};
+  @media ${baseTheme.media.m} {
+    padding: 0 0.25rem;
+  }
 `;
 
 const ProfessionMovie = styled.div`
@@ -128,23 +170,29 @@ const MoreIcon = styled(BiChevronsDown)`
 `;
 
 const BackButtonContainer = styled.div`
+  padding: 0 1rem;
+  width: calc(100% - 2rem);
   display: flex;
   align-items: center;
-  margin-top: 0.25rem;
+  margin-right: auto;
+  width: fit-content;
+  cursor: pointer;
+  &:hover{
+    color: ${baseTheme.colors.yellow};
+    ${textGradient}
+  }
 `;
 
-const SavedIcon = styled.div`
-  font-size: 2rem;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  cursor: pointer;
+const BackIcon = styled(BiChevronLeft)`
+  font-size: 1.25rem;
+  margin-top: 0.15rem;
 `;
 
 const ActorInfoPage: React.FC = () => {
   const { actorInfoStore, uiStore } = useRootStore();
   const params = useParams();
   const [filmList, setFilmList] = useState<IActorInfo['movies']>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (params.personId) {
@@ -164,6 +212,10 @@ const ActorInfoPage: React.FC = () => {
 
   return (
     <>
+      <BackButtonContainer onClick={() => navigate(-1)}>
+        <BackIcon />
+        назад
+      </BackButtonContainer>
       {
         actorInfoStore.actorInfoLoading && (
           <SpinnerContainer>
@@ -174,20 +226,21 @@ const ActorInfoPage: React.FC = () => {
       {
         !actorInfoStore.actorInfoLoading && actorInfoStore.actorInfo && (
         <ContentContainer>
-          <PosterContainer>
+          <PosterContainer poster={!!actorInfoStore.actorInfo.photo}>
             <Poster
               src={actorInfoStore.actorInfo.photo ?? ''}
               alt=""
             />
           </PosterContainer>
-          <InfoContainer>
-            <SavedIcon>
-              <Title>{actorInfoStore.actorInfo.name} {actorInfoStore.actorInfo.enName && <>({actorInfoStore.actorInfo.enName})</>}
+          <InfoContainer poster={!!actorInfoStore.actorInfo.photo}>
+            <MainTitle>
+              <Title>
+                {actorInfoStore.actorInfo.name}
               </Title>
-              <BackButtonContainer>
-                <BackButton />
-              </BackButtonContainer>
-            </SavedIcon>
+              {
+                  actorInfoStore.actorInfo.enName && <Title>({actorInfoStore.actorInfo.enName})</Title>
+                }
+            </MainTitle>
             {
               actorInfoStore.actorInfo.sex && (
                 <Description>

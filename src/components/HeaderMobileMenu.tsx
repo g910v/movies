@@ -42,7 +42,7 @@ const BackIcon = styled(BiChevronLeft)`
 
 const HeaderSearchContainer = styled.div`
   width: 80%;
-  height: 90%;
+  height: 80%;
 `;
 
 const MenuContainer = styled.div`
@@ -59,13 +59,14 @@ const Menu = styled.div<{ visible: boolean }>`
   position: fixed;
   background: ${baseTheme.colors.bg};
   width: 100vw;
-  height: calc(100vh - 4rem);
-  top: 4rem;
+  height: calc(100vh - 0rem);
+  top: 0;
   left: 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 1vh;
+  
 `;
 
 const Item = styled(Link)`
@@ -82,6 +83,7 @@ const MenuIcon = styled.div`
   padding: 0.6rem 1rem;
   margin-left: 1.5%;
   font-size: 1.7rem;
+  z-index: 10;
   cursor: pointer;
   &:hover {
     color: ${baseTheme.colors.mix};
@@ -97,7 +99,12 @@ const HeaderMobileMenu: React.FC<Props> = ({ items }) => {
   };
 
   useEffect(() => {
-    if (!menuVisible) setSearchVisible(false);
+    if (!menuVisible) {
+      setSearchVisible(false);
+      document.body.style.overflow = '';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
   }, [menuVisible]);
 
   return (

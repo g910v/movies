@@ -20,6 +20,7 @@ const Title = styled.div`
   margin-right: auto;
   font-weight: 800;
   ${textGradient}
+  z-index: 10;
 `;
 
 const Header: React.FC = () => {
