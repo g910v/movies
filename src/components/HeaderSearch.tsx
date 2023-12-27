@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
+import { Transition } from 'react-transition-group';
 import baseTheme from '../styles/theme';
 import { Input } from './styled';
 import SearchResults from './SearchResults';
@@ -22,15 +23,19 @@ const SearchInput = styled.div`
   position: relative;
 `;
 
-const ResultPanel = styled.div`
+const ResultPanel = styled.div<{state: string}>`
   position: absolute;
   top: 3.5rem;
-  max-height: 68vh;
+  height: fit-content;
   width: calc(100% - 2rem);
   background: ${baseTheme.colors.bgSecondary};
   z-index: 10;
   padding: 1rem;
   border-radius: 5px;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+  transform: scaleY(${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')});
+  transform-origin: top;
+  transition: all 0.2s ease-in;
 `;
 
 const ResultScroll = styled.div`
@@ -66,15 +71,17 @@ const HeaderSearch: React.FC<Props> = ({ closeSearch }) => {
     <SearchInput>
       <SearchContainer>
         <Input placeholder="Поиск фильмов и сериалов" value={inputValue} onChange={e => setInputValue(e.target.value)} />
-        {
-          searchStore.searchResults && (
-            <ResultPanel>
-              <ResultScroll>
-                <SearchResults onCloseSearch={onCloseSearch} />
-              </ResultScroll>
-            </ResultPanel>
-          )
-        }
+        <Transition in={!!searchStore.searchResults} timeout={250} mountOnEnter unmountOnExit>
+          {
+            state => (
+              <ResultPanel state={state}>
+                <ResultScroll>
+                  <SearchResults onCloseSearch={onCloseSearch} />
+                </ResultScroll>
+              </ResultPanel>
+            )
+          }
+        </Transition>
       </SearchContainer>
     </SearchInput>
   );

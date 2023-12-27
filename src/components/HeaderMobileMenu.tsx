@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { BiChevronLeft, BiMenu, BiX } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { SwitchTransition, Transition } from 'react-transition-group';
 import baseTheme, { textGradient } from '../styles/theme';
 import HeaderSearch from './HeaderSearch';
 
@@ -40,12 +41,27 @@ const BackIcon = styled(BiChevronLeft)`
   margin-top: 0.15rem;
 `;
 
-const HeaderSearchContainer = styled.div`
+const HeaderSearchContainer = styled.div<{state: string}>`
   width: 80%;
   height: 80%;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+  transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '40vw' : '0')});
+  transition: all 0.25s ease-in;
 `;
 
-const MenuContainer = styled.div`
+const Menu = styled.div<{state: string}>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1vh;
+  height: 100%;
+  transition: all 0.25s ease-in;
+  transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '-40vw' : '0')});
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+`;
+
+const Container = styled.div`
   display: none;
   width: calc(100% - 10rem);
   justify-content: end;
@@ -54,19 +70,19 @@ const MenuContainer = styled.div`
   }
 `;
 
-const Menu = styled.div<{ visible: boolean }>`
-  display: ${props => (props.visible ? 'flex' : 'none')};
+const MenuContainer = styled.div<{state: string}>`
   position: fixed;
   background: ${baseTheme.colors.bg};
   width: 100vw;
-  height: calc(100vh - 0rem);
   top: 0;
   left: 0;
-  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  transition: all 0.25s ease-in;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+  display: flex;
   justify-content: center;
   align-items: center;
-  row-gap: 1vh;
-  
 `;
 
 const Item = styled(Link)`
@@ -108,34 +124,51 @@ const HeaderMobileMenu: React.FC<Props> = ({ items }) => {
   }, [menuVisible]);
 
   return (
-    <MenuContainer>
+    <Container>
       <MenuIcon onClick={() => setMenuVisible(prev => !prev)}>
         {
           menuVisible ? <BiX /> : <BiMenu />
         }
       </MenuIcon>
-      <Menu visible={menuVisible}>
+      <Transition in={menuVisible} timeout={250} mountOnEnter unmountOnExit>
         {
-          searchVisible ? (
-            <HeaderSearchContainer>
-              <BackMenu onClick={closeSearch}><BackIcon /> меню</BackMenu>
-              <HeaderSearch closeSearch={closeSearch} />
-            </HeaderSearchContainer>
-          ) : (
-            <>
-              <ItemSearch key="search" onClick={() => setSearchVisible(true)}>Поиск</ItemSearch>
-              {
-                items.map(i => (
-                  <Item to={i.path} key={i.label} onClick={() => setMenuVisible(false)}>
-                    {i.label}
-                  </Item>
-                ))
-              }
-            </>
+          state => (
+            <MenuContainer state={state}>
+              <SwitchTransition>
+                <Transition
+                  key={searchVisible ? 'search' : 'menulist'}
+                  timeout={250}
+                  mountOnEnter
+                  unmountOnExit
+                >
+                  {
+                    state => (
+                      searchVisible ? (
+                        <HeaderSearchContainer state={state}>
+                          <BackMenu onClick={closeSearch}><BackIcon /> меню</BackMenu>
+                          <HeaderSearch closeSearch={closeSearch} />
+                        </HeaderSearchContainer>
+                      ) : (
+                        <Menu state={state}>
+                          <ItemSearch key="search" onClick={() => setSearchVisible(true)}>Поиск</ItemSearch>
+                          {
+                            items.map(i => (
+                              <Item to={i.path} key={i.label} onClick={() => setMenuVisible(false)}>
+                                {i.label}
+                              </Item>
+                            ))
+                          }
+                        </Menu>
+                      )
+                    )
+                  }
+                </Transition>
+              </SwitchTransition>
+            </MenuContainer>
           )
         }
-      </Menu>
-    </MenuContainer>
+      </Transition>
+    </Container>
   );
 };
 
