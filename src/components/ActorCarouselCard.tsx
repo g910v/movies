@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IActor } from '../stores/ActorsStore';
@@ -22,11 +22,11 @@ interface Props {
   actor: IActor,
 }
 
-const ActorCarouselCard: React.FC<Props> = ({ actor }) => (
+const ActorCarouselCard: React.FC<Props> = memo(({ actor }) => (
   <Container to={`/person/${actor.kinopoiskId}`}>
     <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
     <div>{actor.nameRu}</div>
   </Container>
-);
+));
 
 export default ActorCarouselCard;

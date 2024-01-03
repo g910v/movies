@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../hooks';
 import routes from '../shared/routes';
 import {
@@ -78,4 +77,4 @@ const ActorsPage: React.FC = () => {
   );
 };
 
-export default observer(ActorsPage);
+export default ActorsPage;

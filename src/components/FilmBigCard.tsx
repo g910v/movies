@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
-import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Card, SimpleButton } from './styled';
@@ -57,7 +56,7 @@ interface Props {
   film: IFilm,
 }
 
-const FilmBigCard: React.FC<Props> = ({ film }) => {
+const FilmBigCard: React.FC<Props> = memo(({ film }) => {
   const { filmsStore } = useRootStore();
 
   return (
@@ -101,6 +100,6 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
       />
     </Card>
   );
-};
+});
 
-export default observer(FilmBigCard);
+export default FilmBigCard;

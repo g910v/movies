@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img`
@@ -50,7 +50,7 @@ interface Props {
   film: IMovie,
 }
 
-const FilmCarouselCard: React.FC<Props> = ({ film }) => {
+const FilmCarouselCard: React.FC<Props> = memo(({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   return (
     <Container
@@ -69,6 +69,6 @@ const FilmCarouselCard: React.FC<Props> = ({ film }) => {
       }
     </Container>
   );
-};
+});
 
 export default FilmCarouselCard;

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import {
   Outlet, useLocation, useParams,
@@ -86,4 +85,4 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
   );
 };
 
-export default observer(MoviesPage);
+export default MoviesPage;

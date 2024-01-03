@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Card } from './styled';
@@ -38,7 +38,7 @@ interface Props {
   actor: IActor,
 }
 
-const ActorBigCard: React.FC<Props> = ({ actor }) => (
+const ActorBigCard: React.FC<Props> = memo(({ actor }) => (
   <ActorCard to={`/person/${actor.kinopoiskId}`}>
     <FixedCard>
       <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
@@ -49,6 +49,6 @@ const ActorBigCard: React.FC<Props> = ({ actor }) => (
       </Container>
     </FixedCard>
   </ActorCard>
-);
+));
 
 export default ActorBigCard;

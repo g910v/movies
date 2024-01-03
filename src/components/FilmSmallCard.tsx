@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
-import { observer } from 'mobx-react-lite';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
@@ -79,13 +78,11 @@ const Description = styled.div`
   margin-top: 1rem;
 `;
 
-const ActiveContainer = styled(Container)<{ state: string }>`
+const ActiveContainer = styled(Container)`
   position: absolute;
   z-index: 10;
   top: 1rem;
   right: 1rem;
-  transition: all 0.15s ease-in;
-  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
 const IconSelect = styled.span`
@@ -101,7 +98,7 @@ interface Props {
   film: IMovie,
 }
 
-const FilmSmallCard: React.FC<Props> = ({ film }) => {
+const FilmSmallCard: React.FC<Props> = memo(({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   const { filmsStore } = useRootStore();
   const [isLoading, setIsLoading] = useState(true);
@@ -128,29 +125,28 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
           />
           )
         }
+        <ActiveContainer>
+          {
+            film.saved !== null && (
+              <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IFilm, !film.saved)}>
+                {
+                  film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
+                }
+              </IconSelect>
+            )
+          }
+        </ActiveContainer>
         <Transition in={!isLoading && nameVisible} timeout={150} mountOnEnter unmountOnExit>
           {
             state => (
-              <>
-                <ActiveContainer state={state}>
-                  {
-                  film.saved !== null && (
-                    <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IFilm, !film.saved)}>
-                      {
-                        film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
-                      }
-                    </IconSelect>
-                  )
-                }
-                </ActiveContainer>
-                <MoreContainer to={`/movie/${film.kId}`} state={state}>
-                  {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
-                  {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
-                  <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
-                  {
+              <MoreContainer to={`/movie/${film.kId}`} state={state}>
+                {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
+                {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
+                <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
+                {
                   film.premiereRu && (<Rating>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</Rating>)
                 }
-                  {
+                {
                   !!film.countries.length && !!film.genres.length && (
                     <Description>
                       {
@@ -167,8 +163,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
                     </Description>
                   )
                 }
-                </MoreContainer>
-              </>
+              </MoreContainer>
             )
           }
         </Transition>
@@ -176,6 +171,6 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
       </CardFixed>
     </Container>
   );
-};
+});
 
-export default observer(FilmSmallCard);
+export default FilmSmallCard;

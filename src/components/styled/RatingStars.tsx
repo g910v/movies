@@ -25,6 +25,7 @@ const RatingStars: React.FC<Props> = ({ rating }) => {
   const numbers = useRef([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   const roundRating = useMemo(() => Math.round(rating * 2) / 2, [rating]);
+
   return (
     <Container>
       {
