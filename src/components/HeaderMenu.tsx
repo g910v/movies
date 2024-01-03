@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BiSearchAlt, BiX } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { SwitchTransition, Transition } from 'react-transition-group';
 import baseTheme, { textGradient } from '../styles/theme';
 import HeaderSearch from './HeaderSearch';
 
@@ -29,13 +30,19 @@ const Item = styled(Link)`
   &:hover {
     ${textGradient}
   }
+  transition: all 0.15s ease-in;
+  transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '-20vw' : '0')});
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
-const Search = styled.div`
+const Search = styled.div<{ state: string }>`
   width: 60%;
   display: flex;
   position: relative;
   align-items: center;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+  transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '20vw' : '0')});
+  transition: all 0.15s ease-in;
 `;
 
 const SearchIcon = styled.div`
@@ -45,6 +52,7 @@ const SearchIcon = styled.div`
   margin-left: 1.5%;
   font-size: 1.5rem;
   cursor: pointer;
+  z-index: 10;
   &:hover {
     color: ${baseTheme.colors.mix};
   }
@@ -59,30 +67,40 @@ const HeaderMenu: React.FC<Props> = ({ items }) => {
 
   return (
     <MenuContainer>
-      {
-        searchVisible
-          ? (
-            <Search>
-              <HeaderSearch closeSearch={closeSearch} />
-              <SearchIcon onClick={closeSearch}>
-                <BiX />
-              </SearchIcon>
-            </Search>
-          ) : (
-            <>
-              {
-                items.map(i => (
-                  <Item to={i.path} key={i.label}>
-                    {i.label}
-                  </Item>
-                ))
-              }
-              <SearchIcon onClick={() => setSearchVisible(true)}>
-                <BiSearchAlt />
-              </SearchIcon>
-            </>
-          )
-      }
+      <SwitchTransition>
+        <Transition
+          key={searchVisible ? 'search' : 'menulist'}
+          timeout={150}
+          mountOnEnter
+          unmountOnExit
+        >
+          {
+            state => (
+              searchVisible
+                ? (
+                  <Search state={state}>
+                    <HeaderSearch closeSearch={closeSearch} />
+                  </Search>
+                ) : (
+                  <>
+                    {
+                      items.map(i => (
+                        <Item to={i.path} key={i.label} state={state}>
+                          {i.label}
+                        </Item>
+                      ))
+                    }
+                  </>
+                )
+            )
+          }
+        </Transition>
+      </SwitchTransition>
+      <SearchIcon onClick={searchVisible ? closeSearch : () => setSearchVisible(true)}>
+        {
+          searchVisible ? <BiX /> : <BiSearchAlt />
+        }
+      </SearchIcon>
     </MenuContainer>
   );
 };
