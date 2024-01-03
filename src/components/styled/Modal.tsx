@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { BiX, BiArea } from 'react-icons/bi';
+import { Transition } from 'react-transition-group';
 import baseTheme from '../../styles/theme';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const Mask = styled.div`
+const Mask = styled.div<{state: string}>`
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -18,9 +19,12 @@ const Mask = styled.div`
   left: 0;
   background: rgba(0, 0, 0, 0.8);
   z-index: 10;
+
+  transition: all 0.15s ease-in;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
-const Window = styled.div<{ maxiSize: boolean }>`
+const Window = styled.div<{ maxiSize: boolean, state: string }>`
   position: fixed;
   top: ${props => (props.maxiSize ? '0px' : '25%')};
   left: ${props => (props.maxiSize ? '0px' : '25%')};
@@ -32,6 +36,15 @@ const Window = styled.div<{ maxiSize: boolean }>`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  @media ${baseTheme.media.m} {
+    top: ${props => (props.maxiSize ? '0px' : '30%')};
+    left: ${props => (props.maxiSize ? '0px' : '5%')};
+    width: ${props => (props.maxiSize ? 'calc(100% - 2rem)' : 'calc(90% - 2rem)')};
+    height: ${props => (props.maxiSize ? 'calc(100% - 2rem)' : 'calc(40% - 2rem)')};
+  }
+
+  transition: all 0.15s ease-in;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
 const IconContainer = styled.div`
@@ -67,22 +80,29 @@ const MaximinIcon = styled(Icon)`
 
 const Modal: React.FC<Props> = ({ children, visible, setVisible }) => {
   const [maxiSize, setMaxiSize] = useState(false);
+
   return (
-    visible && createPortal(
-      <>
-        <Mask onClick={() => setVisible(false)} />
-        <Window maxiSize={maxiSize}>
-          <IconContainer>
-            <MaximinIcon onClick={() => setMaxiSize(prev => !prev)}>
-              <BiArea />
-            </MaximinIcon>
-            <ExitIcon onClick={() => setVisible(false)}>
-              <BiX />
-            </ExitIcon>
-          </IconContainer>
-          {children}
-        </Window>
-      </>,
+    createPortal(
+      <Transition in={visible} timeout={150} mountOnEnter unmountOnExit>
+        {
+          state => (
+            <>
+              <Mask onClick={() => setVisible(false)} state={state} />
+              <Window maxiSize={maxiSize} state={state}>
+                <IconContainer>
+                  <MaximinIcon onClick={() => setMaxiSize(prev => !prev)}>
+                    <BiArea />
+                  </MaximinIcon>
+                  <ExitIcon onClick={() => setVisible(false)}>
+                    <BiX />
+                  </ExitIcon>
+                </IconContainer>
+                {children}
+              </Window>
+            </>
+          )
+        }
+      </Transition>,
       document.body,
     )
   );

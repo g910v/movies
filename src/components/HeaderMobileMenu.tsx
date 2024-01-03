@@ -46,7 +46,7 @@ const HeaderSearchContainer = styled.div<{state: string}>`
   height: 80%;
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
   transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '40vw' : '0')});
-  transition: all 0.25s ease-in;
+  transition: all 0.15s ease-in;
 `;
 
 const Menu = styled.div<{state: string}>`
@@ -56,7 +56,7 @@ const Menu = styled.div<{state: string}>`
   align-items: center;
   row-gap: 1vh;
   height: 100%;
-  transition: all 0.25s ease-in;
+  transition: all 0.15s ease-in;
   transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '-40vw' : '0')});
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
@@ -78,7 +78,7 @@ const MenuContainer = styled.div<{state: string}>`
   left: 0;
   height: 100vh;
   overflow: hidden;
-  transition: all 0.25s ease-in;
+  transition: all 0.15s ease-in;
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
   display: flex;
   justify-content: center;
@@ -130,14 +130,14 @@ const HeaderMobileMenu: React.FC<Props> = ({ items }) => {
           menuVisible ? <BiX /> : <BiMenu />
         }
       </MenuIcon>
-      <Transition in={menuVisible} timeout={250} mountOnEnter unmountOnExit>
+      <Transition in={menuVisible} timeout={150} mountOnEnter unmountOnExit>
         {
           state => (
             <MenuContainer state={state}>
               <SwitchTransition>
                 <Transition
                   key={searchVisible ? 'search' : 'menulist'}
-                  timeout={250}
+                  timeout={150}
                   mountOnEnter
                   unmountOnExit
                 >
@@ -146,7 +146,7 @@ const HeaderMobileMenu: React.FC<Props> = ({ items }) => {
                       searchVisible ? (
                         <HeaderSearchContainer state={state}>
                           <BackMenu onClick={closeSearch}><BackIcon /> меню</BackMenu>
-                          <HeaderSearch closeSearch={closeSearch} />
+                          <HeaderSearch closeSearch={() => { closeSearch(); setMenuVisible(false); }} />
                         </HeaderSearchContainer>
                       ) : (
                         <Menu state={state}>

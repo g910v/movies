@@ -9,6 +9,7 @@ import {
 } from 'react-icons/bi';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
+import { Transition } from 'react-transition-group';
 import { useRootStore } from '../hooks';
 import {
   Carousel, Spinner, RatingStars, Button, SimpleButton,
@@ -153,6 +154,20 @@ const DetailsButton = styled.div`
   }
 `;
 
+const DetailsBlock = styled.div<{ state: string }>`
+  transform: translateY(${props => (props.state === 'exiting' || props.state === 'exited' ? '-15px' : '0px')});
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+  transform-origin: top;
+  transition: all 0.15s ease-in;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.35rem;
+  width: 100%;
+  @media ${baseTheme.media.m} {
+    align-items: center;
+  }
+`;
+
 const SubTitle = styled.div`
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
@@ -168,7 +183,11 @@ const MainTitle = styled.div`
   }
 `;
 
-const SimilarMovies = styled.div`
+const SimilarMovies = styled.div<{ state: string }>`
+  transform: translateY(${props => (props.state === 'exiting' || props.state === 'exited' ? '-15px' : '0px')});
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
+  transform-origin: top;
+  transition: all 0.25s ease-in;
   display: grid;
   column-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
@@ -338,10 +357,11 @@ const MovieInfoPage: React.FC = () => {
                         showDetails ? <BiChevronDown style={{ fontSize: '1.5rem' }} /> : <BiChevronUp style={{ fontSize: '1.5rem', marginTop: '0.1rem' }} />
                       }
                     </DetailsButton>
-                    {
-                      showDetails && (
-                        <>
-                          {
+                    <Transition in={showDetails} timeout={150} mountOnEnter unmountOnExit>
+                      {
+                        state => (
+                          <DetailsBlock state={state}>
+                            {
                             !!directors?.length && (
                               <Description>
                                 Режиссер: {
@@ -353,7 +373,7 @@ const MovieInfoPage: React.FC = () => {
                               </Description>
                             )
                           }
-                          {
+                            {
                             !!writers?.length && (
                               <Description>
                                 Сценарист: {
@@ -365,7 +385,7 @@ const MovieInfoPage: React.FC = () => {
                               </Description>
                             )
                           }
-                          {
+                            {
                             !!producers?.length && (
                               <Description>
                                 Продюсер: {
@@ -377,32 +397,30 @@ const MovieInfoPage: React.FC = () => {
                               </Description>
                             )
                           }
-                          {
-
-                          }
-                          <Description>
-                            Бюджет: {movie.budget?.value ? `${movie.budget.value} ${movie.budget?.currency}` : 'Информация отсутсвует'}
-                          </Description>
-                          <Description>
-                            Сборы: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
-                          </Description>
-                          {
+                            <Description>
+                              Бюджет: {movie.budget?.value ? `${movie.budget.value} ${movie.budget?.currency}` : 'Информация отсутсвует'}
+                            </Description>
+                            <Description>
+                              Сборы: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
+                            </Description>
+                            {
                             movie.premiere?.world && (
                               <Description>
                                 Премьера в мире: {format(new Date(movie.premiere?.world ?? ''), 'dd MMMM Y', { locale: ruLocale })}
                               </Description>
                             )
                           }
-                          {
+                            {
                             movie.slogan && (
                               <Description>
                                 «{movie.slogan}»
                               </Description>
                             )
                           }
-                        </>
-                      )
-                    }
+                          </DetailsBlock>
+                        )
+                      }
+                    </Transition>
                   </InfoContainer>
                   <ActorsContainer>
                     <SubTitle>Актерский состав</SubTitle>
@@ -420,41 +438,45 @@ const MovieInfoPage: React.FC = () => {
                       )
                     }
                   </ActorsContainer>
-                  <ActorsContainer>
-                    <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
-                      Похожие фильмы
-                      {
-                        showSimilar ? <BiChevronDown style={{ fontSize: '2.5rem' }} /> : <BiChevronUp style={{ fontSize: '2.5rem', marginBottom: '-0.5rem' }} />
-                      }
-                    </SimilarTitle>
-                    {
-                      showSimilar && (
-                        movie.similarMovies?.length ? (
-                          <SimilarMovies>
-                            {
-                            movie.similarMovies?.map(i => (
-                              <FilmSmallCard
-                                key={i.id}
-                                film={{
-                                  name: i.name,
-                                  enName: i.alternativeName,
-                                  rating: i.rating?.kp ?? undefined,
-                                  poster: i.poster?.url ?? '',
-                                  posterPreview: i.poster?.previewUrl ?? '',
-                                  kId: i.id ?? -1,
-                                  year: i.year,
-                                  countries: [],
-                                  genres: [],
-                                  saved: null,
-                                }}
-                              />
-                            ))
+                  {
+                    movie.similarMovies?.length && (
+                      <ActorsContainer>
+                        <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
+                          Похожие фильмы
+                          {
+                          showSimilar ? <BiChevronDown style={{ fontSize: '2.5rem' }} /> : <BiChevronUp style={{ fontSize: '2.5rem', marginBottom: '-0.5rem' }} />
+                        }
+                        </SimilarTitle>
+                        <Transition in={showSimilar} timeout={250} mountOnEnter unmountOnExit>
+                          {
+                            state => (
+                              <SimilarMovies state={state}>
+                                {
+                                  movie.similarMovies?.map(i => (
+                                    <FilmSmallCard
+                                      key={i.id}
+                                      film={{
+                                        name: i.name,
+                                        enName: i.alternativeName,
+                                        rating: i.rating?.kp ?? undefined,
+                                        poster: i.poster?.url ?? '',
+                                        posterPreview: i.poster?.previewUrl ?? '',
+                                        kId: i.id ?? -1,
+                                        year: i.year,
+                                        countries: [],
+                                        genres: [],
+                                        saved: null,
+                                      }}
+                                    />
+                                  ))
+                                }
+                              </SimilarMovies>
+                            )
                           }
-                          </SimilarMovies>
-                        ) : <>Список фильмов и сериалов отсуствует</>
-                      )
-                    }
-                  </ActorsContainer>
+                        </Transition>
+                      </ActorsContainer>
+                    )
+                  }
                 </ContentContainer>
               </GradientContainerRevert>
             </GradientContainer>

@@ -4,6 +4,7 @@ import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { observer } from 'mobx-react-lite';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { Transition } from 'react-transition-group';
 import { Card } from './styled';
 import baseTheme from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
@@ -32,7 +33,7 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const MoreContainer = styled(Link)<{ opacity: number}>`
+const MoreContainer = styled(Link)<{ state: string }>`
   width: calc(100% - 3rem);
   display: flex;
   flex-direction: column;
@@ -45,8 +46,8 @@ const MoreContainer = styled(Link)<{ opacity: number}>`
   height: calc(100% - 4.5rem);
   padding: 1rem 1.5rem 3.5rem;
   color: ${baseTheme.colors.text};
-  opacity: ${props => props.opacity};
-  transition: all .2s ease;
+  transition: all 0.15s ease-in;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
 const Name = styled.div<{height: string}>`
@@ -78,13 +79,13 @@ const Description = styled.div`
   margin-top: 1rem;
 `;
 
-const ActiveContainer = styled(Container)<{ opacity: number}>`
+const ActiveContainer = styled(Container)<{ state: string }>`
   position: absolute;
   z-index: 10;
   top: 1rem;
   right: 1rem;
-  opacity: ${props => props.opacity};
-  transition: all .2s ease;
+  transition: all 0.15s ease-in;
+  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
 const IconSelect = styled.span`
@@ -127,11 +128,12 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
           />
           )
         }
-        {
-          !isLoading && nameVisible && (
-            <>
-              <ActiveContainer opacity={nameVisible ? 1 : 0}>
-                {
+        <Transition in={!isLoading && nameVisible} timeout={150} mountOnEnter unmountOnExit>
+          {
+            state => (
+              <>
+                <ActiveContainer state={state}>
+                  {
                   film.saved !== null && (
                     <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IFilm, !film.saved)}>
                       {
@@ -140,15 +142,15 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
                     </IconSelect>
                   )
                 }
-              </ActiveContainer>
-              <MoreContainer opacity={nameVisible ? 1 : 0} to={`/movie/${film.kId}`}>
-                {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
-                {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
-                <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
-                {
+                </ActiveContainer>
+                <MoreContainer to={`/movie/${film.kId}`} state={state}>
+                  {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
+                  {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
+                  <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
+                  {
                   film.premiereRu && (<Rating>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</Rating>)
                 }
-                {
+                  {
                   !!film.countries.length && !!film.genres.length && (
                     <Description>
                       {
@@ -165,10 +167,11 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
                     </Description>
                   )
                 }
-              </MoreContainer>
-            </>
-          )
-        }
+                </MoreContainer>
+              </>
+            )
+          }
+        </Transition>
         <Name height={isLoading ? '3rem' : 'auto'}>{film.name}</Name>
       </CardFixed>
     </Container>
