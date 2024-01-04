@@ -43,6 +43,7 @@ const Search = styled.div<{ state: string }>`
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
   transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '20vw' : '0')});
   transition: all 0.15s ease-in;
+  margin-right: -1%;
 `;
 
 const SearchIcon = styled.div`
