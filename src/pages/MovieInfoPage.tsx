@@ -49,9 +49,10 @@ const GradientContainerRevert = styled.div`
 
 const SpinnerContainer = styled.div`
   width: 100%;
+  height: 80vh;
   display: flex;
   justify-content: center;
-  margin-top: -5vh;
+  align-items: center;
 `;
 
 const ContentContainer = styled.div`
@@ -131,6 +132,9 @@ const Title = styled.div`
   @media ${baseTheme.media.l} {
     font-size: 2rem;
     line-height: 2.2rem;
+  }
+  @media ${baseTheme.media.m} {
+    text-align: center;
   }
 `;
 
@@ -248,7 +252,7 @@ const MovieInfoPage: React.FC = () => {
     setIsSaved(filmsStore.isSavedFilm(filmInfoStore.movieInfo?.id ?? 0));
   }, [filmInfoStore.movieInfo?.id, filmsStore]);
 
-  useEffect(() => {
+  const saveFilm = () => {
     if (movie) {
       filmsStore.changeSavedFilms({
         name: movie.name ?? '',
@@ -263,9 +267,10 @@ const MovieInfoPage: React.FC = () => {
         kId: movie.id,
         saved: isSaved,
         posterPreview: movie.poster?.previewUrl ?? '',
-      }, isSaved);
+      }, !isSaved);
+      setIsSaved(prev => !prev);
     }
-  }, [isSaved, movie, filmsStore]);
+  };
 
   useEffect(() => {
     uiStore.updateDocumentTitle('Фильмы и сериалы');
@@ -307,11 +312,14 @@ const MovieInfoPage: React.FC = () => {
                     />
                     <SavedBackIcons>
                       <BackButton />
-                      {
-                        isSaved
-                          ? <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiSolidBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
-                          : <SimpleButton onClick={() => setIsSaved(prev => !prev)} icon={<BiBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />} />
-                      }
+                      <SimpleButton
+                        onClick={saveFilm}
+                        icon={
+                          isSaved
+                            ? <BiSolidBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />
+                            : <BiBookmark style={{ fontSize: '1.7rem', color: baseTheme.colors.yellow }} />
+                        }
+                      />
                       {
                         youtubeUrl && <Button label="Посмотреть трейлер" onClick={() => setYoutubeVisible(true)} />
                       }
@@ -439,7 +447,7 @@ const MovieInfoPage: React.FC = () => {
                     }
                   </ActorsContainer>
                   {
-                    movie.similarMovies?.length && (
+                    !!movie.similarMovies?.length && (
                       <ActorsContainer>
                         <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
                           Похожие фильмы

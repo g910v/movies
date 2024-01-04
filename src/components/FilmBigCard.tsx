@@ -1,15 +1,16 @@
-import React, { memo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { observer } from 'mobx-react-lite';
 import { Card, SimpleButton } from './styled';
 import baseTheme from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
 import { useRootStore } from '../hooks';
 
 const Image = styled.img`
-  width: 7rem;
+  height: 11rem;
   border-radius: 5px;
 `;
 
@@ -18,7 +19,7 @@ const Container = styled.div`
   flex-direction: column;
   row-gap: 0.55rem;
   justify-content: center;
-  height: 10rem;
+  height: 11rem;
 `;
 
 const InfoContainer = styled(Link)`
@@ -56,7 +57,7 @@ interface Props {
   film: IFilm,
 }
 
-const FilmBigCard: React.FC<Props> = memo(({ film }) => {
+const FilmBigCard: React.FC<Props> = ({ film }) => {
   const { filmsStore } = useRootStore();
 
   return (
@@ -100,6 +101,6 @@ const FilmBigCard: React.FC<Props> = memo(({ film }) => {
       />
     </Card>
   );
-});
+};
 
-export default FilmBigCard;
+export default observer(FilmBigCard);

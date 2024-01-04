@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { BiChevronLeft, BiMenu, BiX } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SwitchTransition, Transition } from 'react-transition-group';
 import baseTheme, { textGradient } from '../styles/theme';
 import HeaderSearch from './HeaderSearch';
@@ -83,6 +83,7 @@ const MenuContainer = styled.div<{state: string}>`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 const Item = styled(Link)`
@@ -99,7 +100,7 @@ const MenuIcon = styled.div`
   padding: 0.6rem 1rem;
   margin-left: 1.5%;
   font-size: 1.7rem;
-  z-index: 10;
+  z-index: 15;
   cursor: pointer;
   &:hover {
     color: ${baseTheme.colors.mix};
@@ -109,6 +110,7 @@ const MenuIcon = styled.div`
 const HeaderMobileMenu: React.FC<Props> = ({ items }) => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+  const { key } = useLocation();
 
   const closeSearch = () => {
     setSearchVisible(false);
@@ -130,7 +132,7 @@ const HeaderMobileMenu: React.FC<Props> = ({ items }) => {
           menuVisible ? <BiX /> : <BiMenu />
         }
       </MenuIcon>
-      <Transition in={menuVisible} timeout={150} mountOnEnter unmountOnExit>
+      <Transition key={key} in={menuVisible} timeout={150} mountOnEnter unmountOnExit>
         {
           state => (
             <MenuContainer state={state}>

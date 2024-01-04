@@ -1,9 +1,10 @@
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
+import { observer } from 'mobx-react-lite';
 import { Card } from './styled';
 import baseTheme from '../styles/theme';
 import { IFilm } from '../stores/FilmsStore';
@@ -21,10 +22,12 @@ const ImagePreview = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 5px;
+  margin-bottom: 0.75rem;
 `;
 
 const Image = styled(ImagePreview)<{height: string}>`
   height: ${props => props.height};
+  width: 100%;
 `;
 
 const Container = styled.div`
@@ -52,7 +55,7 @@ const MoreContainer = styled(Link)<{ state: string }>`
 const Name = styled.div<{height: string}>`
   font-weight: 800;
   font-size: 1.15rem;
-  margin-top: 0.75rem;
+  margin-top: auto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -80,7 +83,7 @@ const Description = styled.div`
 
 const ActiveContainer = styled(Container)`
   position: absolute;
-  z-index: 10;
+  z-index: 9;
   top: 1rem;
   right: 1rem;
 `;
@@ -98,7 +101,7 @@ interface Props {
   film: IMovie,
 }
 
-const FilmSmallCard: React.FC<Props> = memo(({ film }) => {
+const FilmSmallCard: React.FC<Props> = ({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   const { filmsStore } = useRootStore();
   const [isLoading, setIsLoading] = useState(true);
@@ -110,19 +113,23 @@ const FilmSmallCard: React.FC<Props> = memo(({ film }) => {
       onMouseLeave={() => setNameVisible(false)}
     >
       <CardFixed>
-        <Image
-          src={film.poster}
-          alt={film.name ?? ''}
-          onLoad={() => setIsLoading(false)}
-          onError={() => setIsError(true)}
-          height={isLoading ? '0px' : '100%'}
-        />
         {
-          isLoading && !isError && (
-          <ImagePreview
-            src={film.posterPreview}
-            alt={film.name ?? ''}
-          />
+          !isError && (
+            <Image
+              src={film.poster}
+              alt={film.name ?? ''}
+              onLoad={() => setIsLoading(false)}
+              onError={() => { setIsError(true); setIsLoading(false); }}
+              height={isLoading ? '0px' : '100%'}
+            />
+          )
+        }
+        {
+          (isLoading || isError) && (
+            <ImagePreview
+              src={film.posterPreview}
+              alt={film.name ?? ''}
+            />
           )
         }
         <ActiveContainer>
@@ -171,6 +178,6 @@ const FilmSmallCard: React.FC<Props> = memo(({ film }) => {
       </CardFixed>
     </Container>
   );
-});
+};
 
-export default FilmSmallCard;
+export default observer(FilmSmallCard);
