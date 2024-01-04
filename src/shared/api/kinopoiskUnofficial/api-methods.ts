@@ -22,7 +22,7 @@ const kinoUnoffAxios = axios.create({
   baseURL: API_URL,
   headers: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    // 'X-Api-Key': 'fadfb749-8df9-412e-aa8e-85a55e038da5',
+    'X-Api-Key': 'fadfb749-8df9-412e-aa8e-85a55e038da5',
   },
 });
 

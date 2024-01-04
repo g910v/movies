@@ -12,7 +12,7 @@ const kinoDevAxios = axios.create({
   baseURL: API_URL,
   headers: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    // 'X-Api-Key': '0J4BCGG-DPR4PD7-MGRT1E3-X8X0DZP',
+    'X-Api-Key': '0J4BCGG-DPR4PD7-MGRT1E3-X8X0DZP',
   },
 });
 
