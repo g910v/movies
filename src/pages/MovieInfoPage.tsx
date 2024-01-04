@@ -162,7 +162,7 @@ const DetailsBlock = styled.div<{ state: string }>`
   transform: translateY(${props => (props.state === 'exiting' || props.state === 'exited' ? '-15px' : '0px')});
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
   transform-origin: top;
-  transition: all 0.15s ease-in;
+  transition: all 0.25s ease-in;
   display: flex;
   flex-direction: column;
   row-gap: 0.35rem;
@@ -265,7 +265,7 @@ const MovieInfoPage: React.FC = () => {
         poster: movie.poster?.url ?? movie.poster?.previewUrl ?? '',
         year: movie.year ?? 0,
         kId: movie.id,
-        saved: isSaved,
+        saved: !isSaved,
         posterPreview: movie.poster?.previewUrl ?? '',
       }, !isSaved);
       setIsSaved(prev => !prev);

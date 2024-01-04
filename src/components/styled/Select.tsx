@@ -36,6 +36,7 @@ const selectStyles: StylesConfig = {
   menu: styles => ({
     ...styles,
     backgroundColor: baseTheme.colors.bgSecondary,
+    zIndex: 15,
   }),
   option: (styles, {
     isDisabled, isFocused, isSelected,

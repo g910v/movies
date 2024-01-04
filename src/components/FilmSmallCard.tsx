@@ -73,8 +73,16 @@ const EnName = styled.div`
 `;
 
 const Rating = styled.div`
-  /* font-weight: 500; */
-  /* font-size: 0.8rem; */
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-right: auto;
+  height: fit-content;
+  padding: 0 0.4rem;
+  margin-top: 0.1rem;
+  border-radius: 5px;
+  color: ${baseTheme.colors.yellow};
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
 `;
 
 const Description = styled.div`
@@ -86,12 +94,16 @@ const ActiveContainer = styled(Container)`
   z-index: 9;
   top: 1rem;
   right: 1rem;
+  display: flex;
+  width: calc(100% - 2.1rem);
+  align-items: start;
 `;
 
 const IconSelect = styled.span`
   font-size: 1.8rem;
   color: ${baseTheme.colors.yellow};
   cursor: pointer;
+  height: fit-content;
 `;
 
 interface IMovie extends Omit<IFilm, 'saved'> {
@@ -133,6 +145,7 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
           )
         }
         <ActiveContainer>
+          <Rating>{film.rating && film.rating?.toFixed(1)}</Rating>
           {
             film.saved !== null && (
               <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IFilm, !film.saved)}>
@@ -148,10 +161,9 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
             state => (
               <MoreContainer to={`/movie/${film.kId}`} state={state}>
                 {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
-                {film.rating && (<Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>)}
-                <Rating>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</Rating>
+                <div>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</div>
                 {
-                  film.premiereRu && (<Rating>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</Rating>)
+                  film.premiereRu && (<div>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</div>)
                 }
                 {
                   !!film.countries.length && !!film.genres.length && (

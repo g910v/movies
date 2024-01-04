@@ -16,9 +16,10 @@ import { IActorInfo } from '../stores/ActorInfoStore';
 
 const SpinnerContainer = styled.div`
   width: 100%;
+  height: 80vh;
   display: flex;
   justify-content: center;
-  margin-top: -5vh;
+  align-items: center;
 `;
 
 const ContentContainer = styled.div`
