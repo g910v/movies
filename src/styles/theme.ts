@@ -26,7 +26,7 @@ const baseTheme = {
   },
 
   media: {
-    xl: '(max-width: 1200px)',
+    xl: '(max-width: 1500px)',
     l: '(max-width: 992px)',
     m: '(max-width: 768px)',
     s: '(max-width: 576px)',

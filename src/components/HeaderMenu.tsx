@@ -25,6 +25,7 @@ const MenuContainer = styled.div`
 const Item = styled(Link)`
   padding: 0.6rem 0.5rem;
   margin-left: 3.25%;
+  font-weight: 600;
   cursor: pointer;
   color: ${baseTheme.colors.text} !important;
   &:hover {

@@ -13,6 +13,7 @@ const Container = styled.div`
   background: ${baseTheme.colors.headerGradient};
   z-index: 10;
   position: relative;
+  overflow: hidden;
 `;
 
 const Title = styled.div`
