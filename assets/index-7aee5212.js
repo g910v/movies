@@ -94,7 +94,7 @@ Error generating stack: `+o.message+`
 
   #root {
     width: 100%;
-    max-width: 1700px;
+    /* max-width: 1700px; */
   }
 
   a {
@@ -243,6 +243,7 @@ Error generating stack: `+o.message+`
   }
 `,KC=({items:e})=>y.jsx(LS,{children:e.map(t=>y.jsx(DS,{to:t.short,children:t.label},t.key))}),QC=R.div`
   width: 80%;
+  max-width: 1700px;
   display: flex;
   flex-direction: column;
   margin: 3rem 0;
@@ -569,6 +570,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   z-index: 10;
   position: relative;
   overflow: hidden;
+  max-width: 1700px;
+  margin: auto;
 `,jk=R.div`
   font-size: 3rem;
   margin-right: auto;
@@ -727,7 +730,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   width: 100%;
   font-size: 1.5rem;
   margin-top: 1rem;
-`,OC=({type:e,isTop:t,premiereFilters:n})=>{const{filmsStore:r,uiStore:i}=Uo(),o=Zw(),[a,s]=S.useState(1),l=S.useCallback(()=>{var u,c;t?r.getTopMovies({type:e==="FILM"?"TOP_250_MOVIES":"TOP_250_TV_SHOWS",page:a}):e==="PREMIERES"&&n?r.getPremiereFilms(n):e!=="PREMIERES"&&r.getFilms({type:e,genre:o.genre?(u=dg.find(f=>f.short===o.genre))==null?void 0:u.id:void 0,country:o.country?(c=hg.find(f=>f.short===o.country))==null?void 0:c.id:void 0,year:o.year?Number(o.year):void 0,page:a})},[r,t,n,e,o,a]);return S.useEffect(()=>{l()},[l]),S.useEffect(()=>()=>{s(1)},[e,o]),y.jsxs(y.Fragment,{children:[r.filmsLoading&&!r.filmList.length&&y.jsx(iu,{viewmode:"list",children:y.jsx(xC,{children:y.jsx(vs,{size:50,strokeWidth:2})})}),!!r.filmList.length&&y.jsxs(wC,{children:[y.jsx(iu,{viewmode:i.viewMode,children:r.filmList.map(u=>i.viewMode==="list"?y.jsx(aC,{film:u},u.kId):y.jsx(vC,{film:u},u.kId))}),e!=="PREMIERES"&&a<r.filmTotalPages&&y.jsxs(_C,{onClick:()=>s(u=>u+1),children:["Показать еще ",r.filmsLoading?y.jsx(vs,{strokeWidth:2,size:20}):y.jsx(SC,{})]})]}),!r.filmsLoading&&!r.filmList.length&&y.jsx(iu,{viewmode:"list",children:y.jsxs(EC,{children:["Список ",e==="TV_SERIES"?"сериалов":"фильмов"," отсуствует :("]})})]})},pa=Io(OC),kC="/movies/assets/2023-06027a5b.webp",dp="/movies/assets/20222020-72606cab.webp",bC="/movies/assets/2021-ca42fca8.webp",CC="/movies/assets/2019-6081d491.webp",PC="/movies/assets/2018-de0d16b4.webp",hp="/movies/assets/20172015-22fd50e5.webp",RC="/movies/assets/2016-7901e3f4.webp",TC="/movies/assets/2010-16a6db4a.webp",AC="/movies/assets/2000-d5286e3f.webp",NC="/movies/assets/1990-761a69bc.webp",jC="/movies/assets/1980-478e374b.webp",LC=[{name:"2023",short:"2023",img:kC,id:2023},{name:"2022",short:"2022",img:dp,id:2022},{name:"2021",short:"2021",img:bC,id:2021},{name:"2020",short:"2020",img:dp,id:2020},{name:"2019",short:"2019",img:CC,id:2019},{name:"2018",short:"2018",img:PC,id:2018},{name:"2017",short:"2017",img:hp,id:2017},{name:"2016",short:"2016",img:RC,id:2016},{name:"2015",short:"2015",img:hp,id:2015},{name:"2010",short:"2010",img:TC,id:2010},{name:"2000-e",short:"2000",img:AC,id:2e3},{name:"1990-e",short:"1990",img:NC,id:1990},{name:"1980-e",short:"1980",img:jC,id:1980}],pp=S.lazy(()=>pi(()=>import("./MoviesPage-914dbbf6.js"),["assets/MoviesPage-914dbbf6.js","assets/SelectViewButtons-14f52791.js","assets/BackButton-e3186594.js"])),$C=S.lazy(()=>pi(()=>import("./PremieresPage-80335d29.js"),["assets/PremieresPage-80335d29.js","assets/SelectViewButtons-14f52791.js"])),DC=S.lazy(()=>pi(()=>import("./ActorsPage-70cf22a7.js"),[])),MC=S.lazy(()=>pi(()=>import("./SavedPage-3bf1b8f5.js"),["assets/SavedPage-3bf1b8f5.js","assets/SelectViewButtons-14f52791.js"])),IC=S.lazy(()=>pi(()=>import("./MovieInfoPage-483bee19.js"),["assets/MovieInfoPage-483bee19.js","assets/index-475af930.js","assets/BackButton-e3186594.js"])),FC=S.lazy(()=>pi(()=>import("./ActorInfoPage-de11f15c.js"),["assets/ActorInfoPage-de11f15c.js","assets/index-475af930.js"])),zC=R.div`
+`,OC=({type:e,isTop:t,premiereFilters:n})=>{const{filmsStore:r,uiStore:i}=Uo(),o=Zw(),[a,s]=S.useState(1),l=S.useCallback(()=>{var u,c;t?r.getTopMovies({type:e==="FILM"?"TOP_250_MOVIES":"TOP_250_TV_SHOWS",page:a}):e==="PREMIERES"&&n?r.getPremiereFilms(n):e!=="PREMIERES"&&r.getFilms({type:e,genre:o.genre?(u=dg.find(f=>f.short===o.genre))==null?void 0:u.id:void 0,country:o.country?(c=hg.find(f=>f.short===o.country))==null?void 0:c.id:void 0,year:o.year?Number(o.year):void 0,page:a})},[r,t,n,e,o,a]);return S.useEffect(()=>{l()},[l]),S.useEffect(()=>()=>{s(1)},[e,o]),y.jsxs(y.Fragment,{children:[r.filmsLoading&&!r.filmList.length&&y.jsx(iu,{viewmode:"list",children:y.jsx(xC,{children:y.jsx(vs,{size:50,strokeWidth:2})})}),!!r.filmList.length&&y.jsxs(wC,{children:[y.jsx(iu,{viewmode:i.viewMode,children:r.filmList.map(u=>i.viewMode==="list"?y.jsx(aC,{film:u},u.kId):y.jsx(vC,{film:u},u.kId))}),e!=="PREMIERES"&&a<r.filmTotalPages&&y.jsxs(_C,{onClick:()=>s(u=>u+1),children:["Показать еще ",r.filmsLoading?y.jsx(vs,{strokeWidth:2,size:20}):y.jsx(SC,{})]})]}),!r.filmsLoading&&!r.filmList.length&&y.jsx(iu,{viewmode:"list",children:y.jsxs(EC,{children:["Список ",e==="TV_SERIES"?"сериалов":"фильмов"," отсуствует :("]})})]})},pa=Io(OC),kC="/movies/assets/2023-06027a5b.webp",dp="/movies/assets/20222020-72606cab.webp",bC="/movies/assets/2021-ca42fca8.webp",CC="/movies/assets/2019-6081d491.webp",PC="/movies/assets/2018-de0d16b4.webp",hp="/movies/assets/20172015-22fd50e5.webp",RC="/movies/assets/2016-7901e3f4.webp",TC="/movies/assets/2010-16a6db4a.webp",AC="/movies/assets/2000-d5286e3f.webp",NC="/movies/assets/1990-761a69bc.webp",jC="/movies/assets/1980-478e374b.webp",LC=[{name:"2023",short:"2023",img:kC,id:2023},{name:"2022",short:"2022",img:dp,id:2022},{name:"2021",short:"2021",img:bC,id:2021},{name:"2020",short:"2020",img:dp,id:2020},{name:"2019",short:"2019",img:CC,id:2019},{name:"2018",short:"2018",img:PC,id:2018},{name:"2017",short:"2017",img:hp,id:2017},{name:"2016",short:"2016",img:RC,id:2016},{name:"2015",short:"2015",img:hp,id:2015},{name:"2010",short:"2010",img:TC,id:2010},{name:"2000-e",short:"2000",img:AC,id:2e3},{name:"1990-e",short:"1990",img:NC,id:1990},{name:"1980-e",short:"1980",img:jC,id:1980}],pp=S.lazy(()=>pi(()=>import("./MoviesPage-35c9d0ff.js"),["assets/MoviesPage-35c9d0ff.js","assets/SelectViewButtons-4b6f35b1.js","assets/BackButton-ed5e8d58.js"])),$C=S.lazy(()=>pi(()=>import("./PremieresPage-5ef83408.js"),["assets/PremieresPage-5ef83408.js","assets/SelectViewButtons-4b6f35b1.js"])),DC=S.lazy(()=>pi(()=>import("./ActorsPage-b21fe99a.js"),[])),MC=S.lazy(()=>pi(()=>import("./SavedPage-a305c60b.js"),["assets/SavedPage-a305c60b.js","assets/SelectViewButtons-4b6f35b1.js"])),IC=S.lazy(()=>pi(()=>import("./MovieInfoPage-c20360a7.js"),["assets/MovieInfoPage-c20360a7.js","assets/index-979b4d34.js","assets/BackButton-ed5e8d58.js"])),FC=S.lazy(()=>pi(()=>import("./ActorInfoPage-ed34f9f3.js"),["assets/ActorInfoPage-ed34f9f3.js","assets/index-979b4d34.js"])),zC=R.div`
   margin-top: 45vh;
   width: 100%;
   display: flex;

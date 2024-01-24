@@ -1,4 +1,4 @@
-import{r as c,p as t,s as n,g as s,o as a,u,j as o,q as g,t as m}from"./index-414ec1c4.js";const x=()=>{const[e,i]=c.useState(window.innerWidth);return c.useEffect(()=>{const r=l=>{const d=l.target;i(d.innerWidth)};return window.addEventListener("resize",r),()=>{window.removeEventListener("resize",r)}},[]),{width:e,isScreenS:e<=t.s,isScreenM:e<=t.m&&e>t.s,isScreenL:e<=t.l&&e>t.m,isScreenXl:e>t.l}},p=n.div`
+import{r as c,p as t,s as n,g as s,o as a,u,j as o,q as g,t as m}from"./index-7aee5212.js";const x=()=>{const[e,i]=c.useState(window.innerWidth);return c.useEffect(()=>{const r=l=>{const d=l.target;i(d.innerWidth)};return window.addEventListener("resize",r),()=>{window.removeEventListener("resize",r)}},[]),{width:e,isScreenS:e<=t.s,isScreenM:e<=t.m&&e>t.s,isScreenL:e<=t.l&&e>t.m,isScreenXl:e>t.l}},p=n.div`
   display: flex;
   background: ${s.colors.bgLighter};
   border-radius: 5px;
