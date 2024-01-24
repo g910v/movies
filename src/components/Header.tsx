@@ -14,6 +14,8 @@ const Container = styled.div`
   z-index: 10;
   position: relative;
   overflow: hidden;
+  max-width: 1700px;
+  margin: auto;
 `;
 
 const Title = styled.div`

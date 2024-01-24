@@ -3,6 +3,7 @@ import baseTheme from '../../styles/theme';
 
 const PageContainer = styled.div`
   width: 80%;
+  max-width: 1700px;
   display: flex;
   flex-direction: column;
   margin: 3rem 0;

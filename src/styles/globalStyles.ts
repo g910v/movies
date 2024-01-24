@@ -20,7 +20,7 @@ export default createGlobalStyle`
 
   #root {
     width: 100%;
-    max-width: 1700px;
+    /* max-width: 1700px; */
   }
 
   a {

@@ -29,6 +29,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
+  max-width: 1700px;
   @media ${baseTheme.media.l} {
     width: 95%;
   }
@@ -170,9 +171,7 @@ const MoreIcon = styled(BiChevronsDown)`
   font-size: 1.5rem;
 `;
 
-const BackButtonContainer = styled.div`
-  padding: 0 1rem;
-  width: calc(100% - 2rem);
+const BackButton = styled.div`
   display: flex;
   align-items: center;
   margin-right: auto;
@@ -182,6 +181,12 @@ const BackButtonContainer = styled.div`
     color: ${baseTheme.colors.yellow};
     ${textGradient}
   }
+`;
+
+const BackButtonContainer = styled.div`
+  max-width: 1700px;
+  padding: 0 1rem;
+  width: calc(100% - 2rem);
 `;
 
 const BackIcon = styled(BiChevronLeft)`
@@ -214,8 +219,10 @@ const ActorInfoPage: React.FC = () => {
   return (
     <>
       <BackButtonContainer onClick={() => navigate(-1)}>
-        <BackIcon />
-        назад
+        <BackButton>
+          <BackIcon />
+          назад
+        </BackButton>
       </BackButtonContainer>
       {
         actorInfoStore.actorInfoLoading && (

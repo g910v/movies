@@ -24,7 +24,7 @@ import BackButton from '../components/BackButton';
 
 const BackImg = styled.div<{ url: string }>`
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   margin-top: -5rem;
   background-image: url(${props => props.url});
   background-position: center;
@@ -32,14 +32,14 @@ const BackImg = styled.div<{ url: string }>`
 `;
 
 const GradientContainer = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: ${baseTheme.colors.backimgGradient};
   z-index: -1;
 `;
 
 const GradientContainerRevert = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: ${baseTheme.colors.headerGradient};
   display: flex;
@@ -62,6 +62,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
+  max-width: 1700px;
   @media ${baseTheme.media.xl} {
     width: 85%;
   }
