@@ -74,6 +74,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "import/no-extraneous-dependencies": "off",
     "import/no-cycle": "error",
+    "import/prefer-default-export": "off",
     "arrow-body-style": [1, "as-needed"],
     "linebreak-style": [1, "unix"],
     "arrow-parens": [1, "as-needed"],
