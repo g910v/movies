@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import { useRootStore } from '../hooks';
-import routes from '../shared/routes';
+import { useRootStore } from '../../hooks';
+import routes from '../../shared/routes';
 import MovieList from '../components/MovieList';
-import { IPremiereFilters } from '../stores/FilmsStore';
+import { IPremiereFilters } from '../../stores/FilmsStore';
 import months, { years } from '../shared/premierOptions';
 import { PageContainer, Title, Select } from '../components/styled';
 import SelectViewButtons from '../components/SelectViewButtons';

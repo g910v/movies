@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { screenSize } from '../../../styles/theme';
+import { screenSize } from '../../styles/theme';
 
 const useScreenResize = () => {
   const [width, setWidth] = useState(window.innerWidth);

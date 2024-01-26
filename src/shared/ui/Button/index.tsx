@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string,

@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 const ContainerCarousel = styled.div`
   display: flex;

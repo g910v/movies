@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { BiX, BiArea } from 'react-icons/bi';
 import { Transition } from 'react-transition-group';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 interface Props {
   children: ReactNode,

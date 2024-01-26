@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 const Card = styled.div`
   width: 100%;

@@ -1,6 +1,6 @@
 import React from 'react';
-import GlobalStyles from './styles/globalStyles';
-import Content from './components/Content';
+import GlobalStyles from '../shared/styles/globalStyles';
+import Content from '../pages';
 
 const App: React.FC = () => (
   <>

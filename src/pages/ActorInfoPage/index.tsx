@@ -9,10 +9,10 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { BiChevronLeft, BiChevronsDown } from 'react-icons/bi';
-import { useRootStore } from '../hooks';
+import { useRootStore } from '../../hooks';
 import { Card, Spinner } from '../components/styled';
-import baseTheme, { textGradient } from '../styles/theme';
-import { IActorInfo } from '../stores/ActorInfoStore';
+import baseTheme, { textGradient } from '../../shared/styles/theme';
+import { IActorInfo } from '../../stores/ActorInfoStore';
 
 const SpinnerContainer = styled.div`
   width: 100%;

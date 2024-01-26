@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 interface Props {
   rating: number,

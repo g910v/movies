@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import DesktopMenu from './DesktopMenu';
 import routes from '../../../shared/routes';
-import baseTheme, { textGradient } from '../../../styles/theme';
+import baseTheme, { textGradient } from '../../../shared/styles/theme';
 import MobileMenu from './MobileMenu';
 
 const Container = styled.div`

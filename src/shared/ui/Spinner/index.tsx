@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 const spin = keyframes`
   0% {

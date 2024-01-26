@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   Outlet, useLocation, useParams,
 } from 'react-router-dom';
-import { useRootStore } from '../hooks';
+import { useRootStore } from '../../hooks';
 import {
   PageContainer, Title, SelectButtons,
 } from '../components/styled';

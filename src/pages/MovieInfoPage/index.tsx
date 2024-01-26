@@ -10,13 +10,13 @@ import {
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { Transition } from 'react-transition-group';
-import { useRootStore } from '../hooks';
+import { useRootStore } from '../../hooks';
 import {
   Carousel, Spinner, RatingStars, Button, SimpleButton,
 } from '../components/styled';
-import baseTheme, { textGradient } from '../styles/theme';
-import { IMovieInfo } from '../stores/FilmInfoStore';
-import { IActor } from '../stores/ActorsStore';
+import baseTheme, { textGradient } from '../../shared/styles/theme';
+import { IMovieInfo } from '../../stores/FilmInfoStore';
+import { IActor } from '../../stores/ActorsStore';
 import ActorCarouselCard from '../components/ActorCarouselCard';
 import Modal from '../components/styled/Modal';
 import FilmSmallCard from '../components/FilmSmallCard';

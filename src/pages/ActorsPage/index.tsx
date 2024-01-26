@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { useRootStore } from '../hooks';
-import routes from '../shared/routes';
+import { useRootStore } from '../../hooks';
+import routes from '../../shared/routes';
 import {
   PageContainer, Title, Input, Button,
 } from '../components/styled';
 import PersonList from '../components/PersonList';
-import baseTheme from '../styles/theme';
+import baseTheme from '../../shared/styles/theme';
 
 const Search = styled.div`
   width: 100%;

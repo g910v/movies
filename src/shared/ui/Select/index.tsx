@@ -1,6 +1,6 @@
 import React from 'react';
 import Select, { StylesConfig } from 'react-select';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 import type { Option } from '../../../pages/PremieresPage';
 
 interface Props {

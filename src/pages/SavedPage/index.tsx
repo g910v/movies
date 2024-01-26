@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import { useRootStore } from '../hooks';
-import routes from '../shared/routes';
+import { useRootStore } from '../../hooks';
+import routes from '../../shared/routes';
 import { PageContainer, Title } from '../components/styled';
 import FilmBigCard from '../components/FilmBigCard';
 import SelectViewButtons from '../components/SelectViewButtons';
 import FilmSmallCard from '../components/FilmSmallCard';
-import baseTheme from '../styles/theme';
+import baseTheme from '../../shared/styles/theme';
 
 export interface Option {
   value: string,

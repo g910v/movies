@@ -12,12 +12,12 @@ import Layout from './Layout';
 import MovieList from './MovieList';
 import years from '../shared/years';
 
-const MoviesPage = lazy(() => import('../pages/MoviesPage'));
-const PremieresPage = lazy(() => import('../pages/PremieresPage'));
-const ActorsPage = lazy(() => import('../pages/ActorsPage'));
-const SavedPage = lazy(() => import('../pages/SavedPage'));
-const MovieInfoPage = lazy(() => import('../pages/MovieInfoPage'));
-const ActorInfoPage = lazy(() => import('../pages/ActorInfoPage'));
+const MoviesPage = lazy(() => import('./MoviesPage'));
+const PremieresPage = lazy(() => import('./PremieresPage'));
+const ActorsPage = lazy(() => import('./ActorsPage'));
+const SavedPage = lazy(() => import('./SavedPage'));
+const MovieInfoPage = lazy(() => import('./MovieInfoPage'));
+const ActorInfoPage = lazy(() => import('./ActorInfoPage'));
 
 const SpinContainer = styled.div`
   margin-top: 45vh;

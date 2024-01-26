@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import baseTheme from '../../../styles/theme';
+import baseTheme from '../../styles/theme';
 
 interface IItem {
   key: number,
