@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { BiExit } from 'react-icons/bi';
-import { SimpleButton } from './styled';
+import { SimpleButton } from '../../../shared/ui';
 
 const BackIcon = styled(BiExit)`
   transform: scale(-1, 1);

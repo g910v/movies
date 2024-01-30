@@ -4,20 +4,18 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 import routes from '../shared/routes';
-import { Spinner } from './styled';
-import TypeFilmCard from './TypeFilmCard';
-import genres from '../shared/genres';
-import countries from '../shared/countries';
-import Layout from './Layout';
-import MovieList from './MovieList';
-import years from '../shared/years';
+import Layout from './Layout/ui';
+import {
+  CountryList, GenreList, MovieList, YearList,
+} from '../widgets';
+import { Spinner } from '../shared/ui';
 
-const MoviesPage = lazy(() => import('./MoviesPage'));
-const PremieresPage = lazy(() => import('./PremieresPage'));
-const ActorsPage = lazy(() => import('./ActorsPage'));
-const SavedPage = lazy(() => import('./SavedPage'));
-const MovieInfoPage = lazy(() => import('./MovieInfoPage'));
-const ActorInfoPage = lazy(() => import('./ActorInfoPage'));
+const MoviesPage = lazy(() => import('./MoviesPage/ui'));
+const PremieresPage = lazy(() => import('./PremieresPage/ui'));
+const ActorsPage = lazy(() => import('./ActorsPage/ui'));
+const SavedPage = lazy(() => import('./SavedPage/ui'));
+const MovieInfoPage = lazy(() => import('./MovieInfoPage/ui'));
+const ActorInfoPage = lazy(() => import('./ActorInfoPage/ui'));
 
 const SpinContainer = styled.div`
   margin-top: 45vh;
@@ -29,11 +27,11 @@ const SpinContainer = styled.div`
 const pageComponent = (type: 'FILM' | 'TV_SERIES') => (
   <>
     <Route path="top" element={<MovieList type={type} isTop />} />
-    <Route path="genres" element={<TypeFilmCard types={genres} />} />
+    <Route path="genres" element={<GenreList />} />
     <Route path="genres/:genre" element={<MovieList type={type} />} />
-    <Route path="years" element={<TypeFilmCard types={years} />} />
+    <Route path="years" element={<YearList />} />
     <Route path="years/:year" element={<MovieList type={type} />} />
-    <Route path="countries" element={<TypeFilmCard types={countries} />} />
+    <Route path="countries" element={<CountryList />} />
     <Route path="countries/:country" element={<MovieList type={type} />} />
   </>
 );

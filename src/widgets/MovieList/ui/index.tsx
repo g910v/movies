@@ -3,13 +3,12 @@ import { observer } from 'mobx-react-lite';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { BiChevronsDown } from 'react-icons/bi';
-import { useRootStore } from '../hooks';
-import { Spinner } from './styled';
-import genres from '../../../entities/Genres/consts/genres';
-import countries from '../../../entities/Countries/consts/countries';
-import { IPremiereFilters } from '../stores/FilmsStore';
-import baseTheme, { textGradient } from '../styles/theme';
-import { MovieBigCard, MovieSmallCard } from '../../../entities/Movies';
+import { useRootStore } from '../../../shared/libs/hooks';
+import { Spinner } from '../../../shared/ui';
+import {
+  MovieBigCard, MovieSmallCard, TPremiereFilters, countries, genres,
+} from '../../../entities';
+import baseTheme, { textGradient } from '../../../shared/styles/theme';
 
 const grid = css`
   display: grid;
@@ -72,7 +71,7 @@ const EmptyFilmList = styled.div`
 interface Props {
   type: 'FILM' | 'TV_SERIES' | 'PREMIERES',
   isTop?: boolean,
-  premiereFilters?: IPremiereFilters,
+  premiereFilters?: TPremiereFilters,
 }
 
 const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {

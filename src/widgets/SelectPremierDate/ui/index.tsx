@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import months from '../consts/months';
 import years from '../consts/years';
 import { Select } from '../../../shared/ui';
-import { IOption } from '../types/IOption';
+import { IOption } from '../types/options';
 
 const FiltersContainer = styled.div`
   width: 100%;
@@ -17,28 +17,32 @@ const Filter = styled.div`
   width: 49%;
 `;
 
-const SelectPremierDate: React.FC = () => {
-  const [year, setYear] = useState<IOption | null>(years[0]);
-  const [month, setMonth] = useState<IOption | null>(months[0]);
+interface Props {
+  year: IOption | null,
+  month: IOption | null,
+  setMonth: React.Dispatch<React.SetStateAction<IOption | null>>,
+  setYear: React.Dispatch<React.SetStateAction<IOption | null>>,
+}
 
-  return (
-    <FiltersContainer>
-      <Filter>
-        <Select
-          options={months}
-          selected={month}
-          setSelected={setMonth}
-        />
-      </Filter>
-      <Filter>
-        <Select
-          options={years}
-          selected={year}
-          setSelected={setYear}
-        />
-      </Filter>
-    </FiltersContainer>
-  );
-};
+const SelectPremierDate: React.FC<Props> = ({
+  year, month, setMonth, setYear,
+}) => (
+  <FiltersContainer>
+    <Filter>
+      <Select
+        options={months}
+        selected={month}
+        setSelected={setMonth}
+      />
+    </Filter>
+    <Filter>
+      <Select
+        options={years}
+        selected={year}
+        setSelected={setYear}
+      />
+    </Filter>
+  </FiltersContainer>
+);
 
 export default SelectPremierDate;

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { BiGridAlt, BiListUl } from 'react-icons/bi';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import baseTheme from '../styles/theme';
-import { useScreenResize, useRootStore } from '../hooks';
+import { useRootStore, useScreenResize } from '../../../shared/libs/hooks';
+import baseTheme from '../../../shared/styles/theme';
 
 const Container = styled.div`
   display: flex;

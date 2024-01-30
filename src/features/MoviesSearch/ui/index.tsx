@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { Transition } from 'react-transition-group';
-import baseTheme from '../styles/theme';
-import { Input } from './styled';
-import SearchResults from './SearchResults';
-import { useRootStore } from '../hooks';
+import SearchResults from './SearchResult';
+import { useRootStore } from '../../../shared/libs/hooks';
+import baseTheme from '../../../shared/styles/theme';
+import { Input } from '../../../shared/ui';
 
 interface Props {
   closeSearch: () => void,

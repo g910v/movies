@@ -1,6 +1,6 @@
 import React from 'react';
-import genres from '../../../entities/Genres/consts/genres';
 import { TypeFilmList } from '../../../features';
+import { genres } from '../../../entities';
 
 const GenreList: React.FC = () => (
   <TypeFilmList types={genres} />

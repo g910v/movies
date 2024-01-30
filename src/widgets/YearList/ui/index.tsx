@@ -1,6 +1,6 @@
 import React from 'react';
-import years from '../../../entities/Years/consts/years';
 import { TypeFilmList } from '../../../features';
+import { years } from '../../../entities';
 
 const YearList: React.FC = () => (
   <TypeFilmList types={years} />

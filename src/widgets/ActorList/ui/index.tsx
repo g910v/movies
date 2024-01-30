@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { useRootStore } from '../hooks';
-import { Spinner } from './styled';
-import { ActorBigCard } from '../../../entities/Actors';
+import { useRootStore } from '../../../shared/libs/hooks';
+import { Spinner } from '../../../shared/ui';
+import { ActorBigCard } from '../../../entities';
 
 const Container = styled.div`
   display: flex;

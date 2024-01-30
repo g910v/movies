@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import DesktopMenu from './DesktopMenu';
 import routes from '../../../shared/routes';
 import baseTheme, { textGradient } from '../../../shared/styles/theme';
 import MobileMenu from './MobileMenu';
+import menuItems from '../consts/menuItems';
 
 const Container = styled.div`
   padding: 0.2rem 0.5rem 0.2rem 1rem;
@@ -26,39 +27,14 @@ const Title = styled.div`
   z-index: 15;
 `;
 
-const Header: React.FC = () => {
-  const menuItems = useRef([
-    {
-      label: routes.PREMIERES.name,
-      path: routes.PREMIERES.path,
-    },
-    {
-      label: routes.FILMS.name,
-      path: `${routes.FILMS.path}/top`,
-    },
-    {
-      label: routes.SERIES.name,
-      path: `${routes.SERIES.path}/top`,
-    },
-    {
-      label: routes.ACTORS.name,
-      path: routes.ACTORS.path,
-    },
-    {
-      label: routes.SAVED.name,
-      path: routes.SAVED.path,
-    },
-  ]);
-
-  return (
-    <Container>
-      <Title>
-        <Link to={routes.PREMIERES.path}>MOVIES</Link>
-      </Title>
-      <DesktopMenu items={menuItems.current} />
-      <MobileMenu items={menuItems.current} />
-    </Container>
-  );
-};
+const Header: React.FC = () => (
+  <Container>
+    <Title>
+      <Link to={routes.PREMIERES.path}>MOVIES</Link>
+    </Title>
+    <DesktopMenu items={menuItems} />
+    <MobileMenu items={menuItems} />
+  </Container>
+);
 
 export default Header;
