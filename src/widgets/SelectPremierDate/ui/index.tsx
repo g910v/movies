@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import months from '../consts/months';
 import years from '../consts/years';
 import { Select } from '../../../shared/ui';
-import { IOption } from '../types/options';
+import { IOption } from '../../../shared/types';
 
 const FiltersContainer = styled.div`
   width: 100%;
@@ -45,4 +45,4 @@ const SelectPremierDate: React.FC<Props> = ({
   </FiltersContainer>
 );
 
-export default SelectPremierDate;
+export default memo(SelectPremierDate);

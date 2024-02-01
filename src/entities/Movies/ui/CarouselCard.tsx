@@ -50,7 +50,7 @@ interface Props {
   film: IMovie,
 }
 
-const FilmCarouselCard: React.FC<Props> = memo(({ film }) => {
+const FilmCarouselCard: React.FC<Props> = ({ film }) => {
   const [nameVisible, setNameVisible] = useState(false);
   return (
     <Container
@@ -69,6 +69,6 @@ const FilmCarouselCard: React.FC<Props> = memo(({ film }) => {
       }
     </Container>
   );
-});
+};
 
-export default FilmCarouselCard;
+export default memo(FilmCarouselCard);

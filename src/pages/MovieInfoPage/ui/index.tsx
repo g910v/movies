@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
+import { BiBookmark, BiSolidBookmark } from 'react-icons/bi';
 import {
-  BiChevronDown, BiChevronUp, BiBookmark, BiSolidBookmark,
-} from 'react-icons/bi';
-import { format } from 'date-fns';
-import ruLocale from 'date-fns/locale/ru';
-import { Transition } from 'react-transition-group';
-import {
-  Carousel, Spinner, RatingStars, Button, SimpleButton, Modal,
+  Carousel, Spinner, Button, SimpleButton, Modal, SubTitle,
 } from '../../../shared/ui';
-import baseTheme, { textGradient } from '../../../shared/styles/theme';
+import baseTheme from '../../../shared/styles/theme';
 import { useRootStore } from '../../../shared/libs/hooks';
 import {
-  ActorCarouselCard, IActor, MovieSmallCard, TMovieInfo,
+  ActorCarouselCard, IActor,
 } from '../../../entities';
 import { BackButton } from '../../../features';
+import MovieInfo from '../../../widgets/MovieInfo/ui';
+import { SimilarMovies } from '../../../widgets';
 
 const BackImg = styled.div<{ url: string }>`
   height: 100vh;
@@ -107,148 +104,34 @@ const Poster = styled.img<{poster: boolean}>`
   }
 `;
 
-const InfoContainer = styled.div<{poster: boolean}>`
-  width: ${props => (props.poster ? 'calc(100% - 45vh - 1rem)' : '100%')};
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.35rem;
-  height: max-content;
-  @media ${baseTheme.media.l} {
-    width: ${props => (props.poster ? 'calc(100% - 37vh - 1rem)' : '100%')};
-  }
-  @media ${baseTheme.media.m} {
-    width: 100%;
-    align-items: center;
-  }
-`;
-
 const ActorsContainer = styled.div`
   width: 100%;
   margin-top: 2.5rem;
 `;
 
-const Title = styled.div`
-  font-size: 3rem;
-  font-weight: 400;
-  line-height: 3.2rem;
-  @media ${baseTheme.media.l} {
-    font-size: 2rem;
-    line-height: 2.2rem;
-  }
-  @media ${baseTheme.media.m} {
-    text-align: center;
-  }
-`;
-
-const Description = styled.div`
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  @media ${baseTheme.media.m} {
-    text-align: center;
-  }
-`;
-
-const DetailsButton = styled.div`
-  display: flex;
-  color: ${baseTheme.colors.text};
-  cursor: pointer;
-  width: fit-content;
-  &:hover {
-    color: ${baseTheme.colors.pink};
-    ${textGradient}
-  }
-`;
-
-const DetailsBlock = styled.div<{ state: string }>`
-  transform: translateY(${props => (props.state === 'exiting' || props.state === 'exited' ? '-15px' : '0px')});
-  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
-  transform-origin: top;
-  transition: all 0.25s ease-in;
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.35rem;
-  width: 100%;
-  @media ${baseTheme.media.m} {
-    align-items: center;
-  }
-`;
-
-const SubTitle = styled.div`
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-`;
-
-const MainTitle = styled.div`
-  display: flex;
-  flex-direction: column;
-  @media ${baseTheme.media.m} {
-    align-items: center;
-  }
-`;
-
-const SimilarMovies = styled.div<{ state: string }>`
-  transform: translateY(${props => (props.state === 'exiting' || props.state === 'exited' ? '-15px' : '0px')});
-  opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
-  transform-origin: top;
-  transition: all 0.25s ease-in;
-  display: grid;
-  column-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  row-gap: 1rem;
-  @media ${baseTheme.media.s} {
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  }
-`;
-
-const SimilarTitle = styled(SubTitle)`
-  cursor: pointer;
-  width: fit-content;
-  display: flex;
-  margin-top: 0;
-  &:hover {
-    color: ${baseTheme.colors.pink};
-    ${textGradient}
-  }
-`;
-
 const MovieInfoPage: React.FC = () => {
   const { filmInfoStore, filmsStore, uiStore } = useRootStore();
   const params = useParams();
-  const [movie, setMovie] = useState<TMovieInfo | undefined>(undefined);
-  const [showDetails, setShowDetails] = useState(false);
-  const [actors, setActors] = useState<IActor[]>([]);
-  const [directors, setDirectors] = useState<TMovieInfo['persons']>([]);
-  const [producers, setProducers] = useState<TMovieInfo['persons']>([]);
-  const [writers, setWriters] = useState<TMovieInfo['persons']>([]);
-  const [youtubeUrl, setYoutubeUrl] = useState('');
+
   const [youtubeVisible, setYoutubeVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(true);
-  const [showSimilar, setShowSimilar] = useState(false);
+
+  const movie = useMemo(() => filmInfoStore.movieInfo, [filmInfoStore.movieInfo]);
+  const actors = useMemo<IActor[]>(() => filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'actor').map(i => ({
+    kinopoiskId: i.id ?? undefined,
+    webUrl: '',
+    nameRu: i.name,
+    nameEn: i.enName,
+    posterUrl: i.photo ?? '',
+    sex: 'Информация отсутсвует',
+  })) ?? [], [filmInfoStore.movieInfo]);
+  const youtubeUrl = useMemo(() => filmInfoStore.movieInfo?.videos?.trailers?.find(i => i.site === 'youtube')?.url ?? '', [filmInfoStore.movieInfo]);
 
   useEffect(() => {
     if (params.movieId) {
       filmInfoStore.getMovie(params.movieId);
     }
   }, [filmInfoStore, params]);
-
-  useEffect(() => {
-    setMovie(filmInfoStore.movieInfo);
-    setActors(filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'actor').map(i => ({
-      kinopoiskId: i.id ?? undefined,
-      webUrl: '',
-      nameRu: i.name,
-      nameEn: i.enName,
-      posterUrl: i.photo ?? '',
-      sex: 'Информация отсутсвует',
-    })) ?? []);
-    setDirectors(filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'director'));
-    setProducers(filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'producer'));
-    setWriters(filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'writer'));
-    setYoutubeUrl(filmInfoStore.movieInfo?.videos?.trailers?.find(i => i.site === 'youtube')?.url ?? '');
-  }, [filmInfoStore.movieInfo]);
 
   useEffect(() => {
     setIsSaved(filmsStore.isSavedFilm(filmInfoStore.movieInfo?.id ?? 0));
@@ -327,111 +210,7 @@ const MovieInfoPage: React.FC = () => {
                       }
                     </SavedBackIcons>
                   </PosterContainer>
-                  <InfoContainer poster={!!movie.poster?.url}>
-                    <MainTitle>
-                      <Title>{movie.name}</Title>
-                      <Title>({movie.alternativeName && <>{movie.alternativeName}, </> }{movie.type === 'movie' ? 'фильм' : 'сериал'})</Title>
-                    </MainTitle>
-                    <Description>
-                      {!!movie.rating?.kp && (<RatingStars rating={movie.rating.kp} />)}
-                    </Description>
-                    {
-                      movie.year && movie.movieLength && (
-                        <Description>
-                          {movie.year && <>{movie.year} г., </>}{movie.movieLength && <>{movie.movieLength} мин.</>}
-                        </Description>
-                      )
-                    }
-                    <Description>
-                      Жанр: {
-                        movie.genres?.map((f, index, arr) => {
-                          const comma = index === arr.length - 1 ? '' : ', ';
-                          return f.name + comma;
-                        })
-                      }
-                    </Description>
-                    <Description>
-                      Страна: {
-                        movie.countries?.map((f, index, arr) => {
-                          const comma = index === arr.length - 1 ? '' : ', ';
-                          return f.name + comma;
-                        })
-                      }
-                    </Description>
-                    <Description>
-                      {movie.description}
-                    </Description>
-                    <DetailsButton onClick={() => setShowDetails(prev => !prev)}>
-                      Детали о {movie.type === 'movie' ? 'фильме' : 'сериале'}
-                      {
-                        showDetails ? <BiChevronDown style={{ fontSize: '1.5rem' }} /> : <BiChevronUp style={{ fontSize: '1.5rem', marginTop: '0.1rem' }} />
-                      }
-                    </DetailsButton>
-                    <Transition in={showDetails} timeout={150} mountOnEnter unmountOnExit>
-                      {
-                        state => (
-                          <DetailsBlock state={state}>
-                            {
-                            !!directors?.length && (
-                              <Description>
-                                Режиссер: {
-                                  directors?.map((f, index, arr) => {
-                                    const comma = index === arr.length - 1 ? '' : ', ';
-                                    return f.name + comma;
-                                  })
-                                }
-                              </Description>
-                            )
-                          }
-                            {
-                            !!writers?.length && (
-                              <Description>
-                                Сценарист: {
-                                  writers?.map((f, index, arr) => {
-                                    const comma = index === arr.length - 1 ? '' : ', ';
-                                    return f.name + comma;
-                                  })
-                                }
-                              </Description>
-                            )
-                          }
-                            {
-                            !!producers?.length && (
-                              <Description>
-                                Продюсер: {
-                                  producers?.map((f, index, arr) => {
-                                    const comma = index === arr.length - 1 ? '' : ', ';
-                                    return f.name + comma;
-                                  })
-                                }
-                              </Description>
-                            )
-                          }
-                            <Description>
-                              Бюджет: {movie.budget?.value ? `${movie.budget.value} ${movie.budget?.currency}` : 'Информация отсутсвует'}
-                            </Description>
-                            <Description>
-                              Сборы: {movie.fees?.world?.value ? `${movie.fees.world.value} ${movie.fees.world?.currency}` : 'Информация отсутсвует'}
-                            </Description>
-                            {
-                            movie.premiere?.world && (
-                              <Description>
-                                Премьера в мире: {format(new Date(movie.premiere?.world ?? ''), 'dd MMMM Y', { locale: ruLocale })}
-                              </Description>
-                            )
-                          }
-                            {
-                            movie.slogan && (
-                              <Description>
-                                «{movie.slogan}»
-                              </Description>
-                            )
-                          }
-                          </DetailsBlock>
-                        )
-                      }
-                    </Transition>
-                  </InfoContainer>
+                  <MovieInfo movie={movie} />
                   <ActorsContainer>
                     <SubTitle>Актерский состав</SubTitle>
                     {
@@ -450,41 +229,7 @@ const MovieInfoPage: React.FC = () => {
                   </ActorsContainer>
                   {
                     !!movie.similarMovies?.length && (
-                      <ActorsContainer>
-                        <SimilarTitle onClick={() => setShowSimilar(prev => !prev)}>
-                          Похожие фильмы
-                          {
-                          showSimilar ? <BiChevronDown style={{ fontSize: '2.5rem' }} /> : <BiChevronUp style={{ fontSize: '2.5rem', marginBottom: '-0.5rem' }} />
-                        }
-                        </SimilarTitle>
-                        <Transition in={showSimilar} timeout={250} mountOnEnter unmountOnExit>
-                          {
-                            state => (
-                              <SimilarMovies state={state}>
-                                {
-                                  movie.similarMovies?.map(i => (
-                                    <MovieSmallCard
-                                      key={i.id}
-                                      film={{
-                                        name: i.name,
-                                        enName: i.alternativeName,
-                                        rating: i.rating?.kp ?? undefined,
-                                        poster: i.poster?.url ?? '',
-                                        posterPreview: i.poster?.previewUrl ?? '',
-                                        kId: i.id ?? -1,
-                                        year: i.year,
-                                        countries: [],
-                                        genres: [],
-                                        saved: null,
-                                      }}
-                                    />
-                                  ))
-                                }
-                              </SimilarMovies>
-                            )
-                          }
-                        </Transition>
-                      </ActorsContainer>
+                      <SimilarMovies similarMovies={movie.similarMovies} />
                     )
                   }
                 </ContentContainer>

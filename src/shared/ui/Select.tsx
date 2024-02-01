@@ -1,7 +1,7 @@
 import React from 'react';
 import Select, { StylesConfig } from 'react-select';
 import baseTheme from '../styles/theme';
-import type { Option } from '../../pages/PremieresPage/ui';
+import { IOption } from '../types';
 
 interface Props {
   options: {
@@ -60,7 +60,7 @@ const StyledSelect: React.FC<Props> = ({ options, selected, setSelected }) => (
   <Select
     options={options}
     value={selected}
-    onChange={e => setSelected(e as Option)}
+    onChange={e => setSelected(e as IOption)}
     styles={selectStyles}
   />
 );

@@ -38,7 +38,7 @@ interface Props {
   actor: IActor,
 }
 
-const BigCard: React.FC<Props> = memo(({ actor }) => (
+const BigCard: React.FC<Props> = ({ actor }) => (
   <ActorCard to={`/person/${actor.kinopoiskId}`}>
     <FixedCard>
       <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
@@ -49,6 +49,6 @@ const BigCard: React.FC<Props> = memo(({ actor }) => (
       </Container>
     </FixedCard>
   </ActorCard>
-));
+);
 
-export default BigCard;
+export default memo(BigCard);

@@ -22,11 +22,11 @@ interface Props {
   actor: IActor,
 }
 
-const CarouselCard: React.FC<Props> = memo(({ actor }) => (
+const CarouselCard: React.FC<Props> = ({ actor }) => (
   <Container to={`/person/${actor.kinopoiskId}`}>
     <Image src={actor.posterUrl} alt={actor.nameEn ?? ''} />
     <div>{actor.nameRu}</div>
   </Container>
-));
+);
 
-export default CarouselCard;
+export default memo(CarouselCard);

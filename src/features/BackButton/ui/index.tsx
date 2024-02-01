@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { BiExit } from 'react-icons/bi';
@@ -15,4 +15,4 @@ const BackButton: React.FC = () => {
   );
 };
 
-export default BackButton;
+export default memo(BackButton);

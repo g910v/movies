@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../../shared/ui';
@@ -52,4 +52,4 @@ const TypeFilmList: React.FC<Props> = ({ types }) => {
   );
 };
 
-export default TypeFilmList;
+export default memo(TypeFilmList);

@@ -36,7 +36,7 @@ const MoviesPage: React.FC<Props> = ({ pageName }) => {
 
   useEffect(() => {
     uiStore.updateDocumentTitle(pageName);
-  }, [uiStore, pageName, location]);
+  }, [uiStore, pageName]);
 
   return (
     <PageContainer>

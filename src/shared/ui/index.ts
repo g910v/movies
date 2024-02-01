@@ -10,3 +10,6 @@ export { default as RatingStars } from './RatingStars';
 export { default as Carousel } from './Carousel';
 export { default as SimpleButton } from './SimpleButton';
 export { default as Modal } from './Modal';
+export { default as Description } from './Description';
+export { default as InfoContainer } from './InfoContainer';
+export { default as SubTitle } from './SubTitle';
