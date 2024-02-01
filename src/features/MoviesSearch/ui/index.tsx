@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { Transition } from 'react-transition-group';
 import SearchResults from './SearchResult';
-import { useRootStore } from '../../../shared/libs/hooks';
+import { useDebounce, useRootStore } from '../../../shared/libs/hooks';
 import baseTheme from '../../../shared/styles/theme';
 import { Input } from '../../../shared/ui';
 
@@ -47,6 +47,7 @@ const ResultScroll = styled.div`
 const HeaderSearch: React.FC<Props> = ({ closeSearch }) => {
   const [inputValue, setInputValue] = useState('');
   const { searchStore } = useRootStore();
+  const value = useDebounce(inputValue, 1000);
 
   const onCloseSearch = () => {
     closeSearch();
@@ -57,15 +58,13 @@ const HeaderSearch: React.FC<Props> = ({ closeSearch }) => {
     if (inputValue.length <= 2) {
       searchStore.resetSearchResults();
     }
-    const timer = setTimeout(() => {
-      if (inputValue.length > 2) {
-        searchStore.searchFilms(inputValue);
-      }
-    }, 1000);
-    return () => {
-      clearTimeout(timer);
-    };
   }, [inputValue, searchStore]);
+
+  useEffect(() => {
+    if (value.length > 2) {
+      searchStore.searchFilms(value);
+    }
+  }, [value, searchStore]);
 
   return (
     <SearchInput>
