@@ -47,23 +47,23 @@ interface IMovie {
 }
 
 interface Props {
-  film: IMovie,
+  movie: IMovie,
 }
 
-const FilmCarouselCard: React.FC<Props> = ({ film }) => {
+const CarouselCard: React.FC<Props> = ({ movie }) => {
   const [nameVisible, setNameVisible] = useState(false);
   return (
     <Container
       onMouseEnter={() => setNameVisible(true)}
       onMouseLeave={() => setNameVisible(false)}
     >
-      <Image src={film.poster} alt={film.enName ?? ''} />
+      <Image src={movie.poster} alt={movie.enName ?? ''} />
       {
         nameVisible && (
           <MoreContainer>
-            <Name>{film.name}</Name>
-            <Rating>Рейтинг: {film.rating?.toFixed(1)}</Rating>
-            <Rating>{film.year} г.</Rating>
+            <Name>{movie.name}</Name>
+            <Rating>Рейтинг: {movie.rating?.toFixed(1)}</Rating>
+            <Rating>{movie.year} г.</Rating>
           </MoreContainer>
         )
       }
@@ -71,4 +71,4 @@ const FilmCarouselCard: React.FC<Props> = ({ film }) => {
   );
 };
 
-export default memo(FilmCarouselCard);
+export default memo(CarouselCard);

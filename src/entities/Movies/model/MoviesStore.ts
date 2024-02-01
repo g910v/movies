@@ -10,25 +10,41 @@ import fetchTopMovieList from '../api/fetchTopMovieList';
 import fetchPremiereList from '../api/fetchPremiereList';
 
 class MoviesStore {
-  filmList: IMovie[] = [];
+  private _filmList: IMovie[] = [];
 
-  savedFilms: IMovie[] = [];
+  private _savedFilms: IMovie[] = [];
 
-  filmsLoading = false;
+  private _filmsLoading = false;
 
-  filmTotalPages = 0;
+  private _filmTotalPages = 0;
 
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
   }
 
+  get filmList() {
+    return this._filmList;
+  }
+
+  get filmTotalPages() {
+    return this._filmTotalPages;
+  }
+
+  get filmsLoading() {
+    return this._filmsLoading;
+  }
+
+  get savedFilms() {
+    return this._savedFilms;
+  }
+
   init(): void {
     const films = JSON.parse(localStorage.getItem('saved') ?? '[]');
-    this.savedFilms = films;
+    this._savedFilms = films;
   }
 
   public changeSavedFilms(film: IMovie, add: boolean) {
-    const currentFilm = this.filmList.find(i => i.kId === film.kId);
+    const currentFilm = this._filmList.find(i => i.kId === film.kId);
     if (currentFilm) currentFilm.saved = !currentFilm.saved;
     if (add) {
       this.addSavedFilm(film);
@@ -38,17 +54,17 @@ class MoviesStore {
   }
 
   private removeSavedFilm(filmId: number) {
-    this.savedFilms = this.savedFilms.filter(i => i.kId !== filmId);
-    localStorage.setItem('saved', JSON.stringify(this.savedFilms));
+    this._savedFilms = this._savedFilms.filter(i => i.kId !== filmId);
+    localStorage.setItem('saved', JSON.stringify(this._savedFilms));
   }
 
   private addSavedFilm(film: IMovie) {
-    this.savedFilms.unshift(film);
-    localStorage.setItem('saved', JSON.stringify(this.savedFilms));
+    this._savedFilms.unshift(film);
+    localStorage.setItem('saved', JSON.stringify(this._savedFilms));
   }
 
   public isSavedFilm(id: number): boolean {
-    const savedFilm = this.savedFilms.find(i => i.kId === id);
+    const savedFilm = this._savedFilms.find(i => i.kId === id);
     if (savedFilm) {
       return true;
     }
@@ -61,7 +77,7 @@ class MoviesStore {
 
   private async fetchPremieres(filters: TFetchPremiersQueryParams) {
     this.setFilmLoading(true);
-    this.filmList = [];
+    this._filmList = [];
     try {
       const { data: { items } } = await fetchPremiereList(filters);
       const newData = items.map(f => ({
@@ -90,7 +106,7 @@ class MoviesStore {
 
   private async fetchTopFilms(filters: TFetchCollectionsQueryParams) {
     this.setFilmLoading(true);
-    if (filters?.page === 1) this.filmList = [];
+    if (filters?.page === 1) this._filmList = [];
     try {
       const { data: { items, totalPages } } = await fetchTopMovieList(filters);
       this.setFilmTotalPages(totalPages);
@@ -106,7 +122,7 @@ class MoviesStore {
         posterPreview: f.posterUrlPreview ?? '',
         saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
-      this.setFilmList([...this.filmList, ...newData]);
+      this.setFilmList([...this._filmList, ...newData]);
     } catch (error) {
       console.log(error);
     }
@@ -151,7 +167,7 @@ class MoviesStore {
 
   private async fetchFilms(filters: TFetchMovieQueryParams) {
     this.setFilmLoading(true);
-    if (filters?.page === 1) this.filmList = [];
+    if (filters?.page === 1) this._filmList = [];
     try {
       const { data: { items, totalPages } } = await fetchMovieList(filters);
       this.setFilmTotalPages(totalPages);
@@ -167,7 +183,7 @@ class MoviesStore {
         posterPreview: f.posterUrlPreview ?? '',
         saved: this.isSavedFilm(f.kinopoiskId ?? -1),
       }));
-      this.setFilmList([...this.filmList, ...newData]);
+      this.setFilmList([...this._filmList, ...newData]);
     } catch (error) {
       console.log(error);
     }
@@ -175,15 +191,15 @@ class MoviesStore {
   }
 
   private setFilmList(newData: IMovie[]): void {
-    this.filmList = newData;
+    this._filmList = newData;
   }
 
   private setFilmLoading(loading: boolean): void {
-    this.filmsLoading = loading;
+    this._filmsLoading = loading;
   }
 
   private setFilmTotalPages(count: number) :void {
-    this.filmTotalPages = count;
+    this._filmTotalPages = count;
   }
 }
 

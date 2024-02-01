@@ -107,12 +107,12 @@ const IconSelect = styled.span`
 `;
 
 interface Props {
-  film: IMovieSavedNull,
+  movie: IMovieSavedNull,
 }
 
-const FilmSmallCard: React.FC<Props> = ({ film }) => {
+const SmallCard: React.FC<Props> = ({ movie }) => {
   const [nameVisible, setNameVisible] = useState(false);
-  const { filmsStore } = useRootStore();
+  const { moviesStore } = useRootStore();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -125,8 +125,8 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
         {
           !isError && (
             <Image
-              src={film.poster}
-              alt={film.name ?? ''}
+              src={movie.poster}
+              alt={movie.name ?? ''}
               onLoad={() => setIsLoading(false)}
               onError={() => { setIsError(true); setIsLoading(false); }}
               height={isLoading ? '0px' : '100%'}
@@ -136,18 +136,18 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
         {
           (isLoading || isError) && (
             <ImagePreview
-              src={film.posterPreview}
-              alt={film.name ?? ''}
+              src={movie.posterPreview}
+              alt={movie.name ?? ''}
             />
           )
         }
         <ActiveContainer>
-          <Rating>{film.rating && film.rating?.toFixed(1)}</Rating>
+          <Rating>{movie.rating && movie.rating?.toFixed(1)}</Rating>
           {
-            film.saved !== null && (
-              <IconSelect onClick={() => filmsStore.changeSavedFilms(film as IMovie, !film.saved)}>
+            movie.saved !== null && (
+              <IconSelect onClick={() => moviesStore.changeSavedFilms(movie as IMovie, !movie.saved)}>
                 {
-                  film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
+                  movie.saved ? (<BiSolidBookmark />) : (<BiBookmark />)
                 }
               </IconSelect>
             )
@@ -156,22 +156,22 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
         <Transition in={!isLoading && nameVisible} timeout={150} mountOnEnter unmountOnExit>
           {
             state => (
-              <MoreContainer to={`/movie/${film.kId}`} state={state}>
-                {film.enName ? (<EnName>{film.enName}</EnName>) : (<EnName>{film.name}</EnName>)}
-                <div>{film.year && (<>{film.year} г.</>)}{film.duration && (<>, {film.duration} мин.</>)}</div>
+              <MoreContainer to={`/movie/${movie.kId}`} state={state}>
+                {movie.enName ? (<EnName>{movie.enName}</EnName>) : (<EnName>{movie.name}</EnName>)}
+                <div>{movie.year && (<>{movie.year} г.</>)}{movie.duration && (<>, {movie.duration} мин.</>)}</div>
                 {
-                  film.premiereRu && (<div>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</div>)
+                  movie.premiereRu && (<div>Премьера в России: {format(new Date(movie.premiereRu ?? ''), 'dd.MM.Y')}</div>)
                 }
                 {
-                  !!film.countries.length && !!film.genres.length && (
+                  !!movie.countries.length && !!movie.genres.length && (
                     <Description>
                       {
-                        film.countries.map((f, index, arr) => {
+                        movie.countries.map((f, index, arr) => {
                           const comma = index === arr.length - 1 ? '' : ', ';
                           return f + comma;
                         })
                       } • {
-                        film.genres.map((f, index, arr) => {
+                        movie.genres.map((f, index, arr) => {
                           const comma = index === arr.length - 1 ? '' : ', ';
                           return f + comma;
                         })
@@ -183,10 +183,10 @@ const FilmSmallCard: React.FC<Props> = ({ film }) => {
             )
           }
         </Transition>
-        <Name height={isLoading ? '3rem' : 'auto'}>{film.name}</Name>
+        <Name height={isLoading ? '3rem' : 'auto'}>{movie.name}</Name>
       </CardFixed>
     </Container>
   );
 };
 
-export default observer(FilmSmallCard);
+export default observer(SmallCard);

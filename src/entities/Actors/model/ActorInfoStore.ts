@@ -6,12 +6,20 @@ import { TActorInfo } from '../types/actorInfo';
 import type RootStore from '../../../app/model/RootStore';
 
 class ActorInfoStore {
-  actorInfo: TActorInfo | undefined = undefined;
+  private _actorInfo: TActorInfo | undefined = undefined;
 
-  actorInfoLoading = false;
+  private _actorInfoLoading = false;
 
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
+  }
+
+  get actorInfo() {
+    return this._actorInfo;
+  }
+
+  get actorInfoLoading() {
+    return this._actorInfoLoading;
   }
 
   public getActor(id: string) {
@@ -31,11 +39,11 @@ class ActorInfoStore {
   }
 
   private setActorInfo(newData: TActorInfo | undefined): void {
-    this.actorInfo = newData;
+    this._actorInfo = newData;
   }
 
   private setActorInfoLoading(loading: boolean): void {
-    this.actorInfoLoading = loading;
+    this._actorInfoLoading = loading;
   }
 }
 

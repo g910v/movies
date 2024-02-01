@@ -8,24 +8,24 @@ import UiStore from '../../shared/model/UiStore';
 class RootStore {
   uiStore;
 
-  filmsStore;
+  moviesStore;
 
   actorStote;
 
   searchStore;
 
-  filmInfoStore;
+  movieInfoStore;
 
   actorInfoStore;
 
   constructor() {
     this.uiStore = new UiStore(this);
     this.uiStore.init();
-    this.filmsStore = new MoviesStore(this);
-    this.filmsStore.init();
+    this.moviesStore = new MoviesStore(this);
+    this.moviesStore.init();
     this.actorStote = new ActorsStore(this);
     this.searchStore = new MovieSearchStore(this);
-    this.filmInfoStore = new MovieInfoStore(this);
+    this.movieInfoStore = new MovieInfoStore(this);
     this.actorInfoStore = new ActorInfoStore(this);
   }
 }

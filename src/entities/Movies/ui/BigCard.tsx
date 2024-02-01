@@ -54,39 +54,42 @@ const Description = styled.div`
 `;
 
 interface Props {
-  film: IMovie,
+  movie: IMovie,
 }
 
-const FilmBigCard: React.FC<Props> = ({ film }) => {
-  const { filmsStore } = useRootStore();
+const BigCard: React.FC<Props> = ({ movie }) => {
+  const { moviesStore } = useRootStore();
 
   return (
     <Card>
-      <InfoContainer to={`/movie/${film.kId}`}>
+      <InfoContainer to={`/movie/${movie.kId}`}>
         <Image
-          src={film.posterPreview}
-          alt={film.name}
+          src={movie.posterPreview}
+          alt={movie.name}
         />
         <TextContainer>
-          <FilmName>{film.name}</FilmName>
+          <FilmName>{movie.name}</FilmName>
           <div>
-            <div>{film.enName && (<>{film.enName}, </>)} {film.duration && (<>{film.duration} мин., </>)} {film.year && (<>{film.year} г.</>)}</div>
+            <div>{
+            movie.enName && (<>{movie.enName}, </>)
+} {movie.duration && (<>{movie.duration} мин., </>)} {movie.year && (<>{movie.year} г.</>)}
+            </div>
             {
-            film.rating && (<div>Рейтинг: {film.rating}</div>)
+            movie.rating && (<div>Рейтинг: {movie.rating}</div>)
           }
             {
-            film.premiereRu && (<div>Премьера в России: {format(new Date(film.premiereRu ?? ''), 'dd.MM.Y')}</div>)
+            movie.premiereRu && (<div>Премьера в России: {format(new Date(movie.premiereRu ?? ''), 'dd.MM.Y')}</div>)
           }
           </div>
           <div>
             <Description>
               {
-              film.countries.map((f, index, arr) => {
+              movie.countries.map((f, index, arr) => {
                 const comma = index === arr.length - 1 ? '' : ', ';
                 return f + comma;
               })
             } • {
-              film.genres.map((f, index, arr) => {
+              movie.genres.map((f, index, arr) => {
                 const comma = index === arr.length - 1 ? '' : ', ';
                 return f + comma;
               })
@@ -96,11 +99,11 @@ const FilmBigCard: React.FC<Props> = ({ film }) => {
         </TextContainer>
       </InfoContainer>
       <IconSelect
-        icon={film.saved ? (<BiSolidBookmark />) : (<BiBookmark />)}
-        onClick={() => filmsStore.changeSavedFilms(film, !film.saved)}
+        icon={movie.saved ? (<BiSolidBookmark />) : (<BiBookmark />)}
+        onClick={() => moviesStore.changeSavedFilms(movie, !movie.saved)}
       />
     </Card>
   );
 };
 
-export default observer(FilmBigCard);
+export default observer(BigCard);

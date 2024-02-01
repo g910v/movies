@@ -75,20 +75,20 @@ interface Props {
 }
 
 const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
-  const { filmsStore, uiStore } = useRootStore();
+  const { moviesStore, uiStore } = useRootStore();
   const params = useParams();
   const [page, setPage] = useState(1);
 
   const getFilmList = useCallback(() => {
     if (isTop) {
-      filmsStore.getTopMovies({
+      moviesStore.getTopMovies({
         type: type === 'FILM' ? 'TOP_250_MOVIES' : 'TOP_250_TV_SHOWS',
         page,
       });
     } else if (type === 'PREMIERES' && premiereFilters) {
-      filmsStore.getPremiereFilms(premiereFilters);
+      moviesStore.getPremiereFilms(premiereFilters);
     } else if (type !== 'PREMIERES') {
-      filmsStore.getFilms({
+      moviesStore.getFilms({
         type,
         genre: params.genre ? genres.find(i => i.short === params.genre)?.id : undefined,
         country: params.country ? countries.find(i => i.short === params.country)?.id : undefined,
@@ -96,7 +96,7 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
         page,
       });
     }
-  }, [filmsStore, isTop, premiereFilters, type, params, page]);
+  }, [moviesStore, isTop, premiereFilters, type, params, page]);
 
   useEffect(() => {
     getFilmList();
@@ -109,26 +109,26 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
   return (
     <>
       {
-        filmsStore.filmsLoading && !filmsStore.filmList.length && (
+        moviesStore.filmsLoading && !moviesStore.filmList.length && (
           <Container viewmode="list">
             <SpinnerContainer><Spinner size={50} strokeWidth={2} /></SpinnerContainer>
           </Container>
         )
       }
       {
-        (!!filmsStore.filmList.length) && (
+        (!!moviesStore.filmList.length) && (
           <MainContent>
             <Container viewmode={uiStore.viewMode}>
               {
-                filmsStore.filmList.map(f => (uiStore.viewMode === 'list'
-                  ? <MovieBigCard key={f.kId} film={f} />
-                  : <MovieSmallCard key={f.kId} film={f} />))
+                moviesStore.filmList.map(f => (uiStore.viewMode === 'list'
+                  ? <MovieBigCard key={f.kId} movie={f} />
+                  : <MovieSmallCard key={f.kId} movie={f} />))
               }
             </Container>
             {
-              type !== 'PREMIERES' && page < filmsStore.filmTotalPages && (
+              type !== 'PREMIERES' && page < moviesStore.filmTotalPages && (
                 <MoreButton onClick={() => setPage(prev => prev + 1)}>Показать еще {
-                  filmsStore.filmsLoading ? <Spinner strokeWidth={2} size={20} /> : <MoreIcon />
+                  moviesStore.filmsLoading ? <Spinner strokeWidth={2} size={20} /> : <MoreIcon />
                 }
                 </MoreButton>
               )
@@ -138,7 +138,7 @@ const MovieList: React.FC<Props> = ({ type, isTop, premiereFilters }) => {
       }
 
       {
-        (!filmsStore.filmsLoading && !filmsStore.filmList.length)
+        (!moviesStore.filmsLoading && !moviesStore.filmList.length)
         && (
           <Container viewmode="list">
             <EmptyFilmList>Список { type === 'TV_SERIES' ? 'сериалов' : 'фильмов' } отсуствует :(</EmptyFilmList>

@@ -6,12 +6,20 @@ import { TMovieInfo } from '../types/movieInfo';
 import type RootStore from '../../../app/model/RootStore';
 
 class MovieInfoStore {
-  movieInfo: TMovieInfo | undefined = undefined;
+  private _movieInfo: TMovieInfo | undefined = undefined;
 
-  movieInfoLoading = false;
+  private _movieInfoLoading = false;
 
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
+  }
+
+  get movieInfo() {
+    return this._movieInfo;
+  }
+
+  get movieInfoLoading() {
+    return this._movieInfoLoading;
   }
 
   public getMovie(id: string) {
@@ -31,11 +39,11 @@ class MovieInfoStore {
   }
 
   private setMovieInfo(newData: TMovieInfo | undefined): void {
-    this.movieInfo = newData;
+    this._movieInfo = newData;
   }
 
   private setMovieInfoLoading(loading: boolean): void {
-    this.movieInfoLoading = loading;
+    this._movieInfoLoading = loading;
   }
 }
 

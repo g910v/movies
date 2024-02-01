@@ -110,36 +110,36 @@ const ActorsContainer = styled.div`
 `;
 
 const MovieInfoPage: React.FC = () => {
-  const { filmInfoStore, filmsStore, uiStore } = useRootStore();
+  const { movieInfoStore, moviesStore, uiStore } = useRootStore();
   const params = useParams();
 
   const [youtubeVisible, setYoutubeVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(true);
 
-  const movie = useMemo(() => filmInfoStore.movieInfo, [filmInfoStore.movieInfo]);
-  const actors = useMemo<IActor[]>(() => filmInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'actor').map(i => ({
+  const movie = useMemo(() => movieInfoStore.movieInfo, [movieInfoStore.movieInfo]);
+  const actors = useMemo<IActor[]>(() => movieInfoStore.movieInfo?.persons?.filter(i => i.enProfession === 'actor').map(i => ({
     kinopoiskId: i.id ?? undefined,
     webUrl: '',
     nameRu: i.name,
     nameEn: i.enName,
     posterUrl: i.photo ?? '',
     sex: 'Информация отсутсвует',
-  })) ?? [], [filmInfoStore.movieInfo]);
-  const youtubeUrl = useMemo(() => filmInfoStore.movieInfo?.videos?.trailers?.find(i => i.site === 'youtube')?.url ?? '', [filmInfoStore.movieInfo]);
+  })) ?? [], [movieInfoStore.movieInfo]);
+  const youtubeUrl = useMemo(() => movieInfoStore.movieInfo?.videos?.trailers?.find(i => i.site === 'youtube')?.url ?? '', [movieInfoStore.movieInfo]);
 
   useEffect(() => {
     if (params.movieId) {
-      filmInfoStore.getMovie(params.movieId);
+      movieInfoStore.getMovie(params.movieId);
     }
-  }, [filmInfoStore, params]);
+  }, [movieInfoStore, params]);
 
   useEffect(() => {
-    setIsSaved(filmsStore.isSavedFilm(filmInfoStore.movieInfo?.id ?? 0));
-  }, [filmInfoStore.movieInfo?.id, filmsStore]);
+    setIsSaved(moviesStore.isSavedFilm(movieInfoStore.movieInfo?.id ?? 0));
+  }, [movieInfoStore.movieInfo?.id, moviesStore]);
 
   const saveFilm = () => {
     if (movie) {
-      filmsStore.changeSavedFilms({
+      moviesStore.changeSavedFilms({
         name: movie.name ?? '',
         enName: movie.alternativeName ?? '',
         rating: movie.rating?.kp ?? undefined,
@@ -177,14 +177,14 @@ const MovieInfoPage: React.FC = () => {
         />
       </Modal>
       {
-        filmInfoStore.movieInfoLoading && (
+        movieInfoStore.movieInfoLoading && (
           <SpinnerContainer>
             <Spinner size={50} strokeWidth={2} />
           </SpinnerContainer>
         )
       }
       {
-        !filmInfoStore.movieInfoLoading && movie && (
+        !movieInfoStore.movieInfoLoading && movie && (
           <BackImg url={movie.backdrop?.url ?? ''}>
             <GradientContainer>
               <GradientContainerRevert>

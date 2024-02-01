@@ -59,7 +59,7 @@ const SimilarMovies: React.FC<Props> = ({ similarMovies }) => {
               similarMovies?.map(i => (
                 <MovieSmallCard
                   key={i.id}
-                  film={{
+                  movie={{
                     name: i.name,
                     enName: i.alternativeName,
                     rating: i.rating?.kp ?? undefined,

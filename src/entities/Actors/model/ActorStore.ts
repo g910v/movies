@@ -6,12 +6,20 @@ import { IActor } from '../types/actorList';
 import fetchActorList from '../api/fetchActorList';
 
 class ActorsStore {
-  actorList: IActor[] = [];
+  private _actorList: IActor[] = [];
 
-  actorsLoading = false;
+  private _actorsLoading = false;
 
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
+  }
+
+  get actorList() {
+    return this._actorList;
+  }
+
+  get actorsLoading() {
+    return this._actorsLoading;
   }
 
   public resetActorList() {
@@ -24,7 +32,7 @@ class ActorsStore {
 
   private async fetchActors(value: string) {
     this.setActorsLoading(true);
-    this.actorList = [];
+    this._actorList = [];
     try {
       const { data: { items } } = await fetchActorList({
         name: value,
@@ -41,11 +49,11 @@ class ActorsStore {
   }
 
   private setActorList(newData: IActor[]): void {
-    this.actorList = newData;
+    this._actorList = newData;
   }
 
   private setActorsLoading(loading: boolean): void {
-    this.actorsLoading = loading;
+    this._actorsLoading = loading;
   }
 }
 

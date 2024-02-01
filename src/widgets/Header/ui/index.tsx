@@ -14,7 +14,6 @@ const Container = styled.div`
   background: ${baseTheme.colors.headerGradient};
   z-index: 10;
   position: relative;
-  overflow: hidden;
   max-width: 1700px;
   margin: auto;
 `;

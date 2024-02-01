@@ -32,7 +32,7 @@ const Item = styled(Link)`
     ${textGradient}
   }
   transition: all 0.15s ease-in;
-  transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '-20vw' : '0')});
+  /* transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '-20vw' : '0')}); */
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
 `;
 
@@ -42,7 +42,7 @@ const Search = styled.div<{ state: string }>`
   position: relative;
   align-items: center;
   opacity: ${props => (props.state === 'exiting' || props.state === 'exited' ? '0' : '1')};
-  transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '20vw' : '0')});
+  /* transform: translateX(${props => (props.state === 'exiting' || props.state === 'exited' ? '20vw' : '0')}); */
   transition: all 0.15s ease-in;
   margin-right: -1%;
 `;

@@ -45,7 +45,7 @@ const EmptyMessage = styled.div`
 `;
 
 const SavedPage: React.FC = () => {
-  const { uiStore, filmsStore } = useRootStore();
+  const { uiStore, moviesStore } = useRootStore();
 
   useEffect(() => {
     uiStore.updateDocumentTitle(routes.SAVED.name);
@@ -59,12 +59,12 @@ const SavedPage: React.FC = () => {
           <SelectViewButtons />
         </ModeButtons>
       </div>
-      <Container gridmode={uiStore.viewMode === 'grid' && !!filmsStore.savedFilms.length}>
+      <Container gridmode={uiStore.viewMode === 'grid' && !!moviesStore.savedFilms.length}>
         {
-          filmsStore.savedFilms.length ? (
-            filmsStore.savedFilms.map(f => (uiStore.viewMode === 'list'
-              ? <MovieBigCard key={f.kId} film={f} />
-              : <MovieSmallCard key={f.kId} film={f} />)))
+          moviesStore.savedFilms.length ? (
+            moviesStore.savedFilms.map(f => (uiStore.viewMode === 'list'
+              ? <MovieBigCard key={f.kId} movie={f} />
+              : <MovieSmallCard key={f.kId} movie={f} />)))
             : (
               <EmptyMessage>Здесь будут отображаться сохранные фильмы и сериалы</EmptyMessage>
             )
