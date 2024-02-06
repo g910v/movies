@@ -1,0 +1,1 @@
+import{u as e,r,d as a,j as s,P as o,T as c,A as n,f as u}from"./index-d6037814.js";const x=()=>{const{uiStore:t}=e();return r.useEffect(()=>{t.updateDocumentTitle(a.ACTORS.name)},[t]),s.jsxs(o,{children:[s.jsx(c,{children:"Актеры"}),s.jsx(n,{}),s.jsx(u,{})]})};export{x as default};
