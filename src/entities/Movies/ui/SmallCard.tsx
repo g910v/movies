@@ -9,6 +9,7 @@ import { Card } from '../../../shared/ui';
 import baseTheme from '../../../shared/styles/theme';
 import { useRootStore } from '../../../shared/libs/hooks';
 import { IMovie, IMovieSavedNull } from '../types/movieList';
+import preview from '../assets/no-poster.png';
 
 const CardFixed = styled(Card)`
   width: auto;
@@ -136,7 +137,7 @@ const SmallCard: React.FC<Props> = ({ movie }) => {
         {
           (isLoading || isError) && (
             <ImagePreview
-              src={movie.posterPreview}
+              src={preview}
               alt={movie.name ?? ''}
             />
           )
@@ -153,7 +154,7 @@ const SmallCard: React.FC<Props> = ({ movie }) => {
             )
           }
         </ActiveContainer>
-        <Transition in={!isLoading && nameVisible} timeout={150} mountOnEnter unmountOnExit>
+        <Transition in={nameVisible} timeout={150} mountOnEnter unmountOnExit>
           {
             state => (
               <MoreContainer to={`/movie/${movie.kId}`} state={state}>

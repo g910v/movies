@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
-  Link,
-  useNavigate,
-  useParams,
+  Link, useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
-import { BiChevronLeft, BiChevronsDown } from 'react-icons/bi';
+import { BiChevronsDown } from 'react-icons/bi';
 import baseTheme, { textGradient } from '../../../shared/styles/theme';
 import { useRootStore } from '../../../shared/libs/hooks';
 import { Card, Spinner } from '../../../shared/ui';
 import { TActorInfo } from '../../../entities';
 import { ActorInfo } from '../../../widgets';
+import { BackButtonText } from '../../../features';
 
 const SpinnerContainer = styled.div`
   width: 100%;
@@ -127,34 +126,10 @@ const MoreIcon = styled(BiChevronsDown)`
   font-size: 1.5rem;
 `;
 
-const BackButton = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-  width: fit-content;
-  cursor: pointer;
-  &:hover{
-    color: ${baseTheme.colors.yellow};
-    ${textGradient}
-  }
-`;
-
-const BackButtonContainer = styled.div`
-  max-width: 1700px;
-  padding: 0 1rem;
-  width: calc(100% - 2rem);
-`;
-
-const BackIcon = styled(BiChevronLeft)`
-  font-size: 1.25rem;
-  margin-top: 0.15rem;
-`;
-
 const ActorInfoPage: React.FC = () => {
   const { actorInfoStore, uiStore } = useRootStore();
   const params = useParams();
   const [filmList, setFilmList] = useState<TActorInfo['movies']>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (params.personId) {
@@ -174,12 +149,7 @@ const ActorInfoPage: React.FC = () => {
 
   return (
     <>
-      <BackButtonContainer onClick={() => navigate(-1)}>
-        <BackButton>
-          <BackIcon />
-          назад
-        </BackButton>
-      </BackButtonContainer>
+      <BackButtonText />
       {
         actorInfoStore.actorInfoLoading && (
           <SpinnerContainer>
