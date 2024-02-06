@@ -1,4 +1,4 @@
-import{s as o,u as n,a as i,b as c,r as l,j as e,P as u,T as m,S as x,B as h,c as d,O as p}from"./index-5772db37.js";const y=[{label:"Топ",short:"top",key:1},{label:"Жанры",short:"genres",key:2},{label:"Годы",short:"years",key:3},{label:"Страны",short:"countries",key:4}],j=o.div`
+import{s as o,u as n,a as i,b as c,r as l,j as e,P as u,T as m,S as x,B as h,c as d,O as p}from"./index-4e9c1326.js";const y=[{label:"Топ",short:"top",key:1},{label:"Жанры",short:"genres",key:2},{label:"Годы",short:"years",key:3},{label:"Страны",short:"countries",key:4}],j=o.div`
   display: flex;
   width: 100%;
   align-items: center;
