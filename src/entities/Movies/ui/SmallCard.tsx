@@ -153,7 +153,7 @@ const SmallCard: React.FC<Props> = ({ movie }) => {
             )
           }
         </ActiveContainer>
-        <Transition in={!isLoading && nameVisible} timeout={150} mountOnEnter unmountOnExit>
+        <Transition in={nameVisible} timeout={150} mountOnEnter unmountOnExit>
           {
             state => (
               <MoreContainer to={`/movie/${movie.kId}`} state={state}>
