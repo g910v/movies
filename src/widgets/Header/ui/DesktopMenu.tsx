@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearchAlt, BiX } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
@@ -63,9 +63,9 @@ const SearchIcon = styled.div`
 const DesktopMenu: React.FC<Props> = ({ items }) => {
   const [searchVisible, setSearchVisible] = useState(false);
 
-  const closeSearch = () => {
+  const closeSearch = useCallback(() => {
     setSearchVisible(false);
-  };
+  }, []);
 
   return (
     <MenuContainer>

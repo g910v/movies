@@ -12,12 +12,20 @@ export interface ISearchResults {
 }
 
 class MovieSearchStore {
-  searchResults: ISearchResults[] | undefined = undefined;
+  private _searchResults: ISearchResults[] | undefined = undefined;
 
-  searchLoading = false;
+  private _searchLoading = false;
 
   constructor(public rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
+  }
+
+  get searchResults() {
+    return this._searchResults;
+  }
+
+  get searchLoading() {
+    return this._searchLoading;
   }
 
   public resetSearchResults() {
@@ -30,7 +38,7 @@ class MovieSearchStore {
 
   private async fetchFilms(value: string) {
     this.setSearchLoading(true);
-    this.searchResults = [];
+    this._searchResults = [];
     try {
       const { data: { films } } = await fetchSearchMovie({
         keyword: value,
@@ -49,11 +57,11 @@ class MovieSearchStore {
   }
 
   private setSearchResults(newData: ISearchResults[] | undefined): void {
-    this.searchResults = newData;
+    this._searchResults = newData;
   }
 
   private setSearchLoading(loading: boolean): void {
-    this.searchLoading = loading;
+    this._searchLoading = loading;
   }
 }
 

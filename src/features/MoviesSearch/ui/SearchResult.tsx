@@ -68,7 +68,7 @@ const SearchResults: React.FC<Props> = ({ onCloseSearch }) => {
         ))
       }
       {
-        (!searchStore.searchLoading && !searchStore.searchResults?.length)
+        (!searchStore.searchLoading && !!searchStore.searchResults && !searchStore.searchResults?.length)
         && <EmptyFilmList>По вашему запросу ничего не найдено</EmptyFilmList>
       }
     </div>

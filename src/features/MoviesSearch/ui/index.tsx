@@ -7,10 +7,6 @@ import { useDebounce, useRootStore } from '../../../shared/libs/hooks';
 import baseTheme from '../../../shared/styles/theme';
 import { Input } from '../../../shared/ui';
 
-interface Props {
-  closeSearch: () => void,
-}
-
 const SearchContainer = styled.div`
   position: absolute;
   display: flex;
@@ -43,6 +39,10 @@ const ResultScroll = styled.div`
   width: 100%;
   overflow-y: scroll;
 `;
+
+interface Props {
+  closeSearch: () => void,
+}
 
 const HeaderSearch: React.FC<Props> = ({ closeSearch }) => {
   const [inputValue, setInputValue] = useState('');
